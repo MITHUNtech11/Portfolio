@@ -1,11 +1,3 @@
-import './index.css';
-
-declare global {
-  interface Window {
-    lucide: any;
-  }
-}
-
 // Initialize Lucide Icons
 window.lucide?.createIcons();
 
@@ -55,7 +47,7 @@ setTimeout(typeWriter, 1000);
 // Scroll Reveal Animation
 const revealElements = document.querySelectorAll('.reveal-up');
 
-const revealCallback = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+const revealCallback = (entries, observer) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('active');

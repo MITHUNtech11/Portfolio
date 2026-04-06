@@ -8,6 +8,35 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+        
+        --color-brand-red: #A82323;
+        --color-brand-cream: #FEFFD3;
+        --color-brand-lightgreen: #BCD9A2;
+        --color-brand-green: #6D9E51;
+        --color-brand-dark: #1A2015;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Reveal Animation Classes */
+      .reveal-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+      }
+
+      .reveal-up.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
   </head>
   <body class="bg-brand-cream text-brand-dark font-sans antialiased selection:bg-brand-lightgreen selection:text-brand-dark overflow-x-hidden transition-colors duration-500">
     <!-- Background Effects -->
@@ -376,7 +405,7 @@
       <p>Designed & Built by Mithun Senthil S.</p>
     </footer>
 
-    <script type="module" src="/src/main.ts"></script>
+    <script src="./src/main.js"></script>
   </body>
 </html>
 
