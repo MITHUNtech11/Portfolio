@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-brand-red: #A82323;
+  --color-brand-cream: #FEFFD3;
+  --color-brand-lightgreen: #BCD9A2;
+  --color-brand-green: #6D9E51;
+  --color-brand-dark: #1A2015;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reveal Animation Classes */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal-up.active {
+  opacity: 1;
+  transform: translateY(0);
+}

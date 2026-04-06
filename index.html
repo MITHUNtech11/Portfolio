@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mithun Senthil S | AI & Data Science</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body class="bg-brand-cream text-brand-dark font-sans antialiased selection:bg-brand-lightgreen selection:text-brand-dark overflow-x-hidden transition-colors duration-500">
+    <!-- Background Effects -->
+    <div class="fixed inset-0 z-[-1] pointer-events-none">
+      <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-brand-lightgreen/40 blur-[120px]"></div>
+      <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-brand-red/10 blur-[120px]"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 bg-brand-cream/90 backdrop-blur-md border-b border-brand-green/20 transition-all duration-300" id="navbar">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="#home" class="text-xl font-bold text-brand-dark tracking-tighter hover:text-brand-red transition-colors">
+          Mithun<span class="text-brand-red">.</span>
+        </a>
+        
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-8 text-sm font-semibold">
+          <a href="#about" class="text-brand-dark/80 hover:text-brand-red transition-colors">About</a>
+          <a href="#skills" class="text-brand-dark/80 hover:text-brand-red transition-colors">Skills</a>
+          <a href="#experience" class="text-brand-dark/80 hover:text-brand-red transition-colors">Experience</a>
+          <a href="#projects" class="text-brand-dark/80 hover:text-brand-red transition-colors">Projects</a>
+          <a href="#education" class="text-brand-dark/80 hover:text-brand-red transition-colors">Education</a>
+          <a href="#contact" class="text-brand-dark/80 hover:text-brand-red transition-colors">Contact</a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden text-brand-dark hover:text-brand-red transition-colors">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+      
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden md:hidden bg-brand-cream border-b border-brand-green/20 absolute w-full shadow-xl">
+        <div class="flex flex-col px-6 py-4 space-y-4 text-sm font-semibold">
+          <a href="#about" class="mobile-link text-brand-dark/80 hover:text-brand-red transition-colors">About</a>
+          <a href="#skills" class="mobile-link text-brand-dark/80 hover:text-brand-red transition-colors">Skills</a>
+          <a href="#experience" class="mobile-link text-brand-dark/80 hover:text-brand-red transition-colors">Experience</a>
+          <a href="#projects" class="mobile-link text-brand-dark/80 hover:text-brand-red transition-colors">Projects</a>
+          <a href="#education" class="mobile-link text-brand-dark/80 hover:text-brand-red transition-colors">Education</a>
+          <a href="#contact" class="mobile-link text-brand-dark/80 hover:text-brand-red transition-colors">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Hero Section -->
+      <section id="home" class="min-h-screen flex items-center justify-center pt-20 px-6 relative">
+        <div class="max-w-4xl mx-auto text-center reveal-up">
+          <p class="text-brand-green font-mono font-bold mb-4 tracking-wide uppercase text-sm">Hi, my name is</p>
+          <h1 class="text-5xl md:text-7xl font-bold text-brand-dark mb-6 tracking-tight">
+            Mithun Senthil S.
+          </h1>
+          <h2 class="text-3xl md:text-5xl font-bold text-brand-dark/70 mb-8 h-[60px] md:h-[80px]">
+            I am a <span id="typewriter" class="text-brand-red"></span><span class="animate-pulse text-brand-red">|</span>
+          </h2>
+          <p class="text-lg md:text-xl text-brand-dark/80 max-w-2xl mx-auto mb-10 leading-relaxed">
+            AI & Data Science undergraduate specializing in cloud architecture, data engineering, and machine learning.
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="#contact" class="px-8 py-3 rounded-lg bg-brand-red text-brand-cream font-semibold hover:bg-brand-red/90 transition-all hover:-translate-y-1 shadow-lg shadow-brand-red/20 w-full sm:w-auto text-center">
+              Contact Me
+            </a>
+            <a href="#" class="px-8 py-3 rounded-lg border-2 border-brand-green text-brand-green font-semibold hover:bg-brand-green hover:text-brand-cream transition-all hover:-translate-y-1 w-full sm:w-auto text-center flex items-center justify-center gap-2">
+              <i data-lucide="download" class="w-4 h-4"></i> Download Resume
+            </a>
+          </div>
+        </div>
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+          <a href="#about" class="text-brand-green hover:text-brand-red transition-colors">
+            <i data-lucide="chevron-down" class="w-8 h-8"></i>
+          </a>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="py-24 px-6 bg-brand-lightgreen/20">
+        <div class="max-w-4xl mx-auto reveal-up">
+          <div class="flex items-center gap-4 mb-12">
+            <h2 class="text-3xl font-bold text-brand-dark">About Me</h2>
+            <div class="h-px bg-brand-green/30 flex-grow"></div>
+          </div>
+          <div class="text-brand-dark/80 text-lg leading-relaxed space-y-6 font-medium">
+            <p>
+              I am an AI & Data Science undergraduate with a rare combination of cloud, data engineering, and machine learning skills validated through real deployments and Oracle certifications.
+            </p>
+            <p>
+              My experience spans across the full data lifecycle — from schema design and database optimization to cloud storage integration and intelligent automation. Having interned in both corporate healthcare and IT consulting, I bring a cross-industry perspective that focuses on solving real-world problems efficiently.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills Section -->
+      <section id="skills" class="py-24 px-6">
+        <div class="max-w-4xl mx-auto reveal-up">
+          <div class="flex items-center gap-4 mb-12">
+            <h2 class="text-3xl font-bold text-brand-dark">Technical Skills</h2>
+            <div class="h-px bg-brand-green/30 flex-grow"></div>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Languages -->
+            <div class="bg-white/40 backdrop-blur-sm border border-brand-green/20 rounded-xl p-6 hover:border-brand-red/50 hover:shadow-lg hover:shadow-brand-red/5 transition-all duration-300 group">
+              <div class="flex items-center gap-3 mb-6">
+                <i data-lucide="code-2" class="text-brand-red group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-xl font-bold text-brand-dark">Languages</h3>
+              </div>
+              <div class="flex flex-wrap gap-3">
+                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Python</span>
+                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Java</span>
+                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">SQL</span>
+              </div>
+            </div>
+
+            <!-- Databases -->
+            <div class="bg-white/40 backdrop-blur-sm border border-brand-green/20 rounded-xl p-6 hover:border-brand-red/50 hover:shadow-lg hover:shadow-brand-red/5 transition-all duration-300 group">
+              <div class="flex items-center gap-3 mb-6">
+                <i data-lucide="database" class="text-brand-red group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-xl font-bold text-brand-dark">Databases</h3>
+              </div>
+              <div class="flex flex-wrap gap-3">
+                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">MySQL</span>
+                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">PostgreSQL</span>
+                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Supabase</span>
+                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Cosmos DB</span>
+              </div>
+            </div>
+
+            <!-- Cloud -->
+            <div class="bg-white/40 backdrop-blur-sm border border-brand-green/20 rounded-xl p-6 hover:border-brand-red/50 hover:shadow-lg hover:shadow-brand-red/5 transition-all duration-300 group">
+              <div class="flex items-center gap-3 mb-6">
+                <i data-lucide="cloud" class="text-brand-red group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-xl font-bold text-brand-dark">Cloud</h3>
+              </div>
+              <div class="flex flex-wrap gap-3">
+                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Microsoft Azure</span>
+                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Azure Blob Storage</span>
+              </div>
+            </div>
+
+            <!-- Tools -->
+            <div class="bg-white/40 backdrop-blur-sm border border-brand-green/20 rounded-xl p-6 hover:border-brand-red/50 hover:shadow-lg hover:shadow-brand-red/5 transition-all duration-300 group">
+              <div class="flex items-center gap-3 mb-6">
+                <i data-lucide="wrench" class="text-brand-red group-hover:scale-110 transition-transform"></i>
+                <h3 class="text-xl font-bold text-brand-dark">Tools & Frameworks</h3>
+              </div>
+              <div class="flex flex-wrap gap-3">
+                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Git & GitHub</span>
+                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">FastAPI</span>
+                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Streamlit</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience Section -->
+      <section id="experience" class="py-24 px-6 bg-brand-lightgreen/20">
+        <div class="max-w-4xl mx-auto reveal-up">
+          <div class="flex items-center gap-4 mb-12">
+            <h2 class="text-3xl font-bold text-brand-dark">Experience</h2>
+            <div class="h-px bg-brand-green/30 flex-grow"></div>
+          </div>
+
+          <div class="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-brand-green/40 before:to-transparent">
+            
+            <!-- Experience 1 -->
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+              <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-brand-cream bg-brand-red text-brand-cream shadow-md shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 group-hover:scale-110 transition-transform">
+                <i data-lucide="briefcase" class="w-4 h-4"></i>
+              </div>
+              <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-brand-green/20 hover:border-brand-red/50 hover:shadow-lg transition-all duration-300">
+                <div class="flex flex-col mb-2">
+                  <span class="text-brand-green font-mono font-bold text-sm mb-1">Oct 2025 - Dec 2025</span>
+                  <h3 class="text-xl font-bold text-brand-dark">Kauvery Hospital</h3>
+                  <span class="text-brand-dark/60 text-sm font-medium">Corporate Sector Internship</span>
+                </div>
+                <h4 class="text-lg font-semibold text-brand-red mb-3">Project: Digital Product Data Vault</h4>
+                <ul class="list-disc list-inside text-brand-dark/80 text-sm space-y-2 font-medium">
+                  <li>Developed a web app using Python & PostgreSQL for secure product data storage.</li>
+                  <li>Integrated Azure Blob Storage & Cosmos DB for cloud file management.</li>
+                  <li>Implemented strict schema validation for monthly data storage.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Experience 2 -->
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+              <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-brand-cream bg-brand-red text-brand-cream shadow-md shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 group-hover:scale-110 transition-transform">
+                <i data-lucide="briefcase" class="w-4 h-4"></i>
+              </div>
+              <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-brand-green/20 hover:border-brand-red/50 hover:shadow-lg transition-all duration-300">
+                <div class="flex flex-col mb-2">
+                  <span class="text-brand-green font-mono font-bold text-sm mb-1">Aug 2025 - Sep 2025</span>
+                  <h3 class="text-xl font-bold text-brand-dark">RedBack IT Solutions</h3>
+                  <span class="text-brand-dark/60 text-sm font-medium">Internship</span>
+                </div>
+                <h4 class="text-lg font-semibold text-brand-red mb-3">Project: Urban Route Optimizer</h4>
+                <ul class="list-disc list-inside text-brand-dark/80 text-sm space-y-2 font-medium">
+                  <li>Built a Python route optimizer using OSMnx & NetworkX on OpenStreetMap data.</li>
+                  <li>Applied Dijkstra and A* algorithms for optimal scooter route recommendations.</li>
+                  <li>Created a Streamlit interface with Folium interactive maps showing ETA & distance.</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section id="projects" class="py-24 px-6">
+        <div class="max-w-4xl mx-auto reveal-up">
+          <div class="flex items-center gap-4 mb-12">
+            <h2 class="text-3xl font-bold text-brand-dark">Featured Projects</h2>
+            <div class="h-px bg-brand-green/30 flex-grow"></div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-8">
+            <!-- Project 1 -->
+            <div class="group relative bg-white/40 backdrop-blur-sm border border-brand-green/20 rounded-xl overflow-hidden hover:border-brand-red/50 hover:shadow-xl hover:shadow-brand-red/5 transition-all duration-300">
+              <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                  <div class="p-3 bg-brand-red/10 rounded-lg text-brand-red group-hover:scale-110 transition-transform">
+                    <i data-lucide="terminal" class="w-8 h-8"></i>
+                  </div>
+                  <div class="flex gap-4">
+                    <a href="#" class="text-brand-green hover:text-brand-red transition-colors"><i data-lucide="github"></i></a>
+                    <a href="#" class="text-brand-green hover:text-brand-red transition-colors"><i data-lucide="external-link"></i></a>
+                  </div>
+                </div>
+                <h3 class="text-2xl font-bold text-brand-dark mb-4 group-hover:text-brand-red transition-colors">AI Recruiter Application</h3>
+                <p class="text-brand-dark/80 mb-6 leading-relaxed font-medium">
+                  An intelligent recruitment system that automates resume screening using Natural Language Processing. It matches candidate skills against job requirements and provides a scoring pipeline, reducing manual screening effort by approximately 40%.
+                </p>
+                <div class="flex flex-wrap gap-3 mt-auto">
+                  <span class="text-xs font-bold text-brand-dark bg-brand-lightgreen px-3 py-1 rounded-full border border-brand-green/30">Python</span>
+                  <span class="text-xs font-bold text-brand-dark bg-brand-lightgreen px-3 py-1 rounded-full border border-brand-green/30">Streamlit</span>
+                  <span class="text-xs font-bold text-brand-dark bg-brand-lightgreen px-3 py-1 rounded-full border border-brand-green/30">Gemini API</span>
+                  <span class="text-xs font-bold text-brand-dark bg-brand-lightgreen px-3 py-1 rounded-full border border-brand-green/30">NLP</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Education Section -->
+      <section id="education" class="py-24 px-6 bg-brand-lightgreen/20">
+        <div class="max-w-4xl mx-auto reveal-up">
+          <div class="flex items-center gap-4 mb-12">
+            <h2 class="text-3xl font-bold text-brand-dark">Education</h2>
+            <div class="h-px bg-brand-green/30 flex-grow"></div>
+          </div>
+
+          <div class="space-y-8">
+            <!-- Edu 1 -->
+            <div class="flex flex-col md:flex-row gap-6 p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-brand-green/20 hover:border-brand-red/50 hover:shadow-md transition-all duration-300">
+              <div class="md:w-1/4 shrink-0">
+                <span class="text-brand-green font-mono font-bold text-sm">2023 - 2027</span>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-brand-dark mb-1">B.Tech AI & Data Science</h3>
+                <h4 class="text-lg text-brand-dark/80 font-medium mb-2">Saveetha School of Engineering, Saveetha University</h4>
+                <p class="text-brand-red text-sm font-bold">CGPA: 8.40</p>
+              </div>
+            </div>
+
+            <!-- Edu 2 -->
+            <div class="flex flex-col md:flex-row gap-6 p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-brand-green/20 hover:border-brand-red/50 hover:shadow-md transition-all duration-300">
+              <div class="md:w-1/4 shrink-0">
+                <span class="text-brand-green font-mono font-bold text-sm">2021 - 2023</span>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-brand-dark mb-1">Higher Secondary (CBSE)</h3>
+                <h4 class="text-lg text-brand-dark/80 font-medium mb-2">Sunbeam International School</h4>
+                <p class="text-brand-red text-sm font-bold">Score: 72%</p>
+              </div>
+            </div>
+
+            <!-- Edu 3 -->
+            <div class="flex flex-col md:flex-row gap-6 p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-brand-green/20 hover:border-brand-red/50 hover:shadow-md transition-all duration-300">
+              <div class="md:w-1/4 shrink-0">
+                <span class="text-brand-green font-mono font-bold text-sm">2021</span>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-brand-dark mb-1">Secondary School (CBSE)</h3>
+                <h4 class="text-lg text-brand-dark/80 font-medium mb-2">Balsam Academy</h4>
+                <p class="text-brand-red text-sm font-bold">Score: 70%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Certifications Section -->
+      <section id="certifications" class="py-24 px-6">
+        <div class="max-w-4xl mx-auto reveal-up">
+          <div class="flex items-center gap-4 mb-12">
+            <h2 class="text-3xl font-bold text-brand-dark">Certifications</h2>
+            <div class="h-px bg-brand-green/30 flex-grow"></div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="flex items-start gap-4 p-6 rounded-xl bg-white/40 backdrop-blur-sm border border-brand-green/20 hover:border-brand-red/50 hover:shadow-md transition-all duration-300 group">
+              <div class="p-3 bg-brand-lightgreen/50 rounded-lg text-brand-green group-hover:text-brand-red group-hover:bg-brand-red/10 group-hover:scale-110 transition-all">
+                <i data-lucide="award"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-brand-dark mb-1">SQL on Oracle Cloud</h3>
+                <p class="text-brand-dark/70 text-sm font-medium">Oracle Cloud • 2024</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4 p-6 rounded-xl bg-white/40 backdrop-blur-sm border border-brand-green/20 hover:border-brand-red/50 hover:shadow-md transition-all duration-300 group">
+              <div class="p-3 bg-brand-lightgreen/50 rounded-lg text-brand-green group-hover:text-brand-red group-hover:bg-brand-red/10 group-hover:scale-110 transition-all">
+                <i data-lucide="award"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-brand-dark mb-1">Java SE 11 Developer</h3>
+                <p class="text-brand-dark/70 text-sm font-medium">Oracle Cloud • 2024</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="py-32 px-6 bg-brand-lightgreen/20 text-center">
+        <div class="max-w-2xl mx-auto reveal-up">
+          <h2 class="text-4xl font-bold text-brand-dark mb-6">Get In Touch</h2>
+          <p class="text-brand-dark/80 text-lg mb-10 font-medium">
+            I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!
+          </p>
+          
+          <div class="flex flex-col sm:flex-row justify-center items-center gap-6 mb-16">
+            <a href="mailto:mithuntech111@gmail.com" class="flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-brand-red text-brand-cream font-bold hover:bg-brand-red/90 transition-all hover:-translate-y-1 shadow-lg shadow-brand-red/20 w-full sm:w-auto">
+              <i data-lucide="mail" class="w-5 h-5"></i> Say Hello
+            </a>
+            <a href="https://linkedin.com/in/mithunsenthil" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 px-8 py-4 rounded-lg border-2 border-brand-green text-brand-green font-bold hover:bg-brand-green hover:text-brand-cream transition-all hover:-translate-y-1 w-full sm:w-auto">
+              <i data-lucide="linkedin" class="w-5 h-5"></i> LinkedIn
+            </a>
+          </div>
+
+          <div class="flex flex-wrap justify-center gap-8 text-brand-dark/70 font-semibold">
+            <a href="mailto:mithuntech111@gmail.com" class="hover:text-brand-red transition-colors flex items-center gap-2">
+              <i data-lucide="mail" class="w-5 h-5"></i>
+              <span class="hidden sm:inline">mithuntech111@gmail.com</span>
+            </a>
+            <a href="tel:+918667894127" class="hover:text-brand-red transition-colors flex items-center gap-2">
+              <i data-lucide="phone" class="w-5 h-5"></i>
+              <span class="hidden sm:inline">+91 8667894127</span>
+            </a>
+            <a href="https://linkedin.com/in/mithunsenthil" target="_blank" rel="noopener noreferrer" class="hover:text-brand-red transition-colors flex items-center gap-2">
+              <i data-lucide="linkedin" class="w-5 h-5"></i>
+              <span class="hidden sm:inline">LinkedIn</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-brand-dark/60 text-sm font-mono font-semibold border-t border-brand-green/20">
+      <p>Designed & Built by Mithun Senthil S.</p>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+
