@@ -8,6 +8,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Animation Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 
     <style>
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -261,6 +267,27 @@
             transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
             cursor: pointer;
             display: inline-block;
+            position: relative;
+            overflow: hidden;
+            will-change: transform, box-shadow;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:active::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn-primary {
@@ -272,8 +299,8 @@
         .btn-primary:hover {
             background-color: var(--crimson-bright);
             border-color: var(--crimson-bright);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(var(--shadow-color), 0.3);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(var(--shadow-color), 0.5);
         }
 
         .btn-secondary {
@@ -285,6 +312,7 @@
         .btn-secondary:hover {
             background-color: var(--cream);
             color: var(--bg);
+            transform: translateY(-3px);
         }
 
         .hero-stats {
@@ -428,56 +456,10 @@
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         /* 4. SKILLS SECTION                       */
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-        .skills-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 3rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .skill-tab {
-            font-family: var(--font-mono);
-            font-size: 1rem;
-            padding: 1rem;
-            cursor: pointer;
-            color: var(--cream-muted);
-            position: relative;
-            transition: color 0.3s ease;
-        }
-
-        .skill-tab::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--crimson);
-            transform: scaleX(0);
-            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .skill-tab.active {
-            color: var(--cream);
-        }
-
-        .skill-tab.active::after {
-            transform: scaleX(1);
-        }
-
-        .skills-panel {
-            display: none;
-        }
-
-        .skills-panel.active {
-            display: block;
-        }
-
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
         }
 
         .skill-card {
@@ -490,6 +472,7 @@
             position: relative;
             overflow: hidden;
             transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform, background-color, box-shadow;
         }
 
         .skill-card-icon {
@@ -504,35 +487,18 @@
         }
 
         .skill-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-8px) scale(1.05);
             background-color: var(--crimson);
             border-color: var(--crimson-bright);
-            box-shadow: 0 8px 32px rgba(var(--shadow-color), 0.4);
+            box-shadow: 0 12px 40px rgba(var(--shadow-color), 0.5);
         }
 
         .skill-card:hover .skill-card-icon {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) rotate(10deg);
         }
 
-        /* Animation classes for skill cards */
-        .skill-card.fade-in {
-            animation: skillFadeIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-        
-        .skill-card.fade-out {
-            animation: skillFadeOut 0.2s ease-out forwards;
-        }
 
-        @keyframes skillFadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes skillFadeOut {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-8px); }
-        }
 
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         /* 5. PROJECTS SECTION                     */
@@ -551,6 +517,8 @@
             border-bottom: 1px solid var(--border);
             position: relative;
             cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform;
         }
 
         .project-item.featured {
@@ -565,14 +533,21 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--crimson);
-            opacity: 0.08;
+            background: linear-gradient(90deg, 
+                rgba(var(--shadow-color), 0.15) 0%, 
+                rgba(var(--shadow-color), 0.05) 100%);
+            opacity: 0;
             z-index: -1;
             clip-path: inset(0 100% 0 0);
-            transition: clip-path 0.4s ease;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .project-item:hover {
+            transform: translateX(8px);
         }
 
         .project-item:hover::before {
+            opacity: 1;
             clip-path: inset(0 0 0 0);
         }
 
@@ -732,11 +707,14 @@
             border-radius: 4px;
             background-color: var(--surface);
             background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M-1 1l2-2m0 10l10-10M0 10l10-10M9 11l2-2M-1 11l2-2m-2-2l-2-2' stroke='%23f5ead8' stroke-width='0.5' stroke-opacity='0.02'/%3E%3C/svg%3E");
-            transition: border-color 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform, border-color;
         }
 
         .background-card:hover {
             border-color: var(--crimson);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(var(--shadow-color), 0.3);
         }
 
         .background-card h3 {
@@ -865,35 +843,418 @@
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         /* 10. ANIMATIONS & RESPONSIVENESS         */
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+        /* ╔════════════════════════════════════════╗ */
+        /* ║ ENTRANCE ANIMATIONS (Page Load)        ║ */
+        /* ╚════════════════════════════════════════╝ */
         
-        /* Page Load Animations */
         .load-hidden {
-            opacity: 0;
+            opacity: 1;
         }
         
         .fade-in-nav { animation: fadeInDown 0.6s ease-out forwards; }
-        .fade-in-1 { animation: fadeInUp 0.6s ease-out 0.2s forwards; }
-        .fade-in-2 { animation: fadeInUp 0.6s ease-out 0.4s forwards; }
-        .fade-in-3 { animation: fadeInUp 0.6s ease-out 0.55s forwards; }
-        .fade-in-4 { animation: fadeInUp 0.6s ease-out 0.7s forwards; }
-        .fade-in-5 { animation: fadeInScale 0.6s ease-out 0.9s forwards; }
+        .fade-in-1 { animation: slideInLeft 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards; opacity: 0; }
+        .fade-in-2 { animation: slideInLeft 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards; opacity: 0; }
+        .fade-in-3 { animation: slideInLeft 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.32s forwards; opacity: 0; }
+        .fade-in-4 { animation: fadeInUp 0.6s ease-out 0.7s forwards; opacity: 0; }
+        .fade-in-5 { animation: bounceIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards; opacity: 0; }
         .fade-in-6 { animation: fadeIn 0.6s ease-out 1.1s forwards; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        /* Slide-In Animations */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
 
-        /* Scroll Reveal Animations */
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInTop {
+            from {
+                opacity: 0;
+                transform: translateY(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInBottom {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Fade Animations */
+        @keyframes fadeIn { 
+            from { opacity: 0; } 
+            to { opacity: 1; } 
+        }
+
+        @keyframes fadeInDown { 
+            from { opacity: 0; transform: translateY(-20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        @keyframes fadeInUp { 
+            from { opacity: 0; transform: translateY(30px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        @keyframes fadeInScale { 
+            from { opacity: 0; transform: scale(0.95); } 
+            to { opacity: 1; transform: scale(1); } 
+        }
+
+        /* Bounce & Scale Animations */
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) translateY(40px);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes scaleInRotate {
+            from {
+                opacity: 0;
+                transform: scale(0.7) rotate(-10deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        /* ╔════════════════════════════════════════╗ */
+        /* ║ SCROLL REVEAL & STAGGER ANIMATIONS     ║ */
+        /* ╚════════════════════════════════════════╝ */
+
         .reveal {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            opacity: 1;
+            transform: translateY(0);
+            will-change: transform, opacity;
         }
 
         .reveal.revealed {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .stagger-item.revealed {
+            animation: staggerFadeInUp 0.6s ease-out forwards;
+        }
+
+        @keyframes staggerFadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stagger Delays */
+        .stagger-item:nth-child(1) { --stagger-delay: 0ms; }
+        .stagger-item:nth-child(2) { --stagger-delay: 100ms; }
+        .stagger-item:nth-child(3) { --stagger-delay: 200ms; }
+        .stagger-item:nth-child(4) { --stagger-delay: 300ms; }
+        .stagger-item:nth-child(5) { --stagger-delay: 400ms; }
+        .stagger-item:nth-child(6) { --stagger-delay: 500ms; }
+        .stagger-item:nth-child(n+7) { --stagger-delay: 600ms; }
+
+        .stagger-item.revealed {
+            animation-delay: var(--stagger-delay);
+        }
+
+        /* Alternating Slide Animation (for project cards) */
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-80px) skewY(2deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) skewY(0deg);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(80px) skewY(-2deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) skewY(0deg);
+            }
+        }
+
+        .slide-left {
+            animation: slideInFromLeft 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .slide-right {
+            animation: slideInFromRight 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        /* ╔════════════════════════════════════════╗ */
+        /* ║ HOVER & INTERACTIVE ANIMATIONS         ║ */
+        /* ╚════════════════════════════════════════╝ */
+
+        /* Link Glow Effect */
+        @keyframes linkUnderlineExpand {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        a {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--cream);
+        }
+
+        /* Button Hover with Bounce */
+        @keyframes buttonGlowPulse {
+            0%, 100% {
+                box-shadow: 0 4px 20px rgba(var(--shadow-color), 0.3);
+            }
+            50% {
+                box-shadow: 0 6px 30px rgba(var(--shadow-color), 0.5);
+            }
+        }
+
+        .btn {
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .btn:hover {
+            animation: buttonGlowPulse 0.6s ease-in-out forwards;
+        }
+
+        /* Card Lift & Tilt Effect */
+        @keyframes cardLift {
+            from {
+                transform: translateY(0px);
+                box-shadow: 0 2px 8px rgba(var(--shadow-color), 0.2);
+            }
+            to {
+                transform: translateY(-8px);
+                box-shadow: 0 12px 32px rgba(var(--shadow-color), 0.4);
+            }
+        }
+
+        .skill-card {
+            will-change: transform, opacity;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .skill-card:hover {
+            animation: cardLift 0.25s ease-out forwards;
+        }
+
+        /* Image Zoom & Overlay Effect */
+        @keyframes imageZoom {
+            from {
+                transform: scale(1);
+                filter: brightness(1);
+            }
+            to {
+                transform: scale(1.08);
+                filter: brightness(1.2);
+            }
+        }
+
+        img {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        img:hover {
+            animation: imageZoom 0.4s ease-out forwards;
+        }
+
+        /* Form Input Focus Glow */
+        @keyframes inputFocusGlow {
+            from {
+                border-color: var(--border);
+                box-shadow: 0 0 0 0 rgba(var(--shadow-color), 0.3);
+            }
+            to {
+                border-color: var(--crimson);
+                box-shadow: 0 0 12px rgba(var(--shadow-color), 0.6);
+            }
+        }
+
+        .form-input {
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            animation: inputFocusGlow 0.3s ease-out forwards;
+        }
+
+        /* ╔════════════════════════════════════════╗ */
+        /* ║ FLOATING & MICRO-INTERACTIONS          ║ */
+        /* ╚════════════════════════════════════════╝ */
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes floatIntoView {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(192, 57, 43, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(192, 57, 43, 0.6);
+            }
+        }
+
+        .float-animation {
+            animation: floatIntoView 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .glow-on-scroll {
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .glow-effect {
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+
+        /* ╔════════════════════════════════════════╗ */
+        /* ║ NAVBAR ANIMATIONS                      ║ */
+        /* ╚════════════════════════════════════════╝ */
+
+        @keyframes logoBounceFade {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .nav-logo {
+            animation: logoBounceFade 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Nav link underline animation (already in nav-links a::after) */
+        .nav-links a::after {
+            transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* ╔════════════════════════════════════════╗ */
+        /* ║ PERFORMANCE OPTIMIZATIONS              ║ */
+        /* ╚════════════════════════════════════════╝ */
+
+        .parallax {
+            will-change: transform;
+        }
+
+        .animate-on-scroll {
+            will-change: transform, opacity;
+        }
+
+        /* Accessibility: Respect prefers-reduced-motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
         }
         
         /* Responsive Design */
@@ -965,14 +1326,7 @@
                 padding-bottom: 1rem;
                 border-bottom: 1px solid var(--border);
             }
-            .skills-tabs {
-                gap: 0.5rem;
-                flex-wrap: wrap;
-            }
-            .skill-tab {
-                font-size: 0.9rem;
-                padding: 0.5rem;
-            }
+
             .about-details-grid { grid-template-columns: 1fr; }
         }
 
@@ -1011,12 +1365,9 @@
         <div class="container">
             <div class="hero-grid">
                 <div class="hero-left">
-                    <div class="status-label load-hidden fade-in-1">
-                        <span class="status-dot"></span> Available for new projects
-                    </div>
                     <h1 class="hero-title">
                         <span class="load-hidden fade-in-2">Mithun</span>
-                        <span class="indented load-hidden fade-in-3">Senthil S.</span>
+                        <span class="indented load-hidden fade-in-3">Senthil S</span>
                     </h1>
                     <p class="hero-tagline load-hidden fade-in-4">
                         I design and build data-driven systems that help clients make smarter decisions.
@@ -1094,42 +1445,21 @@
         <section id="skills">
             <div class="container">
                 <span class="section-marker reveal">— skills</span>
-                <div class="skills-tabs reveal">
-                    <div class="skill-tab active" data-tab="languages">Languages</div>
-                    <div class="skill-tab" data-tab="databases">Databases</div>
-                    <div class="skill-tab" data-tab="cloud">Cloud</div>
-                    <div class="skill-tab" data-tab="tools">Tools</div>
-                </div>
-
-                <div id="languages" class="skills-panel active">
-                    <div class="skills-grid reveal">
-                        <div class="skill-card"><span class="skill-card-icon">PY</span>Python</div>
-                        <div class="skill-card"><span class="skill-card-icon">JV</span>Java</div>
-                        <div class="skill-card"><span class="skill-card-icon">SQL</span>SQL</div>
-                    </div>
-                </div>
-                <div id="databases" class="skills-panel">
-                    <div class="skills-grid">
-                        <div class="skill-card"><span class="skill-card-icon">MY</span>MySQL</div>
-                        <div class="skill-card"><span class="skill-card-icon">PG</span>PostgreSQL</div>
-                        <div class="skill-card"><span class="skill-card-icon">SB</span>Supabase</div>
-                        <div class="skill-card"><span class="skill-card-icon">DB</span>Cosmos DB</div>
-                    </div>
-                </div>
-                <div id="cloud" class="skills-panel">
-                    <div class="skills-grid">
-                        <div class="skill-card"><span class="skill-card-icon">AZ</span>Microsoft Azure</div>
-                        <div class="skill-card"><span class="skill-card-icon">BL</span>Azure Blob Storage</div>
-                    </div>
-                </div>
-                <div id="tools" class="skills-panel">
-                    <div class="skills-grid">
-                        <div class="skill-card"><span class="skill-card-icon">GIT</span>Git</div>
-                        <div class="skill-card"><span class="skill-card-icon">F-API</span>FastAPI</div>
-                        <div class="skill-card"><span class="skill-card-icon">SL</span>Streamlit</div>
-                        <div class="skill-card"><span class="skill-card-icon">OSM</span>OSMnx</div>
-                        <div class="skill-card"><span class="skill-card-icon">NET</span>NetworkX</div>
-                    </div>
+                <div class="skills-grid reveal">
+                    <div class="skill-card"><span class="skill-card-icon">PY</span>Python</div>
+                    <div class="skill-card"><span class="skill-card-icon">JV</span>Java</div>
+                    <div class="skill-card"><span class="skill-card-icon">SQL</span>SQL</div>
+                    <div class="skill-card"><span class="skill-card-icon">MY</span>MySQL</div>
+                    <div class="skill-card"><span class="skill-card-icon">PG</span>PostgreSQL</div>
+                    <div class="skill-card"><span class="skill-card-icon">SB</span>Supabase</div>
+                    <div class="skill-card"><span class="skill-card-icon">DB</span>Cosmos DB</div>
+                    <div class="skill-card"><span class="skill-card-icon">AZ</span>Microsoft Azure</div>
+                    <div class="skill-card"><span class="skill-card-icon">BL</span>Azure Blob Storage</div>
+                    <div class="skill-card"><span class="skill-card-icon">GIT</span>Git</div>
+                    <div class="skill-card"><span class="skill-card-icon">F-API</span>FastAPI</div>
+                    <div class="skill-card"><span class="skill-card-icon">SL</span>Streamlit</div>
+                    <div class="skill-card"><span class="skill-card-icon">OSM</span>OSMnx</div>
+                    <div class="skill-card"><span class="skill-card-icon">NET</span>NetworkX</div>
                 </div>
             </div>
         </section>
@@ -1282,6 +1612,17 @@
     </footer>
 
     <script>
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: false,
+        offset: 100,
+        easing: 'ease-in-out-cubic'
+    });
+
+    // Register GSAP ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
     document.addEventListener('DOMContentLoaded', () => {
         
         // 0. Remove load-hidden class to trigger animations
@@ -1348,85 +1689,182 @@
         });
 
 
-        // 3. Scroll reveal animations
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-                    if(entry.target.classList.contains('timeline')) {
-                        entry.target.classList.add('animate');
-                    }
-                    // We don't unobserve here to allow re-animation if user scrolls up and down
-                    // observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        revealElements.forEach(el => {
-            revealObserver.observe(el);
-        });
-
-        // 4. Skills tab switching
-        const tabs = document.querySelectorAll('.skill-tab');
-        const panels = document.querySelectorAll('.skills-panel');
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const targetPanelId = tab.getAttribute('data-tab');
-
-                // Deactivate all tabs and panels
-                tabs.forEach(t => t.classList.remove('active'));
-                
-                // Animate out old cards
-                const activePanel = document.querySelector('.skills-panel.active');
-                if (activePanel) {
-                    const oldCards = activePanel.querySelectorAll('.skill-card');
-                    oldCards.forEach(card => {
-                        card.classList.remove('fade-in');
-                        card.classList.add('fade-out');
-                    });
-                }
-
-                setTimeout(() => {
-                    panels.forEach(p => p.classList.remove('active'));
-                    
-                    // Activate new tab and panel
-                    tab.classList.add('active');
-                    const newPanel = document.getElementById(targetPanelId);
-                    newPanel.classList.add('active');
-                    
-                    // Animate in new cards
-                    const newCards = newPanel.querySelectorAll('.skill-card');
-                    newCards.forEach((card, index) => {
-                        card.classList.remove('fade-out'); // Reset if it was there
-                        card.style.animationDelay = `${index * 50}ms`;
-                        card.classList.add('fade-in');
-                    });
-                }, 200); // Wait for fade-out to finish
+        // 3. Enhanced Scroll reveal animations with GSAP
+        gsap.utils.toArray('.reveal').forEach((element) => {
+            gsap.from(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top 80%',
+                    markers: false
+                },
+                duration: 0.7,
+                opacity: 0,
+                y: 40,
+                ease: 'power2.out',
+                force3D: true
             });
         });
-        
-        // Initial animation for the first active panel
-        const initialPanel = document.querySelector('.skills-panel.active');
-        if (initialPanel) {
-            const initialCards = initialPanel.querySelectorAll('.skill-card');
-            const skillsObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        initialCards.forEach((card, index) => {
-                            card.style.animationDelay = `${index * 50}ms`;
-                            card.classList.add('fade-in');
-                        });
-                        observer.unobserve(entry.target);
-                    }
+
+        // Parallax effect for background numbers
+        gsap.utils.toArray('.background-number').forEach(element => {
+            gsap.to(element, {
+                scrollTrigger: {
+                    trigger: element.parentElement,
+                    start: 'top center',
+                    end: 'bottom center',
+                    scrub: 0.5
+                },
+                y: 80,
+                force3D: true,
+                ease: 'none'
+            });
+        });
+
+        // Skill cards stagger animation on scroll
+        ScrollTrigger.create({
+            trigger: '#skills',
+            start: 'top 70%',
+            onEnter: () => {
+                const cards = document.querySelectorAll('#skills .skill-card');
+                gsap.to(cards, {
+                    duration: 0.5,
+                    opacity: 1,
+                    y: 0,
+                    force3D: true,
+                    stagger: 0.08,
+                    ease: 'power2.out'
                 });
-            }, { threshold: 0.2 });
-            skillsObserver.observe(initialPanel);
-        }
+            },
+            once: true
+        });
+
+        // Skill cards are visible by default
+
+        // Timeline animation on scroll
+        gsap.to('.timeline-line', {
+            scrollTrigger: {
+                trigger: '.timeline',
+                start: 'top center',
+                end: 'bottom center',
+                scrub: 0.5
+            },
+            height: '100%',
+            force3D: true,
+            ease: 'none'
+        });
+
+        // About section parallax text
+        gsap.to('.about-text', {
+            scrollTrigger: {
+                trigger: '#about',
+                start: 'top center',
+                end: 'bottom center',
+                scrub: 0.5
+            },
+            y: -30,
+            force3D: true,
+            ease: 'none'
+        });
+
+        // 5. Skill card hover glow effect with GSAP
+        document.querySelectorAll('.skill-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                gsap.to(this, {
+                    duration: 0.3,
+                    boxShadow: '0 12px 40px rgba(192, 57, 43, 0.5)',
+                    ease: 'power2.out'
+                });
+            });
+            card.addEventListener('mouseleave', function() {
+                gsap.to(this, {
+                    duration: 0.3,
+                    boxShadow: '0 8px 32px rgba(192, 57, 43, 0.4)',
+                    ease: 'power2.out'
+                });
+            });
+        });
+
+        // 6. Project items animation on scroll
+        ScrollTrigger.create({
+            trigger: '#projects',
+            start: 'top 75%',
+            onEnter: () => {
+                const projectCards = document.querySelectorAll('.project-item');
+                gsap.to(projectCards, {
+                    duration: 0.6,
+                    opacity: 1,
+                    x: 0,
+                    force3D: true,
+                    stagger: 0.1,
+                    ease: 'power2.out'
+                });
+            },
+            once: true
+        });
+
+        // Project section is visible by default
+
+        // 7. Smooth project item hover lift effect
+        document.querySelectorAll('.project-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                gsap.to(this, {
+                    duration: 0.3,
+                    y: -5,
+                    boxShadow: '0 10px 30px rgba(192, 57, 43, 0.2)',
+                    ease: 'power2.out'
+                });
+            });
+            item.addEventListener('mouseleave', function() {
+                gsap.to(this, {
+                    duration: 0.3,
+                    y: 0,
+                    boxShadow: 'none',
+                    ease: 'power2.out'
+                });
+            });
+        });
+
+        // 8. Navbar link underline animation
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                gsap.to(this, {
+                    duration: 0.3,
+                    color: 'var(--cream)',
+                    ease: 'power2.out'
+                });
+            });
+            link.addEventListener('mouseleave', function() {
+                gsap.to(this, {
+                    duration: 0.3,
+                    color: 'var(--cream-muted)',
+                    ease: 'power2.out'
+                });
+            });
+        });
+
+        // 9. Button press animation
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('mousedown', function() {
+                gsap.to(this, {
+                    duration: 0.1,
+                    scale: 0.95,
+                    ease: 'power2.in'
+                });
+            });
+            btn.addEventListener('mouseup', function() {
+                gsap.to(this, {
+                    duration: 0.2,
+                    scale: 1,
+                    ease: 'power2.out'
+                });
+            });
+        });
+
+        // 10. Hero section elements cascade animation handled by CSS fade-in classes
+
     });
 
-    // 5. Contact form submission handler
+    // Contact form submission handler
     function handleFormSubmit(event) {
         event.preventDefault();
         const btn = document.getElementById('submit-btn');
