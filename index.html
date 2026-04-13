@@ -15,6 +15,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
     <style>
         /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         /* 0. CSS VARIABLES & RESET                */
@@ -464,7 +467,7 @@
 
         .skill-card {
             background-color: var(--surface);
-            border: 1px solid var(--border);
+            border: 2px solid var(--border);
             border-radius: 4px;
             padding: 1.5rem;
             text-align: center;
@@ -476,26 +479,22 @@
         }
 
         .skill-card-icon {
-            font-family: var(--font-mono);
-            font-size: 1.2rem;
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            opacity: 0;
-            transform: translateY(10px);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--gold);
             transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: block;
         }
-
+        
         .skill-card:hover {
             transform: translateY(-8px) scale(1.05);
             background-color: var(--crimson);
             border-color: var(--crimson-bright);
-            box-shadow: 0 12px 40px rgba(var(--shadow-color), 0.5);
         }
 
         .skill-card:hover .skill-card-icon {
-            opacity: 1;
-            transform: translateY(0) rotate(10deg);
+            transform: rotate(10deg) scale(1.15);
+            color: var(--cream);
         }
 
 
@@ -1091,11 +1090,9 @@
         @keyframes cardLift {
             from {
                 transform: translateY(0px);
-                box-shadow: 0 2px 8px rgba(var(--shadow-color), 0.2);
             }
             to {
                 transform: translateY(-8px);
-                box-shadow: 0 12px 32px rgba(var(--shadow-color), 0.4);
             }
         }
 
@@ -1446,20 +1443,20 @@
             <div class="container">
                 <span class="section-marker reveal">— skills</span>
                 <div class="skills-grid reveal">
-                    <div class="skill-card"><span class="skill-card-icon">PY</span>Python</div>
-                    <div class="skill-card"><span class="skill-card-icon">JV</span>Java</div>
-                    <div class="skill-card"><span class="skill-card-icon">SQL</span>SQL</div>
-                    <div class="skill-card"><span class="skill-card-icon">MY</span>MySQL</div>
-                    <div class="skill-card"><span class="skill-card-icon">PG</span>PostgreSQL</div>
-                    <div class="skill-card"><span class="skill-card-icon">SB</span>Supabase</div>
-                    <div class="skill-card"><span class="skill-card-icon">DB</span>Cosmos DB</div>
-                    <div class="skill-card"><span class="skill-card-icon">AZ</span>Microsoft Azure</div>
-                    <div class="skill-card"><span class="skill-card-icon">BL</span>Azure Blob Storage</div>
-                    <div class="skill-card"><span class="skill-card-icon">GIT</span>Git</div>
-                    <div class="skill-card"><span class="skill-card-icon">F-API</span>FastAPI</div>
-                    <div class="skill-card"><span class="skill-card-icon">SL</span>Streamlit</div>
-                    <div class="skill-card"><span class="skill-card-icon">OSM</span>OSMnx</div>
-                    <div class="skill-card"><span class="skill-card-icon">NET</span>NetworkX</div>
+                    <div class="skill-card"><i class="skill-card-icon fab fa-python"></i>Python</div>
+                    <div class="skill-card"><i class="skill-card-icon fab fa-java"></i>Java</div>
+                    <div class="skill-card"><i class="skill-card-icon fas fa-database"></i>SQL</div>
+                    <div class="skill-card"><i class="skill-card-icon fas fa-database"></i>MySQL</div>
+                    <div class="skill-card"><i class="skill-card-icon fas fa-database"></i>PostgreSQL</div>
+                    <div class="skill-card"><i class="skill-card-icon fas fa-server"></i>Supabase</div>
+                    <div class="skill-card"><i class="skill-card-icon fas fa-server"></i>Cosmos DB</div>
+                    <div class="skill-card"><i class="skill-card-icon fab fa-windows"></i>Microsoft Azure</div>
+                    <div class="skill-card"><i class="skill-card-icon fas fa-cloud"></i>Azure Blob Storage</div>
+                    <div class="skill-card"><i class="skill-card-icon fab fa-git-alt"></i>Git</div>
+                    <div class="skill-card"><i class="skill-card-icon fas fa-rocket"></i>FastAPI</div>
+                    <div class="skill-card"><i class="skill-card-icon fas fa-stream"></i>Streamlit</div>
+                    <div class="skill-card"><i class="skill-card-icon fas fa-map"></i>OSMnx</div>
+                    <div class="skill-card"><i class="skill-card-icon fas fa-network-wired"></i>NetworkX</div>
                 </div>
             </div>
         </section>
@@ -1689,122 +1686,130 @@
         });
 
 
-        // 3. Enhanced Scroll reveal animations with GSAP
-        gsap.utils.toArray('.reveal').forEach((element) => {
-            gsap.from(element, {
-                scrollTrigger: {
-                    trigger: element,
-                    start: 'top 80%',
-                    markers: false
-                },
-                duration: 0.7,
-                opacity: 0,
-                y: 40,
-                ease: 'power2.out',
-                force3D: true
-            });
-        });
+        // 3. Enhanced scroll animations with smoother batching and stagger
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        // Parallax effect for background numbers
-        gsap.utils.toArray('.background-number').forEach(element => {
-            gsap.to(element, {
+        if (prefersReducedMotion) {
+            gsap.set('.reveal, #skills .skill-card, .project-item', {
+                opacity: 1,
+                x: 0,
+                y: 0,
+                clearProps: 'transform'
+            });
+        } else {
+            ScrollTrigger.config({ ignoreMobileResize: true });
+            ScrollTrigger.defaults({
+                fastScrollEnd: true,
+                preventOverlaps: true
+            });
+
+            const revealTargets = gsap.utils.toArray('.reveal:not(.project-item):not(.skills-grid)');
+            if (revealTargets.length) {
+                gsap.set(revealTargets, { autoAlpha: 0, y: 36 });
+                ScrollTrigger.batch(revealTargets, {
+                    start: 'top 86%',
+                    once: true,
+                    onEnter: (batch) => {
+                        gsap.to(batch, {
+                            autoAlpha: 1,
+                            y: 0,
+                            duration: 0.75,
+                            stagger: 0.11,
+                            ease: 'power3.out',
+                            overwrite: 'auto',
+                            clearProps: 'transform'
+                        });
+                    }
+                });
+            }
+
+            // Parallax effect for background numbers
+            gsap.utils.toArray('.background-number').forEach(element => {
+                gsap.to(element, {
+                    scrollTrigger: {
+                        trigger: element.parentElement,
+                        start: 'top center',
+                        end: 'bottom center',
+                        scrub: 0.65
+                    },
+                    y: 80,
+                    force3D: true,
+                    ease: 'none'
+                });
+            });
+
+            // Skill cards stagger animation on scroll
+            const skillCards = gsap.utils.toArray('#skills .skill-card');
+            if (skillCards.length) {
+                gsap.from(skillCards, {
+                    scrollTrigger: {
+                        trigger: '#skills',
+                        start: 'top 72%',
+                        once: true
+                    },
+                    autoAlpha: 0,
+                    y: 28,
+                    scale: 0.96,
+                    duration: 0.6,
+                    stagger: {
+                        each: 0.06,
+                        from: 'center'
+                    },
+                    immediateRender: false,
+                    ease: 'power3.out',
+                    overwrite: 'auto',
+                    force3D: true
+                });
+            }
+
+            // Timeline animation on scroll
+            gsap.to('.timeline-line', {
                 scrollTrigger: {
-                    trigger: element.parentElement,
+                    trigger: '.timeline',
                     start: 'top center',
                     end: 'bottom center',
-                    scrub: 0.5
+                    scrub: 0.65
                 },
-                y: 80,
+                height: '100%',
                 force3D: true,
                 ease: 'none'
             });
-        });
 
-        // Skill cards stagger animation on scroll
-        ScrollTrigger.create({
-            trigger: '#skills',
-            start: 'top 70%',
-            onEnter: () => {
-                const cards = document.querySelectorAll('#skills .skill-card');
-                gsap.to(cards, {
-                    duration: 0.5,
-                    opacity: 1,
-                    y: 0,
-                    force3D: true,
-                    stagger: 0.08,
-                    ease: 'power2.out'
-                });
-            },
-            once: true
-        });
+            // About section parallax text
+            gsap.to('.about-text', {
+                scrollTrigger: {
+                    trigger: '#about',
+                    start: 'top center',
+                    end: 'bottom center',
+                    scrub: 0.65
+                },
+                y: -30,
+                force3D: true,
+                ease: 'none'
+            });
 
-        // Skill cards are visible by default
-
-        // Timeline animation on scroll
-        gsap.to('.timeline-line', {
-            scrollTrigger: {
-                trigger: '.timeline',
-                start: 'top center',
-                end: 'bottom center',
-                scrub: 0.5
-            },
-            height: '100%',
-            force3D: true,
-            ease: 'none'
-        });
-
-        // About section parallax text
-        gsap.to('.about-text', {
-            scrollTrigger: {
-                trigger: '#about',
-                start: 'top center',
-                end: 'bottom center',
-                scrub: 0.5
-            },
-            y: -30,
-            force3D: true,
-            ease: 'none'
-        });
-
-        // 5. Skill card hover glow effect with GSAP
-        document.querySelectorAll('.skill-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                gsap.to(this, {
-                    duration: 0.3,
-                    boxShadow: '0 12px 40px rgba(192, 57, 43, 0.5)',
-                    ease: 'power2.out'
+            // Project items alternating slide-in on scroll
+            const projectCards = gsap.utils.toArray('.project-item');
+            projectCards.forEach((card, index) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 84%',
+                        once: true
+                    },
+                    autoAlpha: 0,
+                    y: 26,
+                    x: index % 2 === 0 ? -48 : 48,
+                    duration: 0.72,
+                    immediateRender: false,
+                    ease: 'power3.out',
+                    overwrite: 'auto',
+                    force3D: true
                 });
             });
-            card.addEventListener('mouseleave', function() {
-                gsap.to(this, {
-                    duration: 0.3,
-                    boxShadow: '0 8px 32px rgba(192, 57, 43, 0.4)',
-                    ease: 'power2.out'
-                });
-            });
-        });
+        }
 
-        // 6. Project items animation on scroll
-        ScrollTrigger.create({
-            trigger: '#projects',
-            start: 'top 75%',
-            onEnter: () => {
-                const projectCards = document.querySelectorAll('.project-item');
-                gsap.to(projectCards, {
-                    duration: 0.6,
-                    opacity: 1,
-                    x: 0,
-                    force3D: true,
-                    stagger: 0.1,
-                    ease: 'power2.out'
-                });
-            },
-            once: true
-        });
-
-        // Project section is visible by default
-
-        // 7. Smooth project item hover lift effect
+        // 6. Smooth project item hover lift effect
         document.querySelectorAll('.project-item').forEach(item => {
             item.addEventListener('mouseenter', function() {
                 gsap.to(this, {
@@ -1824,7 +1829,7 @@
             });
         });
 
-        // 8. Navbar link underline animation
+        // 7. Navbar link underline animation
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('mouseenter', function() {
                 gsap.to(this, {
@@ -1842,7 +1847,7 @@
             });
         });
 
-        // 9. Button press animation
+        // 8. Button press animation
         document.querySelectorAll('.btn').forEach(btn => {
             btn.addEventListener('mousedown', function() {
                 gsap.to(this, {
@@ -1860,7 +1865,7 @@
             });
         });
 
-        // 10. Hero section elements cascade animation handled by CSS fade-in classes
+        // 9. Hero section elements cascade animation handled by CSS fade-in classes
 
     });
 
