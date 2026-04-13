@@ -1,411 +1,1106 @@
-<!doctype html>
-<html lang="en" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mithun Senthil S | AI & Data Science</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mithun Senthil S. | Portfolio</title>
+    <meta name="description" content="Portfolio of Mithun Senthil S., AI & Data Science Engineer specializing in cloud architecture and machine learning.">
+    <meta property="og:title" content="Mithun Senthil S. | Portfolio">
+    <meta property="og:description" content="AI & Data Science Engineer specializing in cloud architecture and machine learning.">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <style type="text/tailwindcss">
-      @theme {
-        --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-        
-        --color-brand-red: #A82323;
-        --color-brand-cream: #FEFFD3;
-        --color-brand-lightgreen: #BCD9A2;
-        --color-brand-green: #6D9E51;
-        --color-brand-dark: #1A2015;
-      }
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/akira-expanded" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #FEFFD3;
+            --bg-secondary: #F4F5C9;
+            --accent-primary: #c8102e;
+            --accent-secondary: #8b102e;
+            --text-primary: #1a0a0a;
+            --text-muted: #4a3b3b;
+            --card-bg: rgba(26, 10, 10, 0.03);
+            --card-border: rgba(200, 16, 46, 0.15);
+            --divider: rgba(26, 10, 10, 0.08);
+            
+            --font-head: 'Akira Expanded', sans-serif;
+            --font-body: 'Poppins', sans-serif;
+        }
 
-      html {
-        scroll-behavior: smooth;
-      }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-      /* Reveal Animation Classes */
-      .reveal-up {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-      }
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg-primary);
+        }
 
-      .reveal-up.active {
-        opacity: 1;
-        transform: translateY(0);
-      }
+        body {
+            font-family: var(--font-body);
+            color: var(--text-muted);
+            line-height: 1.8;
+            font-size: 16px;
+            overflow-x: hidden;
+            background-color: var(--bg-primary);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Typography */
+        .h1 {
+            font-family: var(--font-head);
+            font-size: clamp(36px, 5vw, 64px);
+            line-height: 1.1;
+        }
+        .h1 span {
+            font-size: 0.85em;
+        }
+        .h2 {
+            font-family: var(--font-head);
+            font-size: clamp(28px, 4vw, 36px);
+            margin-bottom: 48px;
+        }
+        .h3 {
+            font-family: var(--font-body);
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--accent-primary);
+            margin-bottom: 16px;
+        }
+        .eyebrow {
+            font-family: var(--font-body);
+            font-size: 13px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent-primary);
+            margin-bottom: 16px;
+            display: block;
+            font-weight: 500;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .section {
+            padding: 110px 0;
+        }
+        .divider {
+            height: 1px;
+            background: var(--divider);
+            width: 100%;
+            border: none;
+        }
+
+        /* Components */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-family: var(--font-body);
+        }
+        .btn-primary {
+            background: var(--accent-primary);
+            color: #ffffff;
+            border: 1px solid var(--accent-primary);
+        }
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--accent-primary);
+            box-shadow: 0 0 24px rgba(200,16,46,0.25);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--text-primary);
+        }
+        .btn-outline:hover {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 32px;
+            backdrop-filter: blur(8px);
+            transition: all 0.4s ease;
+        }
+        .card:hover {
+            transform: scale(1.015);
+            box-shadow: 0 0 24px rgba(200,16,46,0.25);
+            border-color: rgba(200,16,46,0.5);
+        }
+        .pill {
+            background: rgba(200, 16, 46, 0.05);
+            color: var(--accent-primary);
+            border: 1px solid rgba(200, 16, 46, 0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .pill:hover {
+            transform: scale(1.05);
+            background: var(--accent-primary);
+            color: #ffffff;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(254, 255, 211, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(200,16,46,0.15);
+            z-index: 100;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: var(--font-head);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-secondary);
+        }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+        .nav-links a {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            position: relative;
+            transition: color 0.3s;
+            color: var(--text-muted);
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-primary);
+            transition: width 0.3s;
+        }
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-secondary);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 48px;
+            align-items: center;
+            width: 100%;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(200, 16, 46, 0.08);
+            color: var(--accent-primary);
+            border: 1px solid rgba(200, 16, 46, 0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+        .typewriter-wrapper {
+            font-family: var(--font-head);
+            font-size: clamp(24px, 3vw, 32px);
+            color: var(--accent-primary);
+            margin-top: 12px;
+            height: 40px;
+        }
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background: var(--accent-primary);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+        .hero-tagline {
+            font-size: 20px;
+            color: var(--accent-secondary);
+            margin: 24px 0 40px;
+            max-width: 500px;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 64px;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 24px;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 16px 24px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+        }
+        .stat-num {
+            font-family: var(--font-head);
+            font-size: 28px;
+            color: var(--accent-secondary);
+            font-weight: 700;
+            display: block;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .hero-art {
+            position: relative;
+            width: 100%;
+            height: 400px;
+        }
+        .art-shape {
+            position: absolute;
+            border-radius: 50%;
+            mix-blend-mode: screen;
+        }
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            border: 2px solid rgba(200,16,46,0.3);
+            top: 0;
+            right: 20px;
+        }
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            background: rgba(200, 16, 46, 0.05);
+            bottom: 20px;
+            right: 100px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(200,16,46,0.1);
+        }
+        .shape-3 {
+            width: 150px;
+            height: 150px;
+            background: rgba(200,16,46,0.1);
+            top: 100px;
+            right: 200px;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+        .about-initials {
+            font-family: var(--font-head);
+            font-size: 140px;
+            color: var(--accent-primary);
+            line-height: 0.8;
+            opacity: 0.8;
+            text-align: center;
+        }
+        .about-facts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--divider);
+        }
+        .fact-item strong {
+            color: var(--accent-secondary);
+            font-weight: 500;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .skill-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        /* Projects Section */
+        .project-featured {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+            min-height: 280px;
+        }
+        .project-num {
+            font-family: var(--font-head);
+            font-size: 80px;
+            color: rgba(200,16,46,0.3);
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+        .project-badge {
+            position: absolute;
+            top: 32px;
+            right: 32px;
+            background: var(--accent-primary);
+            color: #ffffff;
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .project-art {
+            background: rgba(26, 10, 10, 0.03);
+            border: 1px solid var(--divider);
+            border-radius: 8px;
+            height: 100%;
+            min-height: 240px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            gap: 12px;
+        }
+        .art-line {
+            height: 8px;
+            background: rgba(26, 10, 10, 0.1);
+            border-radius: 4px;
+        }
+        .art-line.short { width: 40%; }
+        .art-line.med { width: 70%; }
+        .art-line.long { width: 100%; }
+        .art-box {
+            flex: 1;
+            border: 1px dashed rgba(200,16,46,0.3);
+            border-radius: 4px;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(200,16,46,0.5);
+            font-size: 24px;
+        }
+        .projects-subgrid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-secondary);
+            margin-top: 24px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .project-link:hover {
+            color: var(--accent-primary);
+        }
+        .project-title {
+            font-family: var(--font-head);
+            font-size: 28px;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        /* Experience Section */
+        .timeline {
+            display: flex;
+            position: relative;
+            margin-top: 64px;
+            gap: 48px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            border-top: 1px dashed rgba(200,16,46,0.4);
+            z-index: 0;
+        }
+        .timeline-item {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+            padding-top: 48px;
+        }
+        .timeline-dot {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 9px;
+            height: 9px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px var(--bg-primary);
+        }
+        .timeline-year {
+            font-family: var(--font-head);
+            font-size: 32px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: block;
+        }
+        .timeline-company {
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 18px;
+        }
+        .timeline-role {
+            color: var(--accent-primary);
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .timeline-list {
+            padding-left: 16px;
+            list-style: disc;
+            color: var(--text-muted);
+        }
+        .timeline-list li {
+            margin-bottom: 8px;
+        }
+
+        /* Education & Certifications */
+        .edu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+        }
+        .edu-card {
+            margin-bottom: 32px;
+        }
+        .edu-inst {
+            color: var(--accent-secondary);
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .edu-deg {
+            color: var(--accent-primary);
+            margin: 4px 0;
+        }
+        .edu-year {
+            font-size: 14px;
+        }
+        .cert-card {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 24px;
+            border-radius: 8px;
+        }
+        .cert-icon {
+            color: var(--accent-primary);
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+            background-color: var(--bg-secondary);
+        }
+        .contact-bg-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--font-head);
+            font-size: 25vw;
+            color: var(--text-primary);
+            opacity: 0.03;
+            z-index: 0;
+            pointer-events: none;
+            white-space: nowrap;
+            font-weight: 700;
+        }
+        .contact-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .contact-sub {
+            font-size: 20px;
+            color: var(--text-muted);
+            margin: 24px 0 48px;
+        }
+        .contact-btn {
+            font-family: var(--font-head);
+            font-size: 18px;
+            padding: 20px 48px;
+            border-radius: 50px;
+        }
+        .contact-details {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-top: 64px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--divider);
+            background-color: var(--bg-primary);
+        }
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .social-links {
+            display: flex;
+            gap: 24px;
+        }
+        .social-links a {
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .social-links a:hover {
+            color: var(--accent-primary);
+            transform: scale(1.15) translateY(-2px);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.65s ease-out, transform 0.65s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-grid, .about-grid, .skills-grid, .projects-subgrid, .edu-grid {
+                grid-template-columns: 1fr;
+            }
+            .project-featured {
+                grid-template-columns: 1fr;
+            }
+            .about-initials {
+                font-size: 80px;
+                text-align: left;
+            }
+            .timeline {
+                flex-direction: column;
+                gap: 32px;
+            }
+            .timeline::before {
+                top: 0;
+                left: 4px;
+                width: 1px;
+                height: 100%;
+                border-top: none;
+                border-left: 1px dashed rgba(200,16,46,0.4);
+            }
+            .timeline-item {
+                padding-top: 0;
+                padding-left: 32px;
+            }
+            .timeline-dot {
+                top: 6px;
+                left: 0;
+            }
+            .contact-details {
+                flex-direction: column;
+                gap: 24px;
+                align-items: center;
+            }
+            .nav-links {
+                display: none; /* Hide on mobile for simplicity, or implement hamburger */
+            }
+            .hero-stats {
+                flex-direction: column;
+            }
+            .hero-actions {
+                flex-direction: column;
+            }
+            .project-art {
+                display: none; /* Hide decorative art on small screens to save space */
+            }
+        }
     </style>
-  </head>
-  <body class="bg-brand-cream text-brand-dark font-sans antialiased selection:bg-brand-lightgreen selection:text-brand-dark overflow-x-hidden transition-colors duration-500">
-    <!-- Background Effects -->
-    <div class="fixed inset-0 z-[-1] pointer-events-none">
-      <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-brand-lightgreen/40 blur-[120px]"></div>
-      <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-brand-red/10 blur-[120px]"></div>
-    </div>
+</head>
+<body>
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-50 bg-brand-cream/90 backdrop-blur-md border-b border-brand-green/20 transition-all duration-300" id="navbar">
-      <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <a href="#home" class="text-xl font-bold text-brand-dark tracking-tighter hover:text-brand-red transition-colors">
-          Mithun<span class="text-brand-red">.</span>
-        </a>
-        
-        <!-- Desktop Menu -->
-        <div class="hidden md:flex space-x-8 text-sm font-semibold">
-          <a href="#about" class="text-brand-dark/80 hover:text-brand-red transition-colors">About</a>
-          <a href="#skills" class="text-brand-dark/80 hover:text-brand-red transition-colors">Skills</a>
-          <a href="#experience" class="text-brand-dark/80 hover:text-brand-red transition-colors">Experience</a>
-          <a href="#projects" class="text-brand-dark/80 hover:text-brand-red transition-colors">Projects</a>
-          <a href="#education" class="text-brand-dark/80 hover:text-brand-red transition-colors">Education</a>
-          <a href="#contact" class="text-brand-dark/80 hover:text-brand-red transition-colors">Contact</a>
+    <nav id="navbar">
+        <div class="container nav-inner">
+            <a href="#" class="logo">MS.</a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#experience">Experience</a>
+                <a href="#contact">Contact</a>
+            </div>
         </div>
-
-        <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" class="md:hidden text-brand-dark hover:text-brand-red transition-colors">
-          <i data-lucide="menu"></i>
-        </button>
-      </div>
-      
-      <!-- Mobile Menu -->
-      <div id="mobile-menu" class="hidden md:hidden bg-brand-cream border-b border-brand-green/20 absolute w-full shadow-xl">
-        <div class="flex flex-col px-6 py-4 space-y-4 text-sm font-semibold">
-          <a href="#about" class="mobile-link text-brand-dark/80 hover:text-brand-red transition-colors">About</a>
-          <a href="#skills" class="mobile-link text-brand-dark/80 hover:text-brand-red transition-colors">Skills</a>
-          <a href="#experience" class="mobile-link text-brand-dark/80 hover:text-brand-red transition-colors">Experience</a>
-          <a href="#projects" class="mobile-link text-brand-dark/80 hover:text-brand-red transition-colors">Projects</a>
-          <a href="#education" class="mobile-link text-brand-dark/80 hover:text-brand-red transition-colors">Education</a>
-          <a href="#contact" class="mobile-link text-brand-dark/80 hover:text-brand-red transition-colors">Contact</a>
-        </div>
-      </div>
     </nav>
 
-    <!-- Main Content -->
     <main>
-      <!-- Hero Section -->
-      <section id="home" class="min-h-screen flex items-center justify-center pt-20 px-6 relative">
-        <div class="max-w-4xl mx-auto text-center reveal-up">
-          <p class="text-brand-green font-mono font-bold mb-4 tracking-wide uppercase text-sm">Hi, my name is</p>
-          <h1 class="text-5xl md:text-7xl font-bold text-brand-dark mb-6 tracking-tight">
-            Mithun Senthil S.
-          </h1>
-          <h2 class="text-3xl md:text-5xl font-bold text-brand-dark/70 mb-8 h-[60px] md:h-[80px]">
-            I am a <span id="typewriter" class="text-brand-red"></span><span class="animate-pulse text-brand-red">|</span>
-          </h2>
-          <p class="text-lg md:text-xl text-brand-dark/80 max-w-2xl mx-auto mb-10 leading-relaxed">
-            AI & Data Science undergraduate specializing in cloud architecture, data engineering, and machine learning.
-          </p>
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#contact" class="px-8 py-3 rounded-lg bg-brand-red text-brand-cream font-semibold hover:bg-brand-red/90 transition-all hover:-translate-y-1 shadow-lg shadow-brand-red/20 w-full sm:w-auto text-center">
-              Contact Me
-            </a>
-            <a href="#" class="px-8 py-3 rounded-lg border-2 border-brand-green text-brand-green font-semibold hover:bg-brand-green hover:text-brand-cream transition-all hover:-translate-y-1 w-full sm:w-auto text-center flex items-center justify-center gap-2">
-              <i data-lucide="download" class="w-4 h-4"></i> Download Resume
-            </a>
-          </div>
-        </div>
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-          <a href="#about" class="text-brand-green hover:text-brand-red transition-colors">
-            <i data-lucide="chevron-down" class="w-8 h-8"></i>
-          </a>
-        </div>
-      </section>
-
-      <!-- About Section -->
-      <section id="about" class="py-24 px-6 bg-brand-lightgreen/20">
-        <div class="max-w-4xl mx-auto reveal-up">
-          <div class="flex items-center gap-4 mb-12">
-            <h2 class="text-3xl font-bold text-brand-dark">About Me</h2>
-            <div class="h-px bg-brand-green/30 flex-grow"></div>
-          </div>
-          <div class="text-brand-dark/80 text-lg leading-relaxed space-y-6 font-medium">
-            <p>
-              I am an AI & Data Science undergraduate with a rare combination of cloud, data engineering, and machine learning skills validated through real deployments and Oracle certifications.
-            </p>
-            <p>
-              My experience spans across the full data lifecycle — from schema design and database optimization to cloud storage integration and intelligent automation. Having interned in both corporate healthcare and IT consulting, I bring a cross-industry perspective that focuses on solving real-world problems efficiently.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Skills Section -->
-      <section id="skills" class="py-24 px-6">
-        <div class="max-w-4xl mx-auto reveal-up">
-          <div class="flex items-center gap-4 mb-12">
-            <h2 class="text-3xl font-bold text-brand-dark">Technical Skills</h2>
-            <div class="h-px bg-brand-green/30 flex-grow"></div>
-          </div>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Languages -->
-            <div class="bg-white/40 backdrop-blur-sm border border-brand-green/20 rounded-xl p-6 hover:border-brand-red/50 hover:shadow-lg hover:shadow-brand-red/5 transition-all duration-300 group">
-              <div class="flex items-center gap-3 mb-6">
-                <i data-lucide="code-2" class="text-brand-red group-hover:scale-110 transition-transform"></i>
-                <h3 class="text-xl font-bold text-brand-dark">Languages</h3>
-              </div>
-              <div class="flex flex-wrap gap-3">
-                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Python</span>
-                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Java</span>
-                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">SQL</span>
-              </div>
-            </div>
-
-            <!-- Databases -->
-            <div class="bg-white/40 backdrop-blur-sm border border-brand-green/20 rounded-xl p-6 hover:border-brand-red/50 hover:shadow-lg hover:shadow-brand-red/5 transition-all duration-300 group">
-              <div class="flex items-center gap-3 mb-6">
-                <i data-lucide="database" class="text-brand-red group-hover:scale-110 transition-transform"></i>
-                <h3 class="text-xl font-bold text-brand-dark">Databases</h3>
-              </div>
-              <div class="flex flex-wrap gap-3">
-                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">MySQL</span>
-                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">PostgreSQL</span>
-                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Supabase</span>
-                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Cosmos DB</span>
-              </div>
-            </div>
-
-            <!-- Cloud -->
-            <div class="bg-white/40 backdrop-blur-sm border border-brand-green/20 rounded-xl p-6 hover:border-brand-red/50 hover:shadow-lg hover:shadow-brand-red/5 transition-all duration-300 group">
-              <div class="flex items-center gap-3 mb-6">
-                <i data-lucide="cloud" class="text-brand-red group-hover:scale-110 transition-transform"></i>
-                <h3 class="text-xl font-bold text-brand-dark">Cloud</h3>
-              </div>
-              <div class="flex flex-wrap gap-3">
-                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Microsoft Azure</span>
-                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Azure Blob Storage</span>
-              </div>
-            </div>
-
-            <!-- Tools -->
-            <div class="bg-white/40 backdrop-blur-sm border border-brand-green/20 rounded-xl p-6 hover:border-brand-red/50 hover:shadow-lg hover:shadow-brand-red/5 transition-all duration-300 group">
-              <div class="flex items-center gap-3 mb-6">
-                <i data-lucide="wrench" class="text-brand-red group-hover:scale-110 transition-transform"></i>
-                <h3 class="text-xl font-bold text-brand-dark">Tools & Frameworks</h3>
-              </div>
-              <div class="flex flex-wrap gap-3">
-                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Git & GitHub</span>
-                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">FastAPI</span>
-                <span class="px-4 py-2 rounded-full bg-brand-lightgreen/40 text-brand-dark font-semibold text-sm border border-brand-green/20 group-hover:bg-brand-lightgreen transition-colors">Streamlit</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Experience Section -->
-      <section id="experience" class="py-24 px-6 bg-brand-lightgreen/20">
-        <div class="max-w-4xl mx-auto reveal-up">
-          <div class="flex items-center gap-4 mb-12">
-            <h2 class="text-3xl font-bold text-brand-dark">Experience</h2>
-            <div class="h-px bg-brand-green/30 flex-grow"></div>
-          </div>
-
-          <div class="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-brand-green/40 before:to-transparent">
-            
-            <!-- Experience 1 -->
-            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-              <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-brand-cream bg-brand-red text-brand-cream shadow-md shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 group-hover:scale-110 transition-transform">
-                <i data-lucide="briefcase" class="w-4 h-4"></i>
-              </div>
-              <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-brand-green/20 hover:border-brand-red/50 hover:shadow-lg transition-all duration-300">
-                <div class="flex flex-col mb-2">
-                  <span class="text-brand-green font-mono font-bold text-sm mb-1">Oct 2025 - Dec 2025</span>
-                  <h3 class="text-xl font-bold text-brand-dark">Kauvery Hospital</h3>
-                  <span class="text-brand-dark/60 text-sm font-medium">Corporate Sector Internship</span>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero-section">
+            <div class="container hero-grid">
+                <div class="hero-content fade-in">
+                    <span class="hero-badge">Available for new projects</span>
+                    <h1 class="h1">Mithun<br><span>Senthil S.</span></h1>
+                    <div class="typewriter-wrapper">
+                        <span id="typewriter"></span><span class="cursor"></span>
+                    </div>
+                    <p class="hero-tagline">I design and build data-driven systems that help clients make smarter decisions.</p>
+                    
+                    <div class="hero-actions">
+                        <a href="#projects" class="btn btn-primary">See My Projects</a>
+                        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+                    </div>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-card">
+                            <span class="stat-num" data-target="2">0</span>
+                            <span class="stat-label">Internships</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num" data-target="3">0</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num" data-target="2">0</span>
+                            <span class="stat-label">Oracle Certs</span>
+                        </div>
+                    </div>
                 </div>
-                <h4 class="text-lg font-semibold text-brand-red mb-3">Project: Digital Product Data Vault</h4>
-                <ul class="list-disc list-inside text-brand-dark/80 text-sm space-y-2 font-medium">
-                  <li>Developed a web app using Python & PostgreSQL for secure product data storage.</li>
-                  <li>Integrated Azure Blob Storage & Cosmos DB for cloud file management.</li>
-                  <li>Implemented strict schema validation for monthly data storage.</li>
-                </ul>
-              </div>
-            </div>
-
-            <!-- Experience 2 -->
-            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-              <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-brand-cream bg-brand-red text-brand-cream shadow-md shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 group-hover:scale-110 transition-transform">
-                <i data-lucide="briefcase" class="w-4 h-4"></i>
-              </div>
-              <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-brand-green/20 hover:border-brand-red/50 hover:shadow-lg transition-all duration-300">
-                <div class="flex flex-col mb-2">
-                  <span class="text-brand-green font-mono font-bold text-sm mb-1">Aug 2025 - Sep 2025</span>
-                  <h3 class="text-xl font-bold text-brand-dark">RedBack IT Solutions</h3>
-                  <span class="text-brand-dark/60 text-sm font-medium">Internship</span>
+                <div class="hero-art fade-in">
+                    <div class="art-shape shape-1"></div>
+                    <div class="art-shape shape-2"></div>
+                    <div class="art-shape shape-3"></div>
                 </div>
-                <h4 class="text-lg font-semibold text-brand-red mb-3">Project: Urban Route Optimizer</h4>
-                <ul class="list-disc list-inside text-brand-dark/80 text-sm space-y-2 font-medium">
-                  <li>Built a Python route optimizer using OSMnx & NetworkX on OpenStreetMap data.</li>
-                  <li>Applied Dijkstra and A* algorithms for optimal scooter route recommendations.</li>
-                  <li>Created a Streamlit interface with Folium interactive maps showing ETA & distance.</li>
-                </ul>
-              </div>
             </div>
+        </section>
 
-          </div>
-        </div>
-      </section>
+        <hr class="divider">
 
-      <!-- Projects Section -->
-      <section id="projects" class="py-24 px-6">
-        <div class="max-w-4xl mx-auto reveal-up">
-          <div class="flex items-center gap-4 mb-12">
-            <h2 class="text-3xl font-bold text-brand-dark">Featured Projects</h2>
-            <div class="h-px bg-brand-green/30 flex-grow"></div>
-          </div>
-
-          <div class="grid grid-cols-1 gap-8">
-            <!-- Project 1 -->
-            <div class="group relative bg-white/40 backdrop-blur-sm border border-brand-green/20 rounded-xl overflow-hidden hover:border-brand-red/50 hover:shadow-xl hover:shadow-brand-red/5 transition-all duration-300">
-              <div class="p-8">
-                <div class="flex justify-between items-start mb-6">
-                  <div class="p-3 bg-brand-red/10 rounded-lg text-brand-red group-hover:scale-110 transition-transform">
-                    <i data-lucide="terminal" class="w-8 h-8"></i>
-                  </div>
-                  <div class="flex gap-4">
-                    <a href="#" class="text-brand-green hover:text-brand-red transition-colors"><i data-lucide="github"></i></a>
-                    <a href="#" class="text-brand-green hover:text-brand-red transition-colors"><i data-lucide="external-link"></i></a>
-                  </div>
+        <!-- ABOUT SECTION -->
+        <section id="about" class="section">
+            <div class="container">
+                <span class="eyebrow">— about</span>
+                <div class="about-grid">
+                    <div class="about-initials fade-in">M.S</div>
+                    <div class="about-content fade-in">
+                        <h2 class="h2">Who I Am</h2>
+                        <p>I'm Mithun Senthil S., an AI & Data Science undergraduate at Saveetha University (CGPA 8.40). I specialize in building cloud-integrated data systems and intelligent automation tools. My work spans healthcare tech, route optimization, and AI recruitment — always focused on delivering real results for real problems.</p>
+                        
+                        <div class="about-facts">
+                            <div class="fact-item"><strong>Degree:</strong> B.Tech AI & DS</div>
+                            <div class="fact-item"><strong>University:</strong> Saveetha University</div>
+                            <div class="fact-item"><strong>Location:</strong> Chennai, India</div>
+                            <div class="fact-item"><strong>Status:</strong> Open to projects</div>
+                        </div>
+                    </div>
                 </div>
-                <h3 class="text-2xl font-bold text-brand-dark mb-4 group-hover:text-brand-red transition-colors">AI Recruiter Application</h3>
-                <p class="text-brand-dark/80 mb-6 leading-relaxed font-medium">
-                  An intelligent recruitment system that automates resume screening using Natural Language Processing. It matches candidate skills against job requirements and provides a scoring pipeline, reducing manual screening effort by approximately 40%.
-                </p>
-                <div class="flex flex-wrap gap-3 mt-auto">
-                  <span class="text-xs font-bold text-brand-dark bg-brand-lightgreen px-3 py-1 rounded-full border border-brand-green/30">Python</span>
-                  <span class="text-xs font-bold text-brand-dark bg-brand-lightgreen px-3 py-1 rounded-full border border-brand-green/30">Streamlit</span>
-                  <span class="text-xs font-bold text-brand-dark bg-brand-lightgreen px-3 py-1 rounded-full border border-brand-green/30">Gemini API</span>
-                  <span class="text-xs font-bold text-brand-dark bg-brand-lightgreen px-3 py-1 rounded-full border border-brand-green/30">NLP</span>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <!-- SKILLS SECTION -->
+        <section id="skills" class="section">
+            <div class="container">
+                <span class="eyebrow">— skills</span>
+                <h2 class="h2 fade-in">What I Work With</h2>
+                
+                <div class="skills-grid">
+                    <div class="card fade-in">
+                        <h3 class="h3">Languages</h3>
+                        <div class="skill-pills">
+                            <span class="pill">Python</span>
+                            <span class="pill">Java</span>
+                            <span class="pill">SQL</span>
+                        </div>
+                    </div>
+                    <div class="card fade-in">
+                        <h3 class="h3">Databases</h3>
+                        <div class="skill-pills">
+                            <span class="pill">MySQL</span>
+                            <span class="pill">PostgreSQL</span>
+                            <span class="pill">Supabase</span>
+                            <span class="pill">Cosmos DB</span>
+                        </div>
+                    </div>
+                    <div class="card fade-in">
+                        <h3 class="h3">Cloud</h3>
+                        <div class="skill-pills">
+                            <span class="pill">Microsoft Azure</span>
+                            <span class="pill">Azure Blob Storage</span>
+                        </div>
+                    </div>
+                    <div class="card fade-in">
+                        <h3 class="h3">Tools</h3>
+                        <div class="skill-pills">
+                            <span class="pill">Git</span>
+                            <span class="pill">FastAPI</span>
+                            <span class="pill">Streamlit</span>
+                            <span class="pill">OSMnx</span>
+                            <span class="pill">NetworkX</span>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Education Section -->
-      <section id="education" class="py-24 px-6 bg-brand-lightgreen/20">
-        <div class="max-w-4xl mx-auto reveal-up">
-          <div class="flex items-center gap-4 mb-12">
-            <h2 class="text-3xl font-bold text-brand-dark">Education</h2>
-            <div class="h-px bg-brand-green/30 flex-grow"></div>
-          </div>
+        <hr class="divider">
 
-          <div class="space-y-8">
-            <!-- Edu 1 -->
-            <div class="flex flex-col md:flex-row gap-6 p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-brand-green/20 hover:border-brand-red/50 hover:shadow-md transition-all duration-300">
-              <div class="md:w-1/4 shrink-0">
-                <span class="text-brand-green font-mono font-bold text-sm">2023 - 2027</span>
-              </div>
-              <div>
-                <h3 class="text-xl font-bold text-brand-dark mb-1">B.Tech AI & Data Science</h3>
-                <h4 class="text-lg text-brand-dark/80 font-medium mb-2">Saveetha School of Engineering, Saveetha University</h4>
-                <p class="text-brand-red text-sm font-bold">CGPA: 8.40</p>
-              </div>
+        <!-- PROJECTS SECTION -->
+        <section id="projects" class="section">
+            <div class="container">
+                <span class="eyebrow">— projects</span>
+                <h2 class="h2 fade-in">Selected Work</h2>
+                
+                <!-- Featured Project -->
+                <article class="card project-featured fade-in">
+                    <span class="project-badge">Featured Project</span>
+                    <div>
+                        <div class="project-num">01</div>
+                        <h3 class="project-title">AI Recruiter Application</h3>
+                        <p style="margin-bottom: 24px;">NLP + Gemini API resume screening, 40% reduction in manual effort.</p>
+                        <div class="skill-pills">
+                            <span class="pill">Python</span>
+                            <span class="pill">Streamlit</span>
+                            <span class="pill">Gemini API</span>
+                            <span class="pill">NLP</span>
+                        </div>
+                        <a href="#" class="project-link">View Project →</a>
+                    </div>
+                    <div class="project-art">
+                        <div class="art-line med"></div>
+                        <div class="art-line long"></div>
+                        <div class="art-line short"></div>
+                        <div class="art-box">NLP PIPELINE</div>
+                    </div>
+                </article>
+
+                <div class="projects-subgrid">
+                    <!-- Project 2 -->
+                    <article class="card fade-in">
+                        <div class="project-num">02</div>
+                        <h3 class="project-title" style="font-size: 24px;">Digital Product Data Vault</h3>
+                        <p style="margin-bottom: 24px; min-height: 60px;">Secure healthcare product data system with Azure cloud integration.</p>
+                        <div class="skill-pills">
+                            <span class="pill">Python</span>
+                            <span class="pill">PostgreSQL</span>
+                            <span class="pill">Azure Blob</span>
+                            <span class="pill">Cosmos DB</span>
+                        </div>
+                        <a href="#" class="project-link">View Project →</a>
+                    </article>
+
+                    <!-- Project 3 -->
+                    <article class="card fade-in">
+                        <div class="project-num">03</div>
+                        <h3 class="project-title" style="font-size: 24px;">Urban Route Optimizer</h3>
+                        <p style="margin-bottom: 24px; min-height: 60px;">Scooter route planner using Dijkstra & A* on OpenStreetMap.</p>
+                        <div class="skill-pills">
+                            <span class="pill">Python</span>
+                            <span class="pill">OSMnx</span>
+                            <span class="pill">NetworkX</span>
+                            <span class="pill">Streamlit</span>
+                        </div>
+                        <a href="#" class="project-link">View Project →</a>
+                    </article>
+                </div>
             </div>
+        </section>
 
-            <!-- Edu 2 -->
-            <div class="flex flex-col md:flex-row gap-6 p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-brand-green/20 hover:border-brand-red/50 hover:shadow-md transition-all duration-300">
-              <div class="md:w-1/4 shrink-0">
-                <span class="text-brand-green font-mono font-bold text-sm">2021 - 2023</span>
-              </div>
-              <div>
-                <h3 class="text-xl font-bold text-brand-dark mb-1">Higher Secondary (CBSE)</h3>
-                <h4 class="text-lg text-brand-dark/80 font-medium mb-2">Sunbeam International School</h4>
-                <p class="text-brand-red text-sm font-bold">Score: 72%</p>
-              </div>
+        <hr class="divider">
+
+        <!-- EXPERIENCE SECTION -->
+        <section id="experience" class="section">
+            <div class="container">
+                <span class="eyebrow">— experience</span>
+                <h2 class="h2 fade-in">Where I've Worked</h2>
+                
+                <div class="timeline fade-in">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <span class="timeline-year">2025</span>
+                        <h3 class="timeline-company">Kauvery Hospital</h3>
+                        <span class="timeline-role">Data Engineering Intern | Oct–Dec</span>
+                        <ul class="timeline-list">
+                            <li>Developed secure healthcare product data systems.</li>
+                            <li>Integrated Azure Blob Storage and Cosmos DB.</li>
+                            <li>Optimized data pipelines for monthly storage.</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <span class="timeline-year">2025</span>
+                        <h3 class="timeline-company">RedBack IT Solutions</h3>
+                        <span class="timeline-role">Software Development Intern | Aug–Sep</span>
+                        <ul class="timeline-list">
+                            <li>Built Python route optimizer using OSMnx & NetworkX.</li>
+                            <li>Applied Dijkstra and A* algorithms for scooter routes.</li>
+                            <li>Created Streamlit interface with Folium interactive maps.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <!-- Edu 3 -->
-            <div class="flex flex-col md:flex-row gap-6 p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-brand-green/20 hover:border-brand-red/50 hover:shadow-md transition-all duration-300">
-              <div class="md:w-1/4 shrink-0">
-                <span class="text-brand-green font-mono font-bold text-sm">2021</span>
-              </div>
-              <div>
-                <h3 class="text-xl font-bold text-brand-dark mb-1">Secondary School (CBSE)</h3>
-                <h4 class="text-lg text-brand-dark/80 font-medium mb-2">Balsam Academy</h4>
-                <p class="text-brand-red text-sm font-bold">Score: 70%</p>
-              </div>
+        <hr class="divider">
+
+        <!-- EDUCATION & CERTIFICATIONS -->
+        <section id="education" class="section">
+            <div class="container">
+                <span class="eyebrow">— background</span>
+                <h2 class="h2 fade-in">Education & Certifications</h2>
+                
+                <div class="edu-grid">
+                    <div class="fade-in">
+                        <h3 class="h3" style="margin-bottom: 32px;">Education</h3>
+                        <div class="edu-card">
+                            <div class="edu-inst">Saveetha University</div>
+                            <div class="edu-deg">B.Tech AI & DS</div>
+                            <div class="edu-year">2023–2027 | CGPA 8.40</div>
+                        </div>
+                    </div>
+                    
+                    <div class="fade-in">
+                        <h3 class="h3" style="margin-bottom: 32px;">Certifications</h3>
+                        <div class="cert-card">
+                            <div class="cert-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path></svg>
+                            </div>
+                            <div>
+                                <div class="edu-inst">SQL on Oracle Cloud</div>
+                                <div class="edu-year">Oracle | 2024</div>
+                            </div>
+                        </div>
+                        <div class="cert-card">
+                            <div class="cert-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path></svg>
+                            </div>
+                            <div>
+                                <div class="edu-inst">Java SE 11 Developer</div>
+                                <div class="edu-year">Oracle | 2024</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Certifications Section -->
-      <section id="certifications" class="py-24 px-6">
-        <div class="max-w-4xl mx-auto reveal-up">
-          <div class="flex items-center gap-4 mb-12">
-            <h2 class="text-3xl font-bold text-brand-dark">Certifications</h2>
-            <div class="h-px bg-brand-green/30 flex-grow"></div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="flex items-start gap-4 p-6 rounded-xl bg-white/40 backdrop-blur-sm border border-brand-green/20 hover:border-brand-red/50 hover:shadow-md transition-all duration-300 group">
-              <div class="p-3 bg-brand-lightgreen/50 rounded-lg text-brand-green group-hover:text-brand-red group-hover:bg-brand-red/10 group-hover:scale-110 transition-all">
-                <i data-lucide="award"></i>
-              </div>
-              <div>
-                <h3 class="text-lg font-bold text-brand-dark mb-1">SQL on Oracle Cloud</h3>
-                <p class="text-brand-dark/70 text-sm font-medium">Oracle Cloud • 2024</p>
-              </div>
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="section contact-section">
+            <div class="contact-bg-text">Hello.</div>
+            <div class="container contact-content fade-in">
+                <span class="eyebrow">— contact</span>
+                <h2 class="h2" style="margin-bottom: 0;">Start a Conversation</h2>
+                <p class="contact-sub">Have a project in mind? Let's talk about how I can help.</p>
+                
+                <a href="#" class="btn btn-primary contact-btn">Send a Message →</a>
+                
+                <div class="contact-details">
+                    <a href="#" class="contact-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                        Email Me
+                    </a>
+                    <a href="#" class="contact-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        Call Me
+                    </a>
+                    <a href="#" class="contact-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        LinkedIn
+                    </a>
+                </div>
             </div>
-
-            <div class="flex items-start gap-4 p-6 rounded-xl bg-white/40 backdrop-blur-sm border border-brand-green/20 hover:border-brand-red/50 hover:shadow-md transition-all duration-300 group">
-              <div class="p-3 bg-brand-lightgreen/50 rounded-lg text-brand-green group-hover:text-brand-red group-hover:bg-brand-red/10 group-hover:scale-110 transition-all">
-                <i data-lucide="award"></i>
-              </div>
-              <div>
-                <h3 class="text-lg font-bold text-brand-dark mb-1">Java SE 11 Developer</h3>
-                <p class="text-brand-dark/70 text-sm font-medium">Oracle Cloud • 2024</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Contact Section -->
-      <section id="contact" class="py-32 px-6 bg-brand-lightgreen/20 text-center">
-        <div class="max-w-2xl mx-auto reveal-up">
-          <h2 class="text-4xl font-bold text-brand-dark mb-6">Get In Touch</h2>
-          <p class="text-brand-dark/80 text-lg mb-10 font-medium">
-            I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!
-          </p>
-          
-          <div class="flex flex-col sm:flex-row justify-center items-center gap-6 mb-16">
-            <a href="mailto:mithuntech111@gmail.com" class="flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-brand-red text-brand-cream font-bold hover:bg-brand-red/90 transition-all hover:-translate-y-1 shadow-lg shadow-brand-red/20 w-full sm:w-auto">
-              <i data-lucide="mail" class="w-5 h-5"></i> Say Hello
-            </a>
-            <a href="https://linkedin.com/in/mithunsenthil" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 px-8 py-4 rounded-lg border-2 border-brand-green text-brand-green font-bold hover:bg-brand-green hover:text-brand-cream transition-all hover:-translate-y-1 w-full sm:w-auto">
-              <i data-lucide="linkedin" class="w-5 h-5"></i> LinkedIn
-            </a>
-          </div>
-
-          <div class="flex flex-wrap justify-center gap-8 text-brand-dark/70 font-semibold">
-            <a href="mailto:mithuntech111@gmail.com" class="hover:text-brand-red transition-colors flex items-center gap-2">
-              <i data-lucide="mail" class="w-5 h-5"></i>
-              <span class="hidden sm:inline">mithuntech111@gmail.com</span>
-            </a>
-            <a href="tel:+918667894127" class="hover:text-brand-red transition-colors flex items-center gap-2">
-              <i data-lucide="phone" class="w-5 h-5"></i>
-              <span class="hidden sm:inline">+91 8667894127</span>
-            </a>
-            <a href="https://linkedin.com/in/mithunsenthil" target="_blank" rel="noopener noreferrer" class="hover:text-brand-red transition-colors flex items-center gap-2">
-              <i data-lucide="linkedin" class="w-5 h-5"></i>
-              <span class="hidden sm:inline">LinkedIn</span>
-            </a>
-          </div>
-        </div>
-      </section>
+        </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="py-8 text-center text-brand-dark/60 text-sm font-mono font-semibold border-t border-brand-green/20">
-      <p>Designed & Built by Mithun Senthil S.</p>
+    <footer>
+        <div class="container footer-inner">
+            <div style="font-size: 14px;">© 2025 Mithun Senthil S.</div>
+            <div class="social-links">
+                <a href="#" aria-label="GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg></a>
+                <a href="#" aria-label="LinkedIn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                <a href="#" aria-label="Email"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></a>
+            </div>
+        </div>
     </footer>
 
-    <script src="./src/main.js"></script>
-  </body>
-</html>
+    <script>
+        // Typewriter Effect
+        const phrases = ["AI & Data Science Engineer", "Cloud & Data Engineer", "ML Solutions Builder"];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typewriterElement = document.getElementById('typewriter');
+        
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                typewriterElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typewriterElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            let typeSpeed = isDeleting ? 50 : 100;
+            
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                typeSpeed = 2000; // Pause at end of phrase
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500; // Pause before typing next
+            }
+            
+            setTimeout(type, typeSpeed);
+        }
+        
+        // Start typewriter
+        setTimeout(type, 1000);
 
+        // Intersection Observer for Fade-in Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Trigger number counter if it's a stat card
+                    if (entry.target.classList.contains('hero-content')) {
+                        const statNums = document.querySelectorAll('.stat-num');
+                        statNums.forEach(stat => {
+                            const target = parseInt(stat.getAttribute('data-target'));
+                            animateValue(stat, 0, target, 1200);
+                        });
+                    }
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Number Counter Animation
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Active Nav Link on Scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
