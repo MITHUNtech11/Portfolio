@@ -5,7 +5,7 @@ gsap.registerPlugin(ScrollTrigger);
 window.lucide?.createIcons();
 
 // ╔════════════════════════════════════════╗
-// ║ HERO SECTION ANIMATIONS (GSAP Timeline) ║
+// ║ HERO SECTION ANIMATIONS (GSAP Timeline)║
 // ╚════════════════════════════════════════╝
 
 const heroTimeline = gsap.timeline({ delay: 0.2 });
@@ -61,10 +61,10 @@ gsap.to(".hero-card", {
 // ╚════════════════════════════════════════╝
 
 const roles = [
-  "Software Engineer",
-  "Python & Java Developer",
-  "Data Engineer",
-  "AI & ML Practitioner"
+  "Python Full Stack Developer",
+  "AI & Data Science Engineer",
+  "Oracle Certified Java SE 11 Developer",
+  "Cloud & REST API Architect"
 ];
 
 let roleIndex = 0;
