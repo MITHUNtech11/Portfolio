@@ -22,12 +22,12 @@ export interface ExperienceTimelineProps {
 }
 
 const getSubprojectIcon = (iconName?: string) => {
-  switch (iconName) {
-    case 'Archive':
+  switch (iconName?.toLowerCase()) {
+    case 'archive':
       return <Archive className="w-4 h-4 text-[#f5cb78]" />;
-    case 'UserCheck':
+    case 'usercheck':
       return <UserCheck className="w-4 h-4 text-[#f5cb78]" />;
-    case 'MapPin':
+    case 'mappin':
       return <MapPin className="w-4 h-4 text-[#f5cb78]" />;
     default:
       return <FolderGit2 className="w-4 h-4 text-[#f5cb78]" />;
@@ -39,6 +39,8 @@ export const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({
   className = '',
   id = 'experience',
 }) => {
+  const items = experiences || experienceData || [];
+
   return (
     <section
       id={id}
@@ -95,127 +97,142 @@ export const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({
           aria-hidden="true"
         />
 
-        <div className="space-y-12 sm:space-y-16">
-          {experiences.map((exp, expIdx) => (
-            <motion.div
-              key={exp.id}
-              initial={{ opacity: 0, x: -24 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.6, delay: expIdx * 0.15 }}
-              className="relative group"
-            >
-              {/* Glowing Node Marker */}
-              <div
-                className="absolute -left-[27px] sm:-left-[33px] md:-left-[41px] top-1.5 flex items-center justify-center"
-                aria-hidden="true"
-              >
-                <div className="relative flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-[#170c08] border-2 border-[#d4af37] shadow-[0_0_18px_rgba(212,175,55,0.5)] group-hover:scale-110 group-hover:border-[#f5cb78] transition-transform duration-300">
-                  <Briefcase className="w-3.5 h-3.5 text-[#f5cb78]" />
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d4af37] opacity-25" />
-                </div>
-              </div>
+        {items.length === 0 ? (
+          <div className="py-12 text-center text-[#9e8779] font-mono text-sm border border-dashed border-white/10 rounded-2xl p-8 bg-[#170c08]/50">
+            No corporate experience milestones recorded.
+          </div>
+        ) : (
+          <div className="space-y-12 sm:space-y-16">
+            {items.map((exp, expIdx) => {
+              const subprojects = exp.subprojects || [];
 
-              {/* Main Card Container */}
-              <div className="rounded-2xl bg-[#170c08] border border-[rgba(212,175,55,0.2)] p-6 sm:p-8 shadow-[0_10px_30px_rgba(0,0,0,0.6)] hover:border-[rgba(212,175,55,0.45)] hover:shadow-[0_12px_40px_rgba(212,175,55,0.08)] transition-all duration-300">
-                {/* Header: Company, Role, Badges */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[rgba(212,175,55,0.12)]">
-                  <div>
-                    <div className="flex flex-wrap items-center gap-2.5">
-                      <h3 className="font-display text-xl sm:text-2xl font-bold text-[#fbf5ee] tracking-tight">
-                        {exp.company}
-                      </h3>
-                      {exp.division && (
-                        <span className="inline-flex items-center gap-1 font-mono text-[11px] px-2.5 py-0.5 rounded-full bg-white/[0.05] border border-white/10 text-[#d8c8b8]">
-                          <Building2 className="w-3 h-3 text-[#9e8779]" />
-                          {exp.division}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex flex-wrap items-center gap-3 mt-2 text-sm text-[#9e8779]">
-                      <span className="font-semibold text-[#f5cb78] text-base">
-                        {exp.role}
-                      </span>
-                      {exp.location && (
-                        <>
-                          <span className="text-white/20">•</span>
-                          <span className="inline-flex items-center gap-1 font-mono text-xs">
-                            <MapPin className="w-3.5 h-3.5 text-[#9e8779]" />
-                            {exp.location}
-                          </span>
-                        </>
-                      )}
+              return (
+                <motion.div
+                  key={exp.id}
+                  initial={{ opacity: 0, x: -24 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.6, delay: expIdx * 0.15 }}
+                  className="relative group"
+                >
+                  {/* Glowing Node Marker */}
+                  <div
+                    className="absolute -left-[27px] sm:-left-[33px] md:-left-[41px] top-1.5 flex items-center justify-center"
+                    aria-hidden="true"
+                  >
+                    <div className="relative flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-[#170c08] border-2 border-[#d4af37] shadow-[0_0_18px_rgba(212,175,55,0.5)] group-hover:scale-110 group-hover:border-[#f5cb78] transition-transform duration-300">
+                      <Briefcase className="w-3.5 h-3.5 text-[#f5cb78]" />
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d4af37] opacity-25" />
                     </div>
                   </div>
 
-                  {/* Period badge */}
-                  <div className="shrink-0">
-                    <Badge variant="gold" size="md" icon={<Calendar className="w-3.5 h-3.5" />}>
-                      {exp.period}
-                    </Badge>
-                  </div>
-                </div>
-
-                {/* Subprojects Section */}
-                <div className="mt-6 space-y-6">
-                  {exp.subprojects.map((sub, subIdx) => {
-                    const techPills = sub.tech
-                      ? sub.tech.split('•').map((t) => t.trim()).filter(Boolean)
-                      : [];
-
-                    return (
-                      <div
-                        key={sub.title || subIdx}
-                        className="rounded-xl bg-[#120906]/75 border border-[rgba(212,175,55,0.1)] p-5 hover:border-[rgba(212,175,55,0.25)] transition-all duration-200"
-                      >
-                        {/* Subproject Header */}
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-3">
-                          <div className="flex items-center gap-2.5">
-                            <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#d4af37]/10 border border-[#d4af37]/25 shrink-0">
-                              {getSubprojectIcon(sub.icon)}
-                            </div>
-                            <h4 className="font-display font-semibold text-base sm:text-lg text-[#fbf5ee]">
-                              {sub.title}
-                            </h4>
-                          </div>
-
-                          <div className="flex items-center gap-1.5 text-xs text-[#9e8779] font-mono">
-                            <Sparkles className="w-3 h-3 text-[#f5cb78]" />
-                            <span>Milestone Deliverable</span>
-                          </div>
+                  {/* Main Card Container */}
+                  <div className="rounded-2xl bg-[#170c08] border border-[rgba(212,175,55,0.2)] p-6 sm:p-8 shadow-[0_10px_30px_rgba(0,0,0,0.6)] hover:border-[rgba(212,175,55,0.45)] hover:shadow-[0_12px_40px_rgba(212,175,55,0.08)] transition-all duration-300">
+                    {/* Header: Company, Role, Badges */}
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[rgba(212,175,55,0.12)]">
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2.5">
+                          <h3 className="font-display text-xl sm:text-2xl font-bold text-[#fbf5ee] tracking-tight">
+                            {exp.company}
+                          </h3>
+                          {exp.division && (
+                            <span className="inline-flex items-center gap-1 font-mono text-[11px] px-2.5 py-0.5 rounded-full bg-white/[0.05] border border-white/10 text-[#d8c8b8]">
+                              <Building2 className="w-3 h-3 text-[#9e8779]" />
+                              {exp.division}
+                            </span>
+                          )}
                         </div>
-
-                        {/* Technology Pills */}
-                        {techPills.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5 mb-4">
-                            {techPills.map((techItem) => (
-                              <span
-                                key={techItem}
-                                className="font-mono text-[11px] px-2 py-0.5 rounded-md bg-[#23120d] border border-[rgba(212,175,55,0.18)] text-[#d4af37] tracking-tight"
-                              >
-                                {techItem}
+                        <div className="flex flex-wrap items-center gap-3 mt-2 text-sm text-[#9e8779]">
+                          <span className="font-semibold text-[#f5cb78] text-base">
+                            {exp.role}
+                          </span>
+                          {exp.location && (
+                            <>
+                              <span className="text-white/20">•</span>
+                              <span className="inline-flex items-center gap-1 font-mono text-xs">
+                                <MapPin className="w-3.5 h-3.5 text-[#9e8779]" />
+                                {exp.location}
                               </span>
-                            ))}
-                          </div>
-                        )}
-
-                        {/* Bulleted task achievements */}
-                        <ul className="space-y-2.5 text-sm text-[#d8c8b8]">
-                          {sub.tasks.map((task, tIdx) => (
-                            <li key={tIdx} className="flex items-start gap-2.5 leading-relaxed">
-                              <CheckCircle2 className="w-4 h-4 text-[#e74c3c] shrink-0 mt-1" />
-                              <span className="flex-1">{task}</span>
-                            </li>
-                          ))}
-                        </ul>
+                            </>
+                          )}
+                        </div>
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+
+                      {/* Period badge */}
+                      <div className="shrink-0">
+                        <Badge variant="gold" size="md" icon={<Calendar className="w-3.5 h-3.5" />}>
+                          {exp.period}
+                        </Badge>
+                      </div>
+                    </div>
+
+                    {/* Subprojects Section */}
+                    {subprojects.length > 0 && (
+                      <div className="mt-6 space-y-6">
+                        {subprojects.map((sub, subIdx) => {
+                          const techPills = sub.tech
+                            ? sub.tech.split(/[•,|]/).map((t) => t.trim()).filter(Boolean)
+                            : [];
+                          const tasks = sub.tasks || [];
+
+                          return (
+                            <div
+                              key={sub.title || subIdx}
+                              className="rounded-xl bg-[#120906]/75 border border-[rgba(212,175,55,0.1)] p-5 hover:border-[rgba(212,175,55,0.25)] transition-all duration-200"
+                            >
+                              {/* Subproject Header */}
+                              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-3">
+                                <div className="flex items-center gap-2.5">
+                                  <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#d4af37]/10 border border-[#d4af37]/25 shrink-0">
+                                    {getSubprojectIcon(sub.icon)}
+                                  </div>
+                                  <h4 className="font-display font-semibold text-base sm:text-lg text-[#fbf5ee]">
+                                    {sub.title}
+                                  </h4>
+                                </div>
+
+                                <div className="flex items-center gap-1.5 text-xs text-[#9e8779] font-mono">
+                                  <Sparkles className="w-3 h-3 text-[#f5cb78]" />
+                                  <span>Milestone Deliverable</span>
+                                </div>
+                              </div>
+
+                              {/* Technology Pills */}
+                              {techPills.length > 0 && (
+                                <div className="flex flex-wrap gap-1.5 mb-4">
+                                  {techPills.map((techItem) => (
+                                    <span
+                                      key={techItem}
+                                      className="font-mono text-[11px] px-2 py-0.5 rounded-md bg-[#23120d] border border-[rgba(212,175,55,0.18)] text-[#d4af37] tracking-tight"
+                                    >
+                                      {techItem}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+
+                              {/* Bulleted task achievements */}
+                              {tasks.length > 0 && (
+                                <ul className="space-y-2.5 text-sm text-[#d8c8b8]">
+                                  {tasks.map((task, tIdx) => (
+                                    <li key={tIdx} className="flex items-start gap-2.5 leading-relaxed">
+                                      <CheckCircle2 className="w-4 h-4 text-[#e74c3c] shrink-0 mt-1" />
+                                      <span className="flex-1">{task}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -76,6 +76,9 @@ const emptyExpHtml = renderToStaticMarkup(
 if (!emptyExpHtml || !emptyExpHtml.includes('experience')) {
   throw new Error('ExperienceTimeline failed to render with empty experiences');
 }
+if (!emptyExpHtml.includes('No corporate experience milestones recorded')) {
+  throw new Error('ExperienceTimeline empty list must render user-friendly empty state');
+}
 console.log('✅ ExperienceTimeline empty list edge case verified');
 
 // 3.3 Edge Case: Sparse experience item (no division, location, empty tech)
@@ -100,7 +103,42 @@ const sparseExpHtml = renderToStaticMarkup(
 if (!sparseExpHtml.includes('Minimal Corp') || !sparseExpHtml.includes('Minimal Project')) {
   throw new Error('ExperienceTimeline failed to render with sparse experience item');
 }
-console.log('✅ ExperienceTimeline sparse input edge case verified');
+
+// 3.4 Deep Edge Case: Missing subprojects and undefined tasks with comma/pipe tech delimiters
+const extremeSparseExp: ExperienceItem[] = [
+  {
+    id: 'extreme-sparse',
+    company: 'EdgeCorp',
+    role: 'Backend Architect',
+    period: '2026',
+    subprojects: undefined as any,
+  },
+  {
+    id: 'comma-tech-exp',
+    company: 'DelimiterCorp',
+    role: 'Fullstack Dev',
+    period: '2026',
+    subprojects: [
+      {
+        title: 'Multi-Delimiter Project',
+        tech: 'Go, Rust | Docker • Kubernetes',
+        tasks: undefined as any,
+      },
+    ],
+  },
+];
+const extremeExpHtml = renderToStaticMarkup(
+  React.createElement(ExperienceTimeline, { experiences: extremeSparseExp })
+);
+if (
+  !extremeExpHtml.includes('EdgeCorp') ||
+  !extremeExpHtml.includes('DelimiterCorp') ||
+  !extremeExpHtml.includes('Rust') ||
+  !extremeExpHtml.includes('Docker')
+) {
+  throw new Error('ExperienceTimeline failed to handle extreme sparse data or multi-delimiters');
+}
+console.log('✅ ExperienceTimeline sparse input & delimiter edge cases verified');
 
 // ==========================================
 // 4. CertificateModal Component & SSR
@@ -151,6 +189,9 @@ if (!openModalHtml.includes('Java SE 11') || !openModalHtml.includes('100878330O
 if (!openModalHtml.includes('Direct Asset Link')) {
   throw new Error('CertificateModal HTML missing Direct Asset Link button');
 }
+if (!openModalHtml.includes('Download PDF') && !openModalHtml.includes('download')) {
+  throw new Error('CertificateModal HTML missing download action or attribute');
+}
 console.log('✅ CertificateModal open SSR render verified');
 
 // 4.4 Edge Case: Sparse certificate (no credentialId, no pdfUrl, no skills)
@@ -171,7 +212,33 @@ const sparseCertHtml = renderToStaticMarkup(
 if (!sparseCertHtml.includes('Basic Course') || !sparseCertHtml.includes('Generic Academy')) {
   throw new Error('CertificateModal failed to render sparse certificate');
 }
-console.log('✅ CertificateModal sparse certificate edge case verified');
+if (!sparseCertHtml.includes('Download Asset')) {
+  throw new Error('CertificateModal must provide download button when no PDF is attached');
+}
+
+// 4.5 External URLs preservation check
+const externalCert: CertificateItem = {
+  id: 'ext-cert',
+  title: 'External Certificate',
+  issuer: 'Cloud Academy',
+  date: 'Feb 2026',
+  image: 'https://cdn.example.com/certificates/cloud.png',
+  pdfUrl: 'https://cdn.example.com/certificates/cloud.pdf',
+};
+const externalCertHtml = renderToStaticMarkup(
+  React.createElement(CertificateModal, {
+    isOpen: true,
+    certificate: externalCert,
+    onClose: () => {},
+  })
+);
+if (externalCertHtml.includes('/https://')) {
+  throw new Error('CertificateModal corrupted external URLs by prepending leading slash');
+}
+if (!externalCertHtml.includes('https://cdn.example.com/certificates/cloud.png')) {
+  throw new Error('CertificateModal failed to preserve external image URL');
+}
+console.log('✅ CertificateModal sparse & external URL edge cases verified');
 
 // ==========================================
 // 5. Credentials Component & SSR
@@ -195,6 +262,15 @@ if (
 if (!credsHtml.includes('Inspect Credential')) {
   throw new Error('Credentials HTML does not include "Inspect Credential" buttons');
 }
+// Default counts verification
+if (
+  !credsHtml.includes(`All (${certificatesData.length})`) ||
+  !credsHtml.includes('Oracle &amp; Agile (3)') ||
+  !credsHtml.includes('NPTEL Elite (3)') ||
+  !credsHtml.includes('Experience &amp; Contests (2)')
+) {
+  throw new Error('Credentials HTML default category counts mismatch');
+}
 console.log('✅ Credentials default SSR render verified');
 
 // 5.2 Edge Case: Empty certificates array
@@ -204,7 +280,16 @@ const emptyCredsHtml = renderToStaticMarkup(
 if (!emptyCredsHtml || !emptyCredsHtml.includes('credentials')) {
   throw new Error('Credentials failed to render with empty certificates');
 }
-console.log('✅ Credentials empty list edge case verified');
+if (emptyCredsHtml.includes('Oracle &amp; Agile (3)')) {
+  throw new Error('Credentials with empty array must not show hardcoded (3) count');
+}
+if (!emptyCredsHtml.includes('All (0)') || !emptyCredsHtml.includes('Oracle &amp; Agile (0)')) {
+  throw new Error('Credentials with empty array must dynamically calculate (0) count');
+}
+if (!emptyCredsHtml.includes('No credentials found for this category')) {
+  throw new Error('Credentials with empty array must render empty state message');
+}
+console.log('✅ Credentials empty list dynamic counts edge case verified');
 
 // 5.3 Custom certificates list
 const customCredsHtml = renderToStaticMarkup(
@@ -213,7 +298,16 @@ const customCredsHtml = renderToStaticMarkup(
 if (!customCredsHtml.includes('100878330OCPJSE11') || !customCredsHtml.includes('OC5306507')) {
   throw new Error('Credentials failed to render custom certificates list');
 }
-console.log('✅ Credentials custom list render verified');
+if (!customCredsHtml.includes('All (2)') || !customCredsHtml.includes('Oracle &amp; Agile (2)')) {
+  throw new Error('Credentials failed to dynamically compute counts for custom subset');
+}
+if (!customCredsHtml.includes('NPTEL Elite (0)') || !customCredsHtml.includes('Experience &amp; Contests (0)')) {
+  throw new Error('Credentials failed to zero-out empty categories in custom subset');
+}
+if (customCredsHtml.includes('Oracle &amp; Agile (3)')) {
+  throw new Error('Credentials custom list erroneously rendered hardcoded (3) label');
+}
+console.log('✅ Credentials custom list dynamic category counts verified');
 
 // ==========================================
 // 6. Barrel Exports Verification

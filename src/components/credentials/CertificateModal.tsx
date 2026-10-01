@@ -22,6 +22,19 @@ export interface CertificateModalProps {
   certificate: CertificateItem | null;
 }
 
+const resolveAssetUrl = (url?: string): string | undefined => {
+  if (!url) return undefined;
+  if (
+    url.startsWith('http://') ||
+    url.startsWith('https://') ||
+    url.startsWith('data:') ||
+    url.startsWith('/')
+  ) {
+    return url;
+  }
+  return `/${url}`;
+};
+
 export const CertificateModal: React.FC<CertificateModalProps> = ({
   isOpen,
   onClose,
@@ -31,22 +44,20 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
 
   if (!certificate) return null;
 
-  const imageSrc = certificate.image.startsWith('/')
-    ? certificate.image
-    : `/${certificate.image}`;
+  const imageSrc = resolveAssetUrl(certificate.image) || '';
+  const pdfHref = resolveAssetUrl(certificate.pdfUrl);
 
-  const pdfHref = certificate.pdfUrl
-    ? certificate.pdfUrl.startsWith('/')
-      ? certificate.pdfUrl
-      : `/${certificate.pdfUrl}`
-    : undefined;
-
-  const handleCopyId = () => {
+  const handleCopyId = async () => {
     if (!certificate.credentialId) return;
-    navigator.clipboard.writeText(certificate.credentialId).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
+    try {
+      if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(certificate.credentialId);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }
+    } catch {
+      // In non-secure contexts or permission denied, handle gracefully
+    }
   };
 
   const isOracle =
@@ -111,17 +122,30 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
           </div>
 
           {/* Action Links */}
-          <div className="flex items-center gap-2">
-            {pdfHref && (
+          <div className="flex flex-wrap items-center gap-2">
+            {pdfHref ? (
               <Button
                 variant="outline"
                 size="sm"
                 href={pdfHref}
+                download
                 target="_blank"
                 rel="noopener noreferrer"
                 leftIcon={<FileDown className="w-3.5 h-3.5" />}
               >
-                PDF Document
+                Download PDF
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                href={imageSrc}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                leftIcon={<FileDown className="w-3.5 h-3.5" />}
+              >
+                Download Asset
               </Button>
             )}
 
@@ -155,9 +179,9 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
               Verified Competencies & Syllabus
             </span>
             <div className="flex flex-wrap gap-1.5">
-              {certificate.skills.map((skill) => (
+              {certificate.skills.map((skill, idx) => (
                 <span
-                  key={skill}
+                  key={`${skill}-${idx}`}
                   className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-[#170c08] border border-[rgba(212,175,55,0.18)] text-[#f5cb78]"
                 >
                   {skill}

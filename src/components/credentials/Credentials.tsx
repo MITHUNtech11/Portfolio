@@ -25,6 +25,34 @@ export interface CredentialsProps {
 
 type FilterCategory = 'all' | 'oracle' | 'nptel' | 'experience';
 
+const isOracleOrAgile = (c: CertificateItem): boolean =>
+  c.id.toLowerCase().includes('oracle') ||
+  c.issuer.toLowerCase().includes('oracle') ||
+  c.id.toLowerCase().includes('agile') ||
+  c.title.toLowerCase().includes('agile') ||
+  Boolean(c.badge && c.badge.toLowerCase().includes('oracle'));
+
+const isNptel = (c: CertificateItem): boolean =>
+  c.id.toLowerCase().includes('nptel') ||
+  c.issuer.toLowerCase().includes('nptel') ||
+  Boolean(c.badge && c.badge.toLowerCase().includes('elite'));
+
+const isExperienceOrContest = (c: CertificateItem): boolean =>
+  !isOracleOrAgile(c) && !isNptel(c);
+
+const resolveAssetUrl = (url?: string): string | undefined => {
+  if (!url) return undefined;
+  if (
+    url.startsWith('http://') ||
+    url.startsWith('https://') ||
+    url.startsWith('data:') ||
+    url.startsWith('/')
+  ) {
+    return url;
+  }
+  return `/${url}`;
+};
+
 export const Credentials: React.FC<CredentialsProps> = ({
   certificates = certificatesData,
   className = '',
@@ -34,24 +62,23 @@ export const Credentials: React.FC<CredentialsProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
 
+  const categories = useMemo(() => {
+    const oracleCount = certificates.filter(isOracleOrAgile).length;
+    const nptelCount = certificates.filter(isNptel).length;
+    const expCount = certificates.filter(isExperienceOrContest).length;
+
+    return [
+      { id: 'all' as FilterCategory, label: `All (${certificates.length})` },
+      { id: 'oracle' as FilterCategory, label: `Oracle & Agile (${oracleCount})` },
+      { id: 'nptel' as FilterCategory, label: `NPTEL Elite (${nptelCount})` },
+      { id: 'experience' as FilterCategory, label: `Experience & Contests (${expCount})` },
+    ];
+  }, [certificates]);
+
   const filteredCertificates = useMemo(() => {
-    if (activeFilter === 'all') return certificates;
-    if (activeFilter === 'oracle') {
-      return certificates.filter(
-        (c) =>
-          c.id.includes('oracle') ||
-          c.issuer.toLowerCase().includes('oracle') ||
-          c.id === 'agile'
-      );
-    }
-    if (activeFilter === 'nptel') {
-      return certificates.filter((c) => c.id.includes('nptel'));
-    }
-    if (activeFilter === 'experience') {
-      return certificates.filter(
-        (c) => c.id.includes('kauvery') || c.id.includes('hackerrank')
-      );
-    }
+    if (activeFilter === 'oracle') return certificates.filter(isOracleOrAgile);
+    if (activeFilter === 'nptel') return certificates.filter(isNptel);
+    if (activeFilter === 'experience') return certificates.filter(isExperienceOrContest);
     return certificates;
   }, [certificates, activeFilter]);
 
@@ -120,12 +147,7 @@ export const Credentials: React.FC<CredentialsProps> = ({
           transition={{ duration: 0.5, delay: 0.3 }}
           className="flex flex-wrap items-center justify-center gap-2 mt-8"
         >
-          {[
-            { id: 'all', label: `All (${certificates.length})` },
-            { id: 'oracle', label: 'Oracle & Agile (3)' },
-            { id: 'nptel', label: 'NPTEL Elite (3)' },
-            { id: 'experience', label: 'Experience & Contests (2)' },
-          ].map((tab) => (
+          {categories.map((tab) => (
             <button
               key={tab.id}
               type="button"
@@ -145,165 +167,184 @@ export const Credentials: React.FC<CredentialsProps> = ({
       {/* Credentials Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <AnimatePresence mode="popLayout">
-          {filteredCertificates.map((cert, index) => {
-            const isOracle =
-              cert.issuer.toLowerCase().includes('oracle') ||
-              (cert.badge && cert.badge.toLowerCase().includes('oracle'));
-            const isElite = cert.badge?.toLowerCase().includes('elite');
+          {filteredCertificates.length === 0 ? (
+            <div className="col-span-full py-12 text-center text-[#9e8779] font-mono text-sm border border-dashed border-white/10 rounded-2xl p-8 bg-[#170c08]/50">
+              No credentials found for this category.
+            </div>
+          ) : (
+            filteredCertificates.map((cert, index) => {
+              const isOracle =
+                cert.issuer.toLowerCase().includes('oracle') ||
+                (cert.badge && cert.badge.toLowerCase().includes('oracle'));
+              const isElite = cert.badge?.toLowerCase().includes('elite');
 
-            const imageSrc = cert.image.startsWith('/')
-              ? cert.image
-              : `/${cert.image}`;
+              const imageSrc = resolveAssetUrl(cert.image) || '';
+              const pdfHref = resolveAssetUrl(cert.pdfUrl);
 
-            return (
-              <motion.div
-                key={cert.id}
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.35, delay: index * 0.05 }}
-              >
-                <TiltCard
-                  maxTilt={6}
-                  glareColor="rgba(212, 175, 55, 0.1)"
-                  className="h-full rounded-2xl bg-[#170c08] border border-[rgba(212,175,55,0.2)] hover:border-[rgba(212,175,55,0.45)] hover:shadow-[0_12px_36px_rgba(0,0,0,0.8),0_0_24px_rgba(212,175,55,0.08)] flex flex-col overflow-hidden transition-colors duration-300"
+              return (
+                <motion.div
+                  key={cert.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.35, delay: index * 0.05 }}
                 >
-                  {/* Certificate Preview Banner */}
-                  <div
-                    onClick={() => handleInspect(cert)}
-                    className="relative h-44 w-full bg-[#0d0604] overflow-hidden cursor-pointer group/banner"
+                  <TiltCard
+                    maxTilt={6}
+                    glareColor="rgba(212, 175, 55, 0.1)"
+                    className="group h-full rounded-2xl bg-[#170c08] border border-[rgba(212,175,55,0.2)] hover:border-[rgba(212,175,55,0.45)] hover:shadow-[0_12px_36px_rgba(0,0,0,0.8),0_0_24px_rgba(212,175,55,0.08)] flex flex-col overflow-hidden transition-colors duration-300"
                   >
-                    <img
-                      src={imageSrc}
-                      alt={cert.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover object-center opacity-85 group-hover/banner:scale-105 group-hover/banner:opacity-100 transition-all duration-500"
-                    />
+                    {/* Certificate Preview Banner */}
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => handleInspect(cert)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          handleInspect(cert);
+                        }
+                      }}
+                      aria-label={`Inspect ${cert.title}`}
+                      className="relative h-44 w-full bg-[#0d0604] overflow-hidden cursor-pointer group/banner focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+                    >
+                      <img
+                        src={imageSrc}
+                        alt={cert.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover object-center opacity-85 group-hover/banner:scale-105 group-hover/banner:opacity-100 transition-all duration-500"
+                      />
 
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#170c08] via-transparent to-black/50" />
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#170c08] via-transparent to-black/50" />
 
-                    {/* Badge top-left */}
-                    <div className="absolute top-3 left-3 z-10">
-                      {isOracle ? (
-                        <Badge
-                          variant="gold"
-                          size="sm"
-                          icon={<ShieldCheck className="w-3.5 h-3.5" />}
-                        >
-                          {cert.badge || 'Oracle Certified'}
-                        </Badge>
-                      ) : isElite ? (
-                        <Badge
-                          variant="emerald"
-                          size="sm"
-                          icon={<Award className="w-3.5 h-3.5" />}
-                        >
-                          {cert.badge || 'Elite Certification'}
-                        </Badge>
-                      ) : (
-                        <Badge variant="obsidian" size="sm">
-                          {cert.badge || 'Verified'}
-                        </Badge>
-                      )}
-                    </div>
-
-                    {/* Quick Inspect Hover Overlay */}
-                    <div className="absolute inset-0 bg-[#0d0604]/60 backdrop-blur-[2px] opacity-0 group-hover/banner:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 text-[#f5cb78] font-display font-medium text-sm">
-                      <Eye className="w-4 h-4" />
-                      <span>Inspect Credential</span>
-                    </div>
-                  </div>
-
-                  {/* Card Content */}
-                  <div className="p-5 flex-1 flex flex-col justify-between">
-                    <div>
-                      {/* Title */}
-                      <h3
-                        onClick={() => handleInspect(cert)}
-                        className="font-display font-bold text-lg text-[#fbf5ee] group-hover:text-[#f5cb78] transition-colors leading-snug cursor-pointer"
-                      >
-                        {cert.title}
-                      </h3>
-
-                      {/* Issuer & Date */}
-                      <div className="mt-2.5 space-y-1 text-xs text-[#9e8779]">
-                        <div className="flex items-center gap-1.5">
-                          <Building2 className="w-3.5 h-3.5 text-[#d4af37]" />
-                          <span className="text-[#d8c8b8] font-medium">{cert.issuer}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="flex items-center gap-1.5 font-mono">
-                            <Calendar className="w-3.5 h-3.5" />
-                            {cert.date}
-                          </span>
-
-                          {cert.credentialId && (
-                            <span className="flex items-center gap-1 font-mono text-[11px] px-2 py-0.5 rounded bg-white/[0.04] text-[#d8c8b8] border border-white/5">
-                              <Hash className="w-3 h-3 text-[#9e8779]" />
-                              {cert.credentialId}
-                            </span>
-                          )}
-                        </div>
+                      {/* Badge top-left */}
+                      <div className="absolute top-3 left-3 z-10">
+                        {isOracle ? (
+                          <Badge
+                            variant="gold"
+                            size="sm"
+                            icon={<ShieldCheck className="w-3.5 h-3.5" />}
+                          >
+                            {cert.badge || 'Oracle Certified'}
+                          </Badge>
+                        ) : isElite ? (
+                          <Badge
+                            variant="emerald"
+                            size="sm"
+                            icon={<Award className="w-3.5 h-3.5" />}
+                          >
+                            {cert.badge || 'Elite Certification'}
+                          </Badge>
+                        ) : (
+                          <Badge variant="obsidian" size="sm">
+                            {cert.badge || 'Verified'}
+                          </Badge>
+                        )}
                       </div>
 
-                      {/* Skill tags */}
-                      {cert.skills && cert.skills.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 mt-4">
-                          {cert.skills.slice(0, 3).map((skill) => (
-                            <span
-                              key={skill}
-                              className="font-mono text-[11px] px-2 py-0.5 rounded bg-[#23120d] border border-[rgba(212,175,55,0.15)] text-[#f5cb78]"
-                            >
-                              {skill}
-                            </span>
-                          ))}
-                          {cert.skills.length > 3 && (
-                            <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-white/[0.04] text-[#9e8779]">
-                              +{cert.skills.length - 3}
-                            </span>
-                          )}
-                        </div>
-                      )}
+                      {/* Quick Inspect Hover Overlay */}
+                      <div className="absolute inset-0 bg-[#0d0604]/60 backdrop-blur-[2px] opacity-0 group-hover/banner:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 text-[#f5cb78] font-display font-medium text-sm">
+                        <Eye className="w-4 h-4" />
+                        <span>Inspect Credential</span>
+                      </div>
                     </div>
 
-                    {/* Card Actions */}
-                    <div className="mt-5 pt-4 border-t border-[rgba(212,175,55,0.12)] flex items-center justify-between gap-2">
-                      <Button
-                        variant={isOracle ? 'gold' : 'outline'}
-                        size="sm"
-                        onClick={() => handleInspect(cert)}
-                        leftIcon={<Eye className="w-3.5 h-3.5" />}
-                        className="flex-1"
-                      >
-                        Inspect Credential
-                      </Button>
-
-                      {cert.pdfUrl && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          href={
-                            cert.pdfUrl.startsWith('/')
-                              ? cert.pdfUrl
-                              : `/${cert.pdfUrl}`
-                          }
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title="Open PDF Document"
-                          aria-label={`Open PDF for ${cert.title}`}
-                          className="px-2.5 text-[#9e8779] hover:text-[#fbf5ee]"
+                    {/* Card Content */}
+                    <div className="p-5 flex-1 flex flex-col justify-between">
+                      <div>
+                        {/* Title */}
+                        <h3
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => handleInspect(cert)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              handleInspect(cert);
+                            }
+                          }}
+                          className="font-display font-bold text-lg text-[#fbf5ee] group-hover:text-[#f5cb78] transition-colors leading-snug cursor-pointer focus:outline-none focus-visible:underline"
                         >
-                          <FileDown className="w-4 h-4" />
+                          {cert.title}
+                        </h3>
+
+                        {/* Issuer & Date */}
+                        <div className="mt-2.5 space-y-1 text-xs text-[#9e8779]">
+                          <div className="flex items-center gap-1.5">
+                            <Building2 className="w-3.5 h-3.5 text-[#d4af37]" />
+                            <span className="text-[#d8c8b8] font-medium">{cert.issuer}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="flex items-center gap-1.5 font-mono">
+                              <Calendar className="w-3.5 h-3.5" />
+                              {cert.date}
+                            </span>
+
+                            {cert.credentialId && (
+                              <span className="flex items-center gap-1 font-mono text-[11px] px-2 py-0.5 rounded bg-white/[0.04] text-[#d8c8b8] border border-white/5">
+                                <Hash className="w-3 h-3 text-[#9e8779]" />
+                                {cert.credentialId}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Skill tags */}
+                        {cert.skills && cert.skills.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 mt-4">
+                            {cert.skills.slice(0, 3).map((skill) => (
+                              <span
+                                key={skill}
+                                className="font-mono text-[11px] px-2 py-0.5 rounded bg-[#23120d] border border-[rgba(212,175,55,0.15)] text-[#f5cb78]"
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                            {cert.skills.length > 3 && (
+                              <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-white/[0.04] text-[#9e8779]">
+                                +{cert.skills.length - 3}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Card Actions */}
+                      <div className="mt-5 pt-4 border-t border-[rgba(212,175,55,0.12)] flex items-center justify-between gap-2">
+                        <Button
+                          variant={isOracle ? 'gold' : 'outline'}
+                          size="sm"
+                          onClick={() => handleInspect(cert)}
+                          leftIcon={<Eye className="w-3.5 h-3.5" />}
+                          className="flex-1"
+                        >
+                          Inspect Credential
                         </Button>
-                      )}
+
+                        {pdfHref && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            href={pdfHref}
+                            download
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="Download PDF Document"
+                            aria-label={`Download PDF for ${cert.title}`}
+                            className="px-2.5 text-[#9e8779] hover:text-[#fbf5ee]"
+                          >
+                            <FileDown className="w-4 h-4" />
+                          </Button>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </TiltCard>
-              </motion.div>
-            );
-          })}
+                  </TiltCard>
+                </motion.div>
+              );
+            })
+          )}
         </AnimatePresence>
       </div>
 
