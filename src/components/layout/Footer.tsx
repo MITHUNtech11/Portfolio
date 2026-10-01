@@ -13,7 +13,7 @@ import {
 import { profileData } from '../../data/profile';
 import { NAV_LINKS } from './Navbar';
 
-export interface FooterProps {
+export interface FooterProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
   showBackToTop?: boolean;
 }
@@ -34,14 +34,17 @@ const socialIconMap: Record<string, React.ComponentType<{ className?: string }>>
 export const Footer: React.FC<FooterProps> = ({
   className = '',
   showBackToTop = true,
+  ...rest
 }) => {
   const currentYear = new Date().getFullYear();
 
   const handleScrollToTop = () => {
     if (typeof window !== 'undefined') {
+      const prefersReducedMotion =
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       window.scrollTo({
         top: 0,
-        behavior: 'smooth',
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
       });
     }
   };
@@ -52,7 +55,10 @@ export const Footer: React.FC<FooterProps> = ({
       const targetEl = document.getElementById(targetId);
       if (targetEl) {
         e.preventDefault();
-        targetEl.scrollIntoView({ behavior: 'smooth' });
+        const prefersReducedMotion =
+          typeof window !== 'undefined' &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        targetEl.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
         if (typeof window !== 'undefined' && window.history?.pushState) {
           window.history.pushState(null, '', href);
         }
@@ -63,6 +69,7 @@ export const Footer: React.FC<FooterProps> = ({
   return (
     <footer
       className={`relative bg-[#090403] border-t border-[rgba(212,175,55,0.12)] text-[#d8c8b8] overflow-hidden ${className}`.trim()}
+      {...rest}
     >
       {/* Decorative top ambient glow line */}
       <div
@@ -88,7 +95,7 @@ export const Footer: React.FC<FooterProps> = ({
             </p>
 
             <div className="flex items-center gap-2 text-xs font-mono text-[#d8c8b8]">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse motion-reduce:animate-none" />
               <span>{profileData.status}</span>
               <span className="text-[#9e8779]">•</span>
               <span className="text-[#9e8779]">{profileData.location}</span>
@@ -123,12 +130,13 @@ export const Footer: React.FC<FooterProps> = ({
             <div className="flex flex-wrap gap-2.5">
               {profileData.socialLinks.map((item) => {
                 const IconComponent = socialIconMap[item.platform] || ExternalLink;
+                const isWebUrl = item.url.startsWith('http://') || item.url.startsWith('https://');
                 return (
                   <motion.a
                     key={item.platform}
                     href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    target={isWebUrl ? '_blank' : undefined}
+                    rel={isWebUrl ? 'noopener noreferrer' : undefined}
                     aria-label={`Open ${item.label}`}
                     title={item.label}
                     whileHover={{ scale: 1.08, y: -2 }}

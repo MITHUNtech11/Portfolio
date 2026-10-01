@@ -18,7 +18,7 @@ export const NAV_LINKS: NavItem[] = [
   { label: 'Contact', href: '#contact' },
 ];
 
-export interface NavbarProps {
+export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
   activeSection?: string;
   resumeUrl?: string;
@@ -34,6 +34,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   className = '',
   activeSection: controlledActiveSection,
   resumeUrl = '/Mithun_Senthil_Resume.docx',
+  ...rest
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [internalActiveSection, setInternalActiveSection] = useState<string>('#about');
@@ -41,18 +42,27 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const currentActiveSection = controlledActiveSection ?? internalActiveSection;
 
-  // Track scroll position for sticky background styling
+  // Track scroll position for sticky background styling and bottom-of-page contact activation
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 16);
+
+      // If user reaches near the bottom of the page, activate the last section (#contact)
+      if (!controlledActiveSection && typeof document !== 'undefined') {
+        const scrollPosition = window.innerHeight + window.scrollY;
+        const pageBottom = document.documentElement.scrollHeight - 60;
+        if (scrollPosition >= pageBottom) {
+          setInternalActiveSection('#contact');
+        }
+      }
     };
 
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [controlledActiveSection]);
 
   // Listen to hash changes if present
   useEffect(() => {
@@ -85,15 +95,17 @@ export const Navbar: React.FC<NavbarProps> = ({
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setInternalActiveSection(`#${entry.target.id}`);
-          }
-        });
+        const visibleEntries = entries.filter((entry) => entry.isIntersecting);
+        if (visibleEntries.length > 0) {
+          const topEntry = visibleEntries.reduce((prev, curr) =>
+            curr.intersectionRatio > prev.intersectionRatio ? curr : prev
+          );
+          setInternalActiveSection(`#${topEntry.target.id}`);
+        }
       },
       {
-        rootMargin: '-25% 0px -55% 0px',
-        threshold: [0, 0.2, 0.5],
+        rootMargin: '-20% 0px -40% 0px',
+        threshold: [0.1, 0.25, 0.5, 0.75],
       }
     );
 
@@ -112,6 +124,20 @@ export const Navbar: React.FC<NavbarProps> = ({
         document.body.style.overflow = originalOverflow;
       };
     }
+  }, [isMobileMenuOpen]);
+
+  // Close mobile drawer on desktop resize to prevent scroll lock leak
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleResize = () => {
+      if (window.innerWidth >= 768 && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [isMobileMenuOpen]);
 
   // Close mobile menu on Escape key
@@ -138,7 +164,10 @@ export const Navbar: React.FC<NavbarProps> = ({
       const targetEl = document.getElementById(targetId);
       if (targetEl) {
         e.preventDefault();
-        targetEl.scrollIntoView({ behavior: 'smooth' });
+        const prefersReducedMotion =
+          typeof window !== 'undefined' &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        targetEl.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
         if (typeof window !== 'undefined' && window.history?.pushState) {
           window.history.pushState(null, '', href);
         }
@@ -153,6 +182,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           ? 'border-b border-[rgba(212,175,55,0.22)] shadow-[0_8px_32px_rgba(0,0,0,0.65)]'
           : 'border-b border-[rgba(212,175,55,0.12)]'
       } ${className}`.trim()}
+      {...rest}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-18">
@@ -179,7 +209,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               title="Live Availability Status"
             >
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="animate-ping motion-reduce:animate-none absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
               <span className="tracking-tight select-none">Available for Roles</span>
@@ -268,6 +298,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Slide-out Drawer Menu */}
             <motion.div
               id="mobile-navigation-drawer"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile navigation menu"
               initial={{ opacity: 0, y: -16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
@@ -278,7 +311,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <div className="flex items-center justify-between pb-3 border-b border-[rgba(212,175,55,0.12)]">
                 <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
                   <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="animate-ping motion-reduce:animate-none absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
                   </span>
                   <span>Available for Roles</span>
