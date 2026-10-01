@@ -18,16 +18,21 @@ interface AnimatedValueProps {
 
 const getStatIcon = (label: string): React.ReactNode => {
   const normalized = label.toLowerCase();
-  if (normalized.includes('internship')) {
+  if (normalized.includes('internship') || normalized.includes('experience')) {
     return <Briefcase className="w-5 h-5" />;
   }
-  if (normalized.includes('production') || normalized.includes('system')) {
+  if (normalized.includes('production') || normalized.includes('system') || normalized.includes('backend')) {
     return <Server className="w-5 h-5" />;
   }
-  if (normalized.includes('cert')) {
+  if (normalized.includes('cert') || normalized.includes('award') || normalized.includes('license')) {
     return <Award className="w-5 h-5" />;
   }
-  if (normalized.includes('cgpa') || normalized.includes('saveetha') || normalized.includes('education')) {
+  if (
+    normalized.includes('cgpa') ||
+    normalized.includes('saveetha') ||
+    normalized.includes('education') ||
+    normalized.includes('gpa')
+  ) {
     return <GraduationCap className="w-5 h-5" />;
   }
   return <Award className="w-5 h-5" />;
@@ -43,13 +48,36 @@ const AnimatedValue: React.FC<AnimatedValueProps> = ({
   const isInView = useInView(ref, { once: true, margin: '-20px' });
   const isFloat = numericTarget !== undefined && numericTarget % 1 !== 0;
 
-  const [displayValue, setDisplayValue] = useState<number>(0);
+  // Determine decimal precision from fallback string or numeric value
+  const decimalPlaces = React.useMemo(() => {
+    if (numericTarget === undefined) return 0;
+    const fallbackMatch = fallbackValue.match(/\.(\d+)/);
+    if (fallbackMatch) return fallbackMatch[1].length;
+    const targetMatch = numericTarget.toString().match(/\.(\d+)/);
+    return targetMatch ? targetMatch[1].length : 2;
+  }, [numericTarget, fallbackValue]);
+
+  // In SSR / static rendering environments, initialize directly to numericTarget
+  const [displayValue, setDisplayValue] = useState<number>(() => {
+    if (typeof window === 'undefined' && numericTarget !== undefined) {
+      return numericTarget;
+    }
+    return 0;
+  });
 
   useEffect(() => {
     if (numericTarget === undefined) return;
 
-    // Direct update if in a headless or non-browser environment
-    if (typeof window !== 'undefined' && !('IntersectionObserver' in window)) {
+    // Direct update if reduced motion is requested or IntersectionObserver is unsupported
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (
+      prefersReducedMotion ||
+      (typeof window !== 'undefined' && !('IntersectionObserver' in window))
+    ) {
       setDisplayValue(numericTarget);
       return;
     }
@@ -77,7 +105,9 @@ const AnimatedValue: React.FC<AnimatedValueProps> = ({
     );
   }
 
-  const formatted = isFloat ? displayValue.toFixed(2) : Math.round(displayValue).toString();
+  const formatted = isFloat
+    ? displayValue.toFixed(decimalPlaces)
+    : Math.round(displayValue).toString();
 
   return (
     <span ref={ref}>

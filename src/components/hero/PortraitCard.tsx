@@ -38,11 +38,40 @@ export const PortraitCard: React.FC<PortraitCardProps> = ({
   availableBadgeText = 'Available for Roles (2027)',
   showAvailability = true,
 }) => {
+  const [imageError, setImageError] = React.useState(false);
+
   // Normalize avatar URL for public directory assets
-  const resolvedAvatarUrl =
-    avatarUrl.startsWith('/') || avatarUrl.startsWith('http')
-      ? avatarUrl
-      : `/${avatarUrl}`;
+  const resolvedAvatarUrl = React.useMemo(() => {
+    const raw = avatarUrl || profileData.avatarUrl || 'Mithun.jpeg';
+    if (raw.startsWith('/') || raw.startsWith('http')) return raw;
+    return `/${raw}`;
+  }, [avatarUrl]);
+
+  // Fallback icons if caller passes topBadge/bottomBadge without explicit icon
+  const topIcon = topBadge?.icon ?? (
+    topBadge?.text?.toLowerCase().includes('cert') ||
+    topBadge?.text?.toLowerCase().includes('oracle') ||
+    topBadge?.text?.toLowerCase().includes('java')
+      ? <Award className="w-3.5 h-3.5 text-[#f5cb78]" />
+      : undefined
+  );
+
+  const bottomIcon = bottomBadge?.icon ?? (
+    bottomBadge?.text?.toLowerCase().includes('cgpa') ||
+    bottomBadge?.text?.toLowerCase().includes('saveetha') ||
+    bottomBadge?.text?.toLowerCase().includes('grade') ||
+    bottomBadge?.text?.toLowerCase().includes('gpa')
+      ? <GraduationCap className="w-3.5 h-3.5 text-[#e74c3c]" />
+      : undefined
+  );
+
+  const initials = (name || 'Mithun Senthil S')
+    .split(' ')
+    .filter(Boolean)
+    .map((n) => n[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
 
   return (
     <div
@@ -66,12 +95,24 @@ export const PortraitCard: React.FC<PortraitCardProps> = ({
         <div className="relative group rounded-3xl p-1 bg-gradient-to-b from-[#d4af37]/50 via-[#c0392b]/35 to-[#d4af37]/25 shadow-[0_16px_50px_rgba(0,0,0,0.6)]">
           {/* Inner Image Container */}
           <div className="relative overflow-hidden rounded-[22px] bg-[#170c08] aspect-[4/5] sm:aspect-square w-full">
-            <img
-              src={resolvedAvatarUrl}
-              alt={name}
-              className="w-full h-full object-cover object-center filter saturate-[1.05] contrast-[1.02] transition-transform duration-700 ease-out group-hover:scale-105"
-              loading="eager"
-            />
+            {!imageError ? (
+              <img
+                src={resolvedAvatarUrl}
+                alt={name}
+                onError={() => setImageError(true)}
+                className="w-full h-full object-cover object-center filter saturate-[1.05] contrast-[1.02] transition-transform duration-700 ease-out group-hover:scale-105"
+                loading="eager"
+              />
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center bg-[#170c08] p-6 text-center border border-[#d4af37]/20">
+                <div className="w-20 h-20 rounded-full bg-[#23120d] border border-[#d4af37]/50 flex items-center justify-center text-3xl font-display font-bold text-[#f5cb78] mb-3 shadow-[0_0_20px_rgba(212,175,55,0.25)]">
+                  {initials}
+                </div>
+                <p className="font-mono text-xs text-[#d8c8b8] tracking-wider uppercase font-semibold">
+                  {name}
+                </p>
+              </div>
+            )}
 
             {/* Cinematic dark gradient vignette overlay */}
             <div
@@ -106,7 +147,7 @@ export const PortraitCard: React.FC<PortraitCardProps> = ({
               <Badge
                 variant={topBadge.variant || 'gold'}
                 size="md"
-                icon={topBadge.icon}
+                icon={topIcon}
                 className="backdrop-blur-md bg-[#170c08]/95 border-[#d4af37]/50 py-1.5 px-3.5 font-sans font-semibold tracking-normal shadow-md"
               >
                 {topBadge.text}
@@ -125,7 +166,7 @@ export const PortraitCard: React.FC<PortraitCardProps> = ({
               <Badge
                 variant={bottomBadge.variant || 'crimson'}
                 size="md"
-                icon={bottomBadge.icon}
+                icon={bottomIcon}
                 className="backdrop-blur-md bg-[#170c08]/95 border-[#e74c3c]/50 py-1.5 px-3.5 font-sans font-semibold tracking-normal shadow-md"
               >
                 {bottomBadge.text}

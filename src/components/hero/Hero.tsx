@@ -10,6 +10,8 @@ import {
   Terminal,
   MapPin,
   Sparkles,
+  Award,
+  GraduationCap,
 } from 'lucide-react';
 import { profileData } from '../../data/profile';
 import { ProfileData } from '../../types';
@@ -42,19 +44,21 @@ export const Hero: React.FC<HeroProps> = ({
   profile = profileData,
   className = '',
 }) => {
-  const texts = profile.typewriterTexts && profile.typewriterTexts.length > 0
-    ? profile.typewriterTexts
-    : [profile.tagline];
+  const rawTexts =
+    profile.typewriterTexts && profile.typewriterTexts.length > 0
+      ? profile.typewriterTexts
+      : [profile.tagline || profile.headline || 'Backend & Systems Engineer'];
+  const texts = rawTexts.filter(Boolean);
 
   // Dynamic typewriter state machine
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const [displayText, setDisplayText] = useState('');
+  const [displayText, setDisplayText] = useState(() => (texts.length > 0 ? texts[0] : ''));
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (!texts.length) return;
 
-    const fullText = texts[currentTextIndex % texts.length];
+    const fullText = texts[currentTextIndex % texts.length] || '';
     let timer: ReturnType<typeof setTimeout>;
 
     if (!isDeleting) {
@@ -65,7 +69,7 @@ export const Hero: React.FC<HeroProps> = ({
       } else {
         timer = setTimeout(() => {
           setIsDeleting(true);
-        }, 2600);
+        }, 2800);
       }
     } else {
       if (displayText.length > 0) {
@@ -73,18 +77,22 @@ export const Hero: React.FC<HeroProps> = ({
           setDisplayText(fullText.slice(0, displayText.length - 1));
         }, 15);
       } else {
-        setIsDeleting(false);
-        setCurrentTextIndex((prev) => (prev + 1) % texts.length);
-        timer = setTimeout(() => {}, 250);
+        timer = setTimeout(() => {
+          setIsDeleting(false);
+          setCurrentTextIndex((prev) => (prev + 1) % texts.length);
+        }, 400);
       }
     }
 
     return () => clearTimeout(timer);
   }, [displayText, isDeleting, currentTextIndex, texts]);
 
-  const resumeHref = profile.resumeUrl.startsWith('/')
-    ? profile.resumeUrl
-    : `/${profile.resumeUrl}`;
+  const rawResume = profile.resumeUrl || 'Mithun_Senthil_Resume.docx';
+  const resumeHref =
+    rawResume.startsWith('/') || rawResume.startsWith('http')
+      ? rawResume
+      : `/${rawResume}`;
+  const resumeFileName = rawResume.split('/').pop() || 'Mithun_Senthil_Resume.docx';
 
   return (
     <section
@@ -202,7 +210,7 @@ export const Hero: React.FC<HeroProps> = ({
                 variant="outline"
                 size="lg"
                 href={resumeHref}
-                download="Mithun_Senthil_Resume.docx"
+                download={resumeFileName}
                 leftIcon={<Download className="w-4 h-4" />}
               >
                 Download Resume
@@ -223,11 +231,11 @@ export const Hero: React.FC<HeroProps> = ({
               <span className="text-xs font-mono text-[#9e8779] uppercase tracking-wider hidden sm:inline-block mr-1">
                 Quick Connect:
               </span>
-              {profile.socialLinks.map((link) => {
+              {(profile.socialLinks || []).map((link, idx) => {
                 const icon = getSocialIcon(link.platform);
                 return (
                   <a
-                    key={link.platform}
+                    key={`${link.platform}-${idx}`}
                     href={link.url}
                     target={link.url.startsWith('http') ? '_blank' : undefined}
                     rel={
@@ -259,10 +267,12 @@ export const Hero: React.FC<HeroProps> = ({
               topBadge={{
                 text: 'Oracle Java SE 11 Certified',
                 variant: 'gold',
+                icon: <Award className="w-3.5 h-3.5 text-[#f5cb78]" />,
               }}
               bottomBadge={{
                 text: 'Saveetha CGPA 8.46',
                 variant: 'crimson',
+                icon: <GraduationCap className="w-3.5 h-3.5 text-[#e74c3c]" />,
               }}
               availableBadgeText={profile.status}
             />
