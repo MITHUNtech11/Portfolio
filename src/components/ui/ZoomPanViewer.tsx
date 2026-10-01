@@ -79,17 +79,24 @@ export const ZoomPanViewer: React.FC<ZoomPanViewerProps> = ({
     }
   }, []);
 
-  // Handle Wheel Zoom
-  const handleWheel = useCallback(
-    (e: React.WheelEvent<HTMLDivElement>) => {
+  // Handle active non-passive Wheel Zoom to prevent page scroll
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const onWheel = (e: WheelEvent) => {
       e.preventDefault();
       e.stopPropagation();
 
       const zoomFactor = e.deltaY < 0 ? 1.15 : 0.85;
       setScale((prev) => clampScale(prev * zoomFactor));
-    },
-    [clampScale]
-  );
+    };
+
+    container.addEventListener('wheel', onWheel, { passive: false });
+    return () => {
+      container.removeEventListener('wheel', onWheel);
+    };
+  }, [clampScale]);
 
   // Double Click to Toggle Zoom
   const handleDoubleClick = useCallback(() => {
@@ -167,7 +174,6 @@ export const ZoomPanViewer: React.FC<ZoomPanViewerProps> = ({
       className={`relative w-full h-[360px] sm:h-[460px] md:h-[560px] bg-[#0d0604] border border-[rgba(212,175,55,0.18)] rounded-xl overflow-hidden select-none touch-none flex flex-col justify-center items-center ${
         isFullscreen ? 'h-screen w-screen rounded-none border-none' : ''
       } ${className}`.trim()}
-      onWheel={handleWheel}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
@@ -199,7 +205,11 @@ export const ZoomPanViewer: React.FC<ZoomPanViewerProps> = ({
       </div>
 
       {/* Floating Controls Toolbar */}
-      <div className="absolute bottom-4 right-4 z-20 flex items-center gap-1.5 p-1.5 bg-[#170c08]/90 backdrop-blur-md border border-[rgba(212,175,55,0.25)] rounded-xl shadow-xl">
+      <div
+        onPointerDown={(e) => e.stopPropagation()}
+        onDoubleClick={(e) => e.stopPropagation()}
+        className="absolute bottom-4 right-4 z-20 flex items-center gap-1.5 p-1.5 bg-[#170c08]/90 backdrop-blur-md border border-[rgba(212,175,55,0.25)] rounded-xl shadow-xl"
+      >
         <button
           type="button"
           onClick={zoomOut}

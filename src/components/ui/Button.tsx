@@ -38,6 +38,7 @@ const sizeStyles: Record<ButtonSize, string> = {
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
+  type = 'button',
   leftIcon,
   rightIcon,
   icon,
@@ -120,6 +121,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <motion.button
       ref={ref as React.Ref<HTMLButtonElement>}
+      type={type}
       whileHover={disabled ? undefined : { scale: 1.02 }}
       whileTap={disabled ? undefined : { scale: 0.98 }}
       transition={{ type: 'spring', stiffness: 400, damping: 20 }}
