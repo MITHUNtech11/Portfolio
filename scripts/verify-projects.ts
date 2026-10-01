@@ -43,9 +43,15 @@ if (typeof ProjectCard !== 'function' && typeof ProjectCardModule.ProjectCard !=
   throw new Error('ProjectCard component must be exported as a function/component');
 }
 
+let clickedProject: Project | null = null;
+let clickedIndex: number | null = null;
+
 const cardEl = React.createElement(ProjectCard, {
   project: recruiter,
-  onOpenModal: () => {},
+  onOpenModal: (p, idx) => {
+    clickedProject = p;
+    clickedIndex = idx ?? 0;
+  },
 });
 if (!cardEl || cardEl.type !== ProjectCard) {
   throw new Error('Failed to create ProjectCard element');
@@ -56,14 +62,20 @@ const cardMarkup = renderToStaticMarkup(cardEl);
 if (!cardMarkup.includes('AI Recruiter') || !cardMarkup.includes('~40%')) {
   throw new Error('ProjectCard markup does not contain expected title or metric');
 }
-console.log('✅ ProjectCard element and deep static markup verified');
+if (!cardMarkup.includes('Architecture Deep Dive')) {
+  throw new Error('ProjectCard markup must contain "Architecture Deep Dive" action button');
+}
+if (!cardMarkup.includes('GitHub')) {
+  throw new Error('ProjectCard markup must contain "GitHub" repository link');
+}
+console.log('✅ ProjectCard element, action buttons, and deep static markup verified');
 
 // 3. ArchitectureModal Component Verification
 if (typeof ArchitectureModal !== 'function' && typeof ArchitectureModalModule.ArchitectureModal !== 'function') {
   throw new Error('ArchitectureModal component must be exported as a function/component');
 }
 
-// 3a. Open state with active project
+// 3a. Open state with active project (deep render verification)
 const modalEl = React.createElement(ArchitectureModal, {
   isOpen: true,
   onClose: () => {},
@@ -73,6 +85,34 @@ const modalEl = React.createElement(ArchitectureModal, {
 if (!modalEl || modalEl.type !== ArchitectureModal) {
   throw new Error('Failed to create ArchitectureModal element with active project');
 }
+
+const openModalMarkup = renderToStaticMarkup(modalEl);
+const expectedModalSnippets = [
+  'AI Recruiter',
+  'SYSTEM 01',
+  'Architectural Overview',
+  'Workflow Pipeline',
+  'System Architecture',
+  'OCR &amp; AI Pipeline',
+  '1. Ingestion',
+  '2. NLP Parsing',
+  '3. Priority Queue',
+  '4. UI / MVC View',
+  'Algorithmic Optimization',
+  'Decoupled MVC Pattern',
+  'Schema Normalization',
+  '~40%',
+  'O(N log K)',
+  'role="tablist"',
+  'role="tabpanel"',
+];
+
+for (const snippet of expectedModalSnippets) {
+  if (!openModalMarkup.includes(snippet)) {
+    throw new Error(`ArchitectureModal open markup missing required snippet: "${snippet}"`);
+  }
+}
+console.log('✅ ArchitectureModal deep markup verified with all diagrams, pipeline steps, and challenges');
 
 // 3b. Closed state with null project (edge case safety)
 const closedModalEl = React.createElement(ArchitectureModal, {
@@ -85,7 +125,6 @@ if (!closedModalEl || closedModalEl.type !== ArchitectureModal) {
 }
 const closedMarkup = renderToStaticMarkup(closedModalEl);
 if (closedMarkup !== '') {
-  // Closed modal with null project should produce empty markup
   console.log('ℹ️ Closed modal static markup:', closedMarkup.length, 'bytes');
 }
 console.log('✅ ArchitectureModal element verified with open and closed states');
@@ -184,7 +223,10 @@ const extremeEmptyProject: Project = {
 const extremeCard = React.createElement(ProjectCard, {
   project: extremeEmptyProject,
 });
-renderToStaticMarkup(extremeCard);
+const extremeCardMarkup = renderToStaticMarkup(extremeCard);
+if (!extremeCardMarkup.includes('Interactive Workflow Architecture')) {
+  throw new Error('ProjectCard with empty diagrams must render fallback architecture placeholder');
+}
 
 const extremeModal = React.createElement(ArchitectureModal, {
   isOpen: true,
@@ -194,6 +236,15 @@ const extremeModal = React.createElement(ArchitectureModal, {
 });
 renderToStaticMarkup(extremeModal);
 
-console.log('✅ Edge cases: Empty projects, empty fields, and extreme boundaries all verified');
+// Verify dynamic category filter when cloud project is present
+const projectsWithCloud = React.createElement(Projects, {
+  projects: [...projectsData, mockMinimalProject],
+});
+const projectsWithCloudMarkup = renderToStaticMarkup(projectsWithCloud);
+if (!projectsWithCloudMarkup.includes('Cloud Architecture')) {
+  throw new Error('Projects should dynamically render "Cloud Architecture" filter tab when cloud projects exist');
+}
+
+console.log('✅ Edge cases: Fallback placeholders, dynamic cloud filters, empty projects, and boundaries all verified');
 
 console.log('🎉 All Featured Systems Showcase verifications passed successfully!');

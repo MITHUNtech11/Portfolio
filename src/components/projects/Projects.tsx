@@ -12,19 +12,12 @@ export interface ProjectsProps {
   className?: string;
 }
 
-type CategoryFilter = 'all' | 'python' | 'java' | 'dsa';
+type CategoryFilter = 'all' | 'python' | 'java' | 'dsa' | 'cloud';
 
 interface FilterOption {
   id: CategoryFilter;
   label: string;
 }
-
-const FILTER_OPTIONS: FilterOption[] = [
-  { id: 'all', label: 'All Architectures' },
-  { id: 'python', label: 'Python & AI' },
-  { id: 'java', label: 'Java & Cloud' },
-  { id: 'dsa', label: 'DSA & Graph Engine' },
-];
 
 export const Projects: React.FC<ProjectsProps> = ({
   projects = defaultProjects,
@@ -33,6 +26,19 @@ export const Projects: React.FC<ProjectsProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('all');
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [activeDiagramIndex, setActiveDiagramIndex] = useState<number>(0);
+
+  const filterOptions = useMemo<FilterOption[]>(() => {
+    const base: FilterOption[] = [
+      { id: 'all', label: 'All Architectures' },
+      { id: 'python', label: 'Python & AI' },
+      { id: 'java', label: 'Java & Cloud' },
+      { id: 'dsa', label: 'DSA & Graph Engine' },
+    ];
+    if (projects.some((p) => p.category === 'cloud')) {
+      base.push({ id: 'cloud', label: 'Cloud Architecture' });
+    }
+    return base;
+  }, [projects]);
 
   const filteredProjects = useMemo(() => {
     if (selectedCategory === 'all') return projects;
@@ -117,8 +123,10 @@ export const Projects: React.FC<ProjectsProps> = ({
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-wrap items-center justify-center gap-2 mt-8"
+            role="group"
+            aria-label="Filter systems by category"
           >
-            {FILTER_OPTIONS.map((opt) => {
+            {filterOptions.map((opt) => {
               const isActive = selectedCategory === opt.id;
               const count =
                 opt.id === 'all'

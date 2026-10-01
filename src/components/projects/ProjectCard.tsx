@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import {
   ExternalLink,
@@ -68,8 +68,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   className = '',
   index = 0,
 }) => {
+  const [imageError, setImageError] = useState(false);
   const primaryDiagram = project.diagrams?.[0];
-  const previewSrc = primaryDiagram?.src || 'workflows/AI-RECRUITER.png';
+  const hasValidImage = Boolean(primaryDiagram?.src) && !imageError;
 
   const handleOpenArchitecture = (e?: React.MouseEvent) => {
     e?.stopPropagation();
@@ -78,6 +79,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
   return (
     <motion.div
+      layout
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
@@ -117,13 +119,24 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             }}
             aria-label={`Open architecture lightbox for ${project.title}`}
           >
-            {/* Diagram Image Thumbnail */}
-            <img
-              src={previewSrc}
-              alt={primaryDiagram?.caption || `${project.title} architecture workflow`}
-              className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out"
-              loading="lazy"
-            />
+            {/* Diagram Image Thumbnail or Branded Fallback */}
+            {hasValidImage ? (
+              <img
+                src={primaryDiagram!.src}
+                alt={primaryDiagram?.caption || `${project.title} architecture workflow`}
+                className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out"
+                loading="lazy"
+                onError={() => setImageError(true)}
+              />
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#170c08] to-[#0d0604] p-4 text-center">
+                <div className="p-2.5 rounded-xl bg-[rgba(212,175,55,0.08)] border border-[rgba(212,175,55,0.2)] mb-2 text-[#d4af37]">
+                  <Workflow className="w-6 h-6" />
+                </div>
+                <span className="font-mono text-xs text-[#f5cb78] font-semibold">{project.title}</span>
+                <span className="font-sans text-[11px] text-[#9e8779] mt-0.5">Interactive Workflow Architecture</span>
+              </div>
+            )}
 
             {/* Depth Gradient Mask */}
             <div
@@ -190,7 +203,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
             {/* Overview Snippet */}
             <p className="text-xs sm:text-sm text-[#9e8779] leading-relaxed line-clamp-3 mb-5 font-sans">
-              {project.description}
+              {project.overview || project.description}
             </p>
 
             {/* Key Metrics Callouts Grid */}
@@ -214,7 +227,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
             {/* Tech Stack Chips */}
             <div className="flex flex-wrap gap-1.5 mb-5 mt-auto">
-              {project.tags.slice(0, 5).map((tag, tIdx) => (
+              {(project.tags || []).slice(0, 5).map((tag, tIdx) => (
                 <span
                   key={tIdx}
                   className="px-2 py-0.5 text-[11px] font-mono rounded-md bg-white/[0.04] text-[#d8c8b8] border border-[rgba(212,175,55,0.12)] hover:border-[rgba(212,175,55,0.3)] hover:text-[#fbf5ee] transition-colors"
@@ -222,9 +235,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   {tag}
                 </span>
               ))}
-              {project.tags.length > 5 && (
+              {(project.tags || []).length > 5 && (
                 <span className="px-2 py-0.5 text-[11px] font-mono rounded-md bg-white/[0.02] text-[#9e8779] border border-white/5">
-                  +{project.tags.length - 5}
+                  +{(project.tags || []).length - 5}
                 </span>
               )}
             </div>
@@ -235,10 +248,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 variant="primary"
                 size="sm"
                 onClick={handleOpenArchitecture}
-                leftIcon={<Workflow className="w-3.5 h-3.5" />}
-                className="flex-1 font-mono text-xs"
+                leftIcon={<Workflow className="w-3.5 h-3.5 shrink-0" />}
+                className="flex-1 font-mono text-xs min-w-0"
+                aria-label={`Open architecture deep dive for ${project.title}`}
               >
-                Deep Dive
+                <span className="truncate">Architecture Deep Dive</span>
               </Button>
 
               {project.github && (

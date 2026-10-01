@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
-  X,
   ExternalLink,
   Github,
   Workflow,
@@ -21,11 +20,10 @@ import {
   GitBranch,
   MapPin,
   Network,
-  ChevronRight,
   Info,
-  CheckCircle2,
   Sparkles,
   ArrowRight,
+  ChevronDown,
 } from 'lucide-react';
 import { Modal } from '../ui/Modal';
 import { ZoomPanViewer } from '../ui/ZoomPanViewer';
@@ -75,13 +73,20 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
   initialDiagramIndex = 0,
 }) => {
   const [activeDiagramIdx, setActiveDiagramIdx] = useState(initialDiagramIndex);
+  const lastProjectRef = useRef<Project | null>(project);
+
+  if (project) {
+    lastProjectRef.current = project;
+  }
+
+  const displayProject = project || lastProjectRef.current;
 
   // Sync active diagram index when project or initial index changes
   useEffect(() => {
     setActiveDiagramIdx(initialDiagramIndex);
   }, [project, initialDiagramIndex, isOpen]);
 
-  if (!project) {
+  if (!displayProject) {
     return (
       <Modal isOpen={false} onClose={onClose}>
         <div />
@@ -89,33 +94,33 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
     );
   }
 
-  const diagrams = project.diagrams || [];
+  const diagrams = displayProject.diagrams || [];
   const safeIdx = Math.min(Math.max(activeDiagramIdx, 0), Math.max(diagrams.length - 1, 0));
   const currentDiagram: ArchitectureDiagram | undefined = diagrams[safeIdx];
 
   const modalTitleNode = (
-    <div className="flex flex-wrap items-center gap-2.5">
+    <span className="flex flex-wrap items-center gap-2.5">
       <Badge
         variant="obsidian"
         size="sm"
         className="font-mono text-[10px] tracking-wider uppercase bg-[#0d0604] border-[rgba(212,175,55,0.3)] text-[#f5cb78]"
       >
-        SYSTEM {project.number}
+        SYSTEM {displayProject.number}
       </Badge>
       <span className="font-display font-bold text-lg md:text-xl text-[#fbf5ee]">
-        {project.title}
+        {displayProject.title}
       </span>
-      {project.featured && (
+      {displayProject.featured && (
         <Badge variant="crimson" size="sm" dot pulse className="text-[10px]">
           FEATURED SYSTEM
         </Badge>
       )}
-    </div>
+    </span>
   );
 
   const modalDescNode = (
     <span className="font-mono text-xs text-[#d4af37] tracking-wide uppercase">
-      {project.label}
+      {displayProject.label}
     </span>
   );
 
@@ -138,16 +143,16 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
                 Architectural Overview
               </h3>
               <p className="text-sm text-[#d8c8b8] leading-relaxed">
-                {project.overview || project.description}
+                {displayProject.overview || displayProject.description}
               </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-3 shrink-0">
-              {project.github && (
+              {displayProject.github && (
                 <Button
                   variant="outline"
                   size="sm"
-                  href={project.github}
+                  href={displayProject.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   leftIcon={<Github className="w-4 h-4" />}
@@ -156,11 +161,11 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
                   GitHub Source
                 </Button>
               )}
-              {project.demoUrl && (
+              {displayProject.demoUrl && (
                 <Button
                   variant="gold"
                   size="sm"
-                  href={project.demoUrl}
+                  href={displayProject.demoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   leftIcon={<ExternalLink className="w-4 h-4" />}
@@ -185,12 +190,20 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
 
             {/* Diagram Selector Tabs */}
             {diagrams.length > 1 && (
-              <div className="flex items-center gap-1.5 overflow-x-auto p-1 bg-[#0d0604] border border-[rgba(212,175,55,0.18)] rounded-xl">
+              <div
+                role="tablist"
+                aria-label="Architecture Diagrams"
+                className="flex items-center gap-1.5 overflow-x-auto p-1 bg-[#0d0604] border border-[rgba(212,175,55,0.18)] rounded-xl"
+              >
                 {diagrams.map((diag, dIdx) => {
                   const isActive = dIdx === safeIdx;
                   return (
                     <button
                       key={dIdx}
+                      role="tab"
+                      aria-selected={isActive}
+                      aria-controls={`diagram-panel-${dIdx}`}
+                      id={`diagram-tab-${dIdx}`}
                       type="button"
                       onClick={() => setActiveDiagramIdx(dIdx)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
@@ -210,8 +223,14 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
 
           {/* Interactive Zoom/Pan Canvas */}
           {currentDiagram ? (
-            <div className="rounded-xl overflow-hidden border border-[rgba(212,175,55,0.2)] bg-[#0d0604] shadow-2xl">
+            <div
+              role="tabpanel"
+              id={`diagram-panel-${safeIdx}`}
+              aria-labelledby={`diagram-tab-${safeIdx}`}
+              className="rounded-xl overflow-hidden border border-[rgba(212,175,55,0.2)] bg-[#0d0604] shadow-2xl"
+            >
               <ZoomPanViewer
+                key={`${displayProject.id}-${safeIdx}-${currentDiagram.src}`}
                 src={currentDiagram.src}
                 alt={currentDiagram.title}
                 caption={currentDiagram.caption}
@@ -242,7 +261,7 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
         </section>
 
         {/* 4-Step Visual Pipeline Flow */}
-        {project.pipeline && project.pipeline.length > 0 && (
+        {displayProject.pipeline && displayProject.pipeline.length > 0 && (
           <section className="space-y-4">
             <div className="flex items-center gap-2">
               <GitBranch className="w-4 h-4 text-[#d4af37]" />
@@ -252,7 +271,7 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 relative">
-              {project.pipeline.map((step: PipelineStep, sIdx: number) => (
+              {displayProject.pipeline.map((step: PipelineStep, sIdx: number) => (
                 <div
                   key={sIdx}
                   className="relative p-4 rounded-xl bg-[#170c08] border border-[rgba(212,175,55,0.15)] shadow-sm hover:border-[rgba(212,175,55,0.35)] transition-all flex flex-col group"
@@ -274,6 +293,26 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
                   <p className="text-xs text-[#9e8779] leading-relaxed mt-auto">
                     {step.sub}
                   </p>
+
+                  {/* Visual Directional Flow Connectors between pipeline steps */}
+                  {sIdx < displayProject.pipeline.length - 1 && (
+                    <>
+                      {/* Desktop horizontal flow connector */}
+                      <div
+                        className="hidden lg:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-[#120906] border border-[rgba(212,175,55,0.35)] items-center justify-center text-[#d4af37] shadow-md pointer-events-none"
+                        aria-hidden="true"
+                      >
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </div>
+                      {/* Mobile/tablet vertical flow connector */}
+                      <div
+                        className="flex lg:hidden justify-center -mb-2 mt-2 text-[#d4af37]/50"
+                        aria-hidden="true"
+                      >
+                        <ChevronDown className="w-4 h-4" />
+                      </div>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
@@ -281,7 +320,7 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
         )}
 
         {/* Engineered Metrics Benchmarks Grid */}
-        {project.metrics && project.metrics.length > 0 && (
+        {displayProject.metrics && displayProject.metrics.length > 0 && (
           <section className="space-y-4">
             <div className="flex items-center gap-2">
               <Gauge className="w-4 h-4 text-[#d4af37]" />
@@ -291,7 +330,7 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
             </div>
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-              {project.metrics.map((metric: ProjectMetric, mIdx: number) => (
+              {displayProject.metrics.map((metric: ProjectMetric, mIdx: number) => (
                 <div
                   key={mIdx}
                   className="p-4 rounded-xl bg-[#170c08] border border-[rgba(212,175,55,0.15)] flex flex-col justify-between"
@@ -300,7 +339,10 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
                     <span className="p-1.5 rounded-md bg-[rgba(212,175,55,0.06)] text-[#d4af37]">
                       {resolveIcon(metric.icon, 'w-4 h-4')}
                     </span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    <span className="relative flex h-2 w-2" title="Benchmark verified">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+                    </span>
                   </div>
                   <div className="font-mono font-bold text-xl sm:text-2xl text-[#f5cb78] tracking-tight">
                     {metric.num}
@@ -315,7 +357,7 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
         )}
 
         {/* Architectural Challenges & Solutions Deep Dive */}
-        {project.challenges && project.challenges.length > 0 && (
+        {displayProject.challenges && displayProject.challenges.length > 0 && (
           <section className="space-y-4">
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-[#d4af37]" />
@@ -325,7 +367,7 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {project.challenges.map((challenge: ProjectChallenge, cIdx: number) => (
+              {displayProject.challenges.map((challenge: ProjectChallenge, cIdx: number) => (
                 <div
                   key={cIdx}
                   className="p-5 rounded-xl bg-[#170c08] border-l-2 border-l-[#d4af37] border-y border-r border-[rgba(212,175,55,0.12)] shadow-sm flex flex-col"
@@ -351,7 +393,7 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
         <section className="pt-6 border-t border-[rgba(212,175,55,0.15)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-1.5 max-w-2xl">
             <span className="text-xs font-mono text-[#9e8779] mr-2">Technologies:</span>
-            {project.tags.map((tag, tIdx) => (
+            {(displayProject.tags || []).map((tag, tIdx) => (
               <span
                 key={tIdx}
                 className="px-2.5 py-1 text-xs font-mono rounded-lg bg-white/[0.04] text-[#d8c8b8] border border-[rgba(212,175,55,0.12)]"
@@ -362,11 +404,11 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
           </div>
 
           <div className="flex items-center gap-3 self-end sm:self-center">
-            {project.github && (
+            {displayProject.github && (
               <Button
                 variant="primary"
                 size="sm"
-                href={project.github}
+                href={displayProject.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 leftIcon={<Github className="w-4 h-4" />}
