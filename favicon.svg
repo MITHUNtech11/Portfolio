@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5ead8" />
+      <stop offset="50%" stop-color="#d4a76a" />
+      <stop offset="100%" stop-color="#c0392b" />
+    </linearGradient>
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c0392b" />
+      <stop offset="100%" stop-color="#d4a76a" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#140b08" />
+  <rect x="2" y="2" width="60" height="60" rx="12" fill="none" stroke="url(#borderGrad)" stroke-width="2" stroke-opacity="0.85" />
+  <!-- M Monogram -->
+  <path d="M17 46 V19 L26 34 L32 24 L38 34 L47 19 V46 H41 V29 L34 40 H30 L23 29 V46 Z" fill="url(#goldGrad)" />
+</svg>
