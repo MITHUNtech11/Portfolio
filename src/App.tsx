@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ReadingProgress, Navbar, Footer } from './components/layout';
 import { Hero } from './components/hero';
 import { About } from './components/about';
@@ -9,37 +9,30 @@ import { Credentials } from './components/credentials';
 import { Contact } from './components/contact';
 import { Toast, useToast } from './components/ui';
 import { profileData } from './data/profile';
+import { ScrollTrigger } from './lib/gsap';
 
 /**
  * App
  *
- * Root portfolio application component. Assembles all sections in order:
+ * Root editorial portfolio application component.
+ * Assembles all sections in light minimalist Hostinger aesthetic:
  * ReadingProgress → Navbar → Hero → About → Skills → Projects →
  * Experience → Credentials → Contact → Footer → Toast
- *
- * Features:
- * - Radial gradient ambient glow background layered below all content
- * - Smooth scrolling (CSS level) for anchor navigation
- * - Centralized Toast notification system via useToast hook
- * - Scroll spy active section tracking is handled inside Navbar
  */
 export default function App(): React.JSX.Element {
   const { toasts, show: showToast, dismiss } = useToast();
 
-  return (
-    <div className="relative min-h-screen bg-[#0d0604] text-[#fbf5ee] antialiased overflow-x-hidden">
-      {/* ── Ambient radial glow layers ── */}
-      <div
-        aria-hidden="true"
-        className="fixed inset-0 pointer-events-none z-0"
-        style={{
-          background: [
-            'radial-gradient(ellipse 80% 60% at 15% 10%, rgba(192,57,43,0.07) 0%, transparent 55%)',
-            'radial-gradient(ellipse 70% 50% at 85% 90%, rgba(212,175,55,0.05) 0%, transparent 55%)',
-          ].join(', '),
-        }}
-      />
+  useEffect(() => {
+    // Refresh GSAP ScrollTrigger after initial mount and font rendering
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
 
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="relative min-h-screen bg-[#F5EFE1] text-[#010736] antialiased overflow-x-hidden font-body selection:bg-[#800020] selection:text-white">
       {/* ── Reading progress bar ── */}
       <ReadingProgress />
 
@@ -48,7 +41,7 @@ export default function App(): React.JSX.Element {
 
       {/* ── Main content ── */}
       <main>
-        {/* Hero */}
+        {/* Hero with Three.js particle canvas & anime.js letter stagger */}
         <Hero />
 
         {/* About & Education */}
@@ -82,7 +75,7 @@ export default function App(): React.JSX.Element {
         />
       </main>
 
-      {/* ── Footer ── */}
+      {/* ── Grounded Contrast Footer ── */}
       <Footer />
 
       {/* ── Toast notifications ── */}

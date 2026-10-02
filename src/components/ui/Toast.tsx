@@ -2,10 +2,6 @@ import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CheckCircle, X, AlertCircle, Info } from 'lucide-react';
 
-// =============================================
-// Toast Types
-// =============================================
-
 export type ToastVariant = 'success' | 'error' | 'info';
 
 export interface ToastMessage {
@@ -20,28 +16,24 @@ export interface ToastProps {
   onDismiss: (id: string) => void;
 }
 
-// =============================================
-// Internal single toast item
-// =============================================
-
 const VARIANT_STYLES: Record<
   ToastVariant,
   { bg: string; border: string; icon: React.ReactNode }
 > = {
   success: {
-    bg: 'bg-[#0f2414]',
-    border: 'border-emerald-500/40',
-    icon: <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />,
+    bg: 'bg-[#010736]',
+    border: 'border-[#8B9A6E]/60',
+    icon: <CheckCircle className="w-4 h-4 text-[#8B9A6E] shrink-0" />,
   },
   error: {
-    bg: 'bg-[#1e0c0c]',
-    border: 'border-red-500/40',
-    icon: <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />,
+    bg: 'bg-[#010736]',
+    border: 'border-[#800020]/70',
+    icon: <AlertCircle className="w-4 h-4 text-[#DB9558] shrink-0" />,
   },
   info: {
-    bg: 'bg-[#170c08]',
-    border: 'border-[rgba(212,175,55,0.35)]',
-    icon: <Info className="w-4 h-4 text-[#f5cb78] shrink-0" />,
+    bg: 'bg-[#010736]',
+    border: 'border-[#DB9558]/60',
+    icon: <Info className="w-4 h-4 text-[#DB9558] shrink-0" />,
   },
 };
 
@@ -55,7 +47,6 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
   const { bg, border, icon } = VARIANT_STYLES[variant];
   const duration = toast.durationMs ?? 3200;
 
-  // Auto-dismiss after duration
   useEffect(() => {
     const timer = setTimeout(() => {
       onDismiss(toast.id);
@@ -72,7 +63,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
       transition={{ type: 'spring', stiffness: 420, damping: 30 }}
       role="status"
       aria-live="polite"
-      className={`flex items-center gap-3 px-4 py-3 rounded-xl border shadow-[0_8px_32px_rgba(0,0,0,0.6)] ${bg} ${border} text-[#fbf5ee] text-sm font-sans min-w-[220px] max-w-xs`}
+      className={`flex items-center gap-3 px-4 py-3 rounded-xl border shadow-[0_8px_32px_rgba(1,7,54,0.4)] ${bg} ${border} text-[#F5EFE1] text-sm font-sans min-w-[220px] max-w-xs`}
     >
       {icon}
       <span className="flex-1 leading-snug">{toast.message}</span>
@@ -80,7 +71,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
         type="button"
         onClick={() => onDismiss(toast.id)}
         aria-label="Dismiss notification"
-        className="p-0.5 rounded text-[#9e8779] hover:text-[#fbf5ee] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#d4af37] cursor-pointer"
+        className="p-0.5 rounded text-[#E5D3AF] hover:text-[#F5EFE1] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#8B9A6E] cursor-pointer"
       >
         <X className="w-3.5 h-3.5" />
       </button>
@@ -88,16 +79,6 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
   );
 };
 
-// =============================================
-// Toast Portal / Container
-// =============================================
-
-/**
- * Toast
- *
- * Fixed bottom-right notification container. Renders a stack of animated toast
- * messages that auto-dismiss after their configured duration.
- */
 export const Toast: React.FC<ToastProps> = ({ toasts, onDismiss }) => {
   return (
     <div
@@ -116,10 +97,6 @@ export const Toast: React.FC<ToastProps> = ({ toasts, onDismiss }) => {
 };
 
 Toast.displayName = 'Toast';
-
-// =============================================
-// useToast hook — manages toast queue
-// =============================================
 
 export function useToast() {
   const [toasts, setToasts] = React.useState<ToastMessage[]>([]);

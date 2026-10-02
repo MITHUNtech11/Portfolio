@@ -1,6 +1,16 @@
 import React from 'react';
 
-export type BadgeVariant = 'gold' | 'crimson' | 'obsidian' | 'emerald';
+export type BadgeVariant =
+  | 'sage'
+  | 'burgundy'
+  | 'sand'
+  | 'terracotta'
+  | 'navy'
+  | 'gold'
+  | 'crimson'
+  | 'obsidian'
+  | 'emerald';
+
 export type BadgeSize = 'sm' | 'md' | 'lg';
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
@@ -13,29 +23,51 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const variantStyles: Record<BadgeVariant, { container: string; dot: string; dotPulse: string }> = {
+  sage: {
+    container: 'border-[#8B9A6E]/40 bg-[#8B9A6E]/15 text-[#4D5A34]',
+    dot: 'bg-[#8B9A6E]',
+    dotPulse: 'bg-[#8B9A6E]/50',
+  },
+  burgundy: {
+    container: 'border-[#800020]/30 bg-[#800020]/10 text-[#800020]',
+    dot: 'bg-[#800020]',
+    dotPulse: 'bg-[#800020]/50',
+  },
+  sand: {
+    container: 'border-[#d8c397] bg-[#E5D3AF]/60 text-[#010736]',
+    dot: 'bg-[#DB9558]',
+    dotPulse: 'bg-[#DB9558]/50',
+  },
+  terracotta: {
+    container: 'border-[#DB9558]/40 bg-[#DB9558]/15 text-[#B86F30]',
+    dot: 'bg-[#DB9558]',
+    dotPulse: 'bg-[#DB9558]/50',
+  },
+  navy: {
+    container: 'border-[#010736]/20 bg-[#010736]/8 text-[#010736]',
+    dot: 'bg-[#010736]',
+    dotPulse: 'bg-[#010736]/50',
+  },
+  // Compatibility aliases
   gold: {
-    container:
-      'border-[#d4af37]/35 bg-[#d4af37]/10 text-[#f5cb78] shadow-[0_0_12px_rgba(212,175,55,0.12)] hover:border-[#d4af37]/60 hover:bg-[#d4af37]/15',
-    dot: 'bg-[#d4af37]',
-    dotPulse: 'bg-[#f5cb78]',
+    container: 'border-[#DB9558]/40 bg-[#DB9558]/15 text-[#B86F30]',
+    dot: 'bg-[#DB9558]',
+    dotPulse: 'bg-[#DB9558]/50',
   },
   crimson: {
-    container:
-      'border-[#e74c3c]/35 bg-[#c0392b]/15 text-[#e74c3c] shadow-[0_0_12px_rgba(231,76,60,0.15)] hover:border-[#e74c3c]/60 hover:bg-[#c0392b]/20',
-    dot: 'bg-[#e74c3c]',
-    dotPulse: 'bg-[#ff6b6b]',
+    container: 'border-[#800020]/30 bg-[#800020]/10 text-[#800020]',
+    dot: 'bg-[#800020]',
+    dotPulse: 'bg-[#800020]/50',
   },
   obsidian: {
-    container:
-      'border-white/10 bg-[#170c08] text-[#d8c8b8] shadow-sm hover:border-white/20 hover:text-[#fbf5ee]',
-    dot: 'bg-[#9e8779]',
-    dotPulse: 'bg-[#d8c8b8]',
+    container: 'border-[#010736]/20 bg-[#010736]/8 text-[#010736]',
+    dot: 'bg-[#010736]',
+    dotPulse: 'bg-[#010736]/50',
   },
   emerald: {
-    container:
-      'border-emerald-500/35 bg-emerald-500/10 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.15)] hover:border-emerald-500/60 hover:bg-emerald-500/15',
-    dot: 'bg-emerald-400',
-    dotPulse: 'bg-emerald-300',
+    container: 'border-[#8B9A6E]/40 bg-[#8B9A6E]/15 text-[#4D5A34]',
+    dot: 'bg-[#8B9A6E]',
+    dotPulse: 'bg-[#8B9A6E]/50',
   },
 };
 
@@ -46,7 +78,7 @@ const sizeStyles: Record<BadgeSize, string> = {
 };
 
 export const Badge: React.FC<BadgeProps> = ({
-  variant = 'gold',
+  variant = 'sand',
   size = 'sm',
   dot = false,
   pulse = false,
@@ -55,7 +87,7 @@ export const Badge: React.FC<BadgeProps> = ({
   className = '',
   ...props
 }) => {
-  const styles = variantStyles[variant];
+  const styles = variantStyles[variant] || variantStyles.sand;
 
   return (
     <span
@@ -77,3 +109,5 @@ export const Badge: React.FC<BadgeProps> = ({
     </span>
   );
 };
+
+Badge.displayName = 'Badge';

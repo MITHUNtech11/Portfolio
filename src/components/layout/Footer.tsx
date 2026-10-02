@@ -8,10 +8,10 @@ import {
   ArrowUp,
   Terminal,
   ExternalLink,
-  Heart,
 } from 'lucide-react';
 import { profileData } from '../../data/profile';
 import { NAV_LINKS } from './Navbar';
+import { smoothScrollTo } from '../../lib/gsap';
 
 export interface FooterProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
@@ -28,8 +28,8 @@ const socialIconMap: Record<string, React.ComponentType<{ className?: string }>>
 /**
  * Footer
  *
- * Obsidian dark footer with branding, quick section navigation, social links,
- * copyright notice, and a smooth back-to-top button.
+ * Grounded Midnight Navy (#010736) footer providing architectural contrast.
+ * Clean 3-column layout: Candidate identity, Navigation links, and Connect icons.
  */
 export const Footer: React.FC<FooterProps> = ({
   className = '',
@@ -39,72 +39,49 @@ export const Footer: React.FC<FooterProps> = ({
   const currentYear = new Date().getFullYear();
 
   const handleScrollToTop = () => {
-    if (typeof window !== 'undefined') {
-      const prefersReducedMotion =
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      window.scrollTo({
-        top: 0,
-        behavior: prefersReducedMotion ? 'auto' : 'smooth',
-      });
-    }
+    smoothScrollTo(document.body, 0);
   };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (typeof document !== 'undefined') {
-      const targetId = href.replace('#', '');
-      const targetEl = document.getElementById(targetId);
-      if (targetEl) {
-        e.preventDefault();
-        const prefersReducedMotion =
-          typeof window !== 'undefined' &&
-          window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        targetEl.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-        if (typeof window !== 'undefined' && window.history?.pushState) {
-          window.history.pushState(null, '', href);
-        }
-      }
+    e.preventDefault();
+    smoothScrollTo(href, 75);
+    if (typeof window !== 'undefined' && window.history?.pushState) {
+      window.history.pushState(null, '', href);
     }
   };
 
   return (
     <footer
-      className={`relative bg-[#090403] border-t border-[rgba(212,175,55,0.12)] text-[#d8c8b8] overflow-hidden ${className}`.trim()}
+      className={`relative bg-[#010736] border-t border-[#010736] text-[#F5EFE1] overflow-hidden ${className}`.trim()}
       {...rest}
     >
-      {/* Decorative top ambient glow line */}
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 max-w-4xl h-[1px] bg-gradient-to-r from-transparent via-[#d4af37]/40 to-transparent pointer-events-none"
-        aria-hidden="true"
-      />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12 mb-12">
-          {/* Column 1: Brand & Headline */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 lg:gap-14 mb-14">
+          {/* Column 1: Identity & Summary */}
           <div className="md:col-span-2 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#c0392b] to-[#170c08] border border-[#e74c3c]/40 flex items-center justify-center text-[#fbf5ee] shadow-[0_0_12px_rgba(231,76,60,0.25)]">
-                <Terminal className="w-4 h-4 text-[#f5cb78]" />
+            <div className="flex items-center gap-3">
+              <span className="w-8 h-8 rounded-lg bg-[#800020] text-[#F5EFE1] flex items-center justify-center font-display font-bold text-sm shadow-sm">
+                M
               </span>
-              <span className="font-display text-lg font-bold text-[#fbf5ee] tracking-tight">
+              <span className="font-display text-xl font-bold text-[#F5EFE1] tracking-tight">
                 {profileData.name}
               </span>
             </div>
 
-            <p className="text-sm text-[#9e8779] max-w-md leading-relaxed">
+            <p className="text-sm text-[#E5D3AF]/85 max-w-md leading-relaxed">
               {profileData.headline}
             </p>
 
-            <div className="flex items-center gap-2 text-xs font-mono text-[#d8c8b8]">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse motion-reduce:animate-none" />
-              <span>{profileData.status}</span>
-              <span className="text-[#9e8779]">•</span>
-              <span className="text-[#9e8779]">{profileData.location}</span>
+            <div className="flex items-center gap-2 text-xs font-mono text-[#E5D3AF]/70 pt-2">
+              <span className="text-[#8B9A6E] font-semibold">{profileData.university}</span>
+              <span>•</span>
+              <span>{profileData.location}</span>
             </div>
           </div>
 
-          {/* Column 2: Navigation Quick Links */}
+          {/* Column 2: Navigation Links */}
           <div className="space-y-3">
-            <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-[#f5cb78]">
+            <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-[#8B9A6E]">
               Navigation
             </h4>
             <ul className="space-y-2 text-sm">
@@ -113,7 +90,7 @@ export const Footer: React.FC<FooterProps> = ({
                   <a
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className="text-[#9e8779] hover:text-[#fbf5ee] hover:translate-x-1 inline-flex items-center gap-1 transition-all duration-150 focus:outline-none focus-visible:underline"
+                    className="text-[#E5D3AF]/80 hover:text-[#F5EFE1] hover:translate-x-1 inline-flex items-center gap-1 transition-all duration-150 focus:outline-none focus-visible:underline"
                   >
                     {link.label}
                   </a>
@@ -124,7 +101,7 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Column 3: Connect & Socials */}
           <div className="space-y-3">
-            <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-[#f5cb78]">
+            <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-[#8B9A6E]">
               Connect
             </h4>
             <div className="flex flex-wrap gap-2.5">
@@ -141,7 +118,7 @@ export const Footer: React.FC<FooterProps> = ({
                     title={item.label}
                     whileHover={{ scale: 1.08, y: -2 }}
                     whileTap={{ scale: 0.94 }}
-                    className="p-2.5 rounded-xl bg-[#140a07] border border-[rgba(212,175,55,0.18)] text-[#d8c8b8] hover:text-[#f5cb78] hover:border-[#d4af37]/60 hover:shadow-[0_0_14px_rgba(212,175,55,0.25)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+                    className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-[#E5D3AF] hover:text-[#DB9558] hover:border-[#DB9558]/50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#DB9558]"
                   >
                     <IconComponent className="w-4 h-4" />
                   </motion.a>
@@ -149,10 +126,10 @@ export const Footer: React.FC<FooterProps> = ({
               })}
             </div>
 
-            <div className="pt-2 text-xs text-[#9e8779]">
+            <div className="pt-2 text-xs text-[#E5D3AF]/70">
               <a
                 href={`mailto:${profileData.email}`}
-                className="hover:text-[#fbf5ee] transition-colors focus:outline-none focus-visible:underline"
+                className="hover:text-[#F5EFE1] transition-colors focus:outline-none focus-visible:underline"
               >
                 {profileData.email}
               </a>
@@ -160,11 +137,10 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
         </div>
 
-        {/* Bottom Bar: Copyright & Back to Top */}
-        <div className="pt-8 border-t border-[rgba(212,175,55,0.1)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#9e8779]">
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#E5D3AF]/60">
           <p className="flex items-center gap-1.5 text-center sm:text-left">
             <span>© {currentYear} {profileData.name}. All rights reserved.</span>
-            <span className="hidden md:inline">• Built with React 19 &amp; Tailwind</span>
           </p>
 
           {showBackToTop && (
@@ -174,10 +150,10 @@ export const Footer: React.FC<FooterProps> = ({
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.95 }}
               aria-label="Back to top"
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#170c08] border border-[rgba(212,175,55,0.2)] text-[#d8c8b8] hover:text-[#fbf5ee] hover:border-[#d4af37]/50 hover:bg-[#23120d] transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/5 border border-white/10 text-[#E5D3AF] hover:text-[#F5EFE1] hover:border-[#DB9558]/50 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#DB9558]"
             >
               <span>Back to top</span>
-              <ArrowUp className="w-3.5 h-3.5 text-[#f5cb78]" />
+              <ArrowUp className="w-3.5 h-3.5 text-[#DB9558]" />
             </motion.button>
           )}
         </div>

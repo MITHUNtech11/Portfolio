@@ -14,18 +14,10 @@ import {
 import { profileData } from '../../data/profile';
 import type { ToastVariant } from '../ui/Toast';
 
-// =============================================
-// Contact Props
-// =============================================
-
 export interface ContactProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
   onToast?: (message: string, variant?: ToastVariant) => void;
 }
-
-// =============================================
-// Contact form state
-// =============================================
 
 interface FormState {
   name: string;
@@ -40,10 +32,6 @@ interface FormErrors {
   subject?: string;
   message?: string;
 }
-
-// =============================================
-// Helpers
-// =============================================
 
 function validateEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -60,10 +48,6 @@ function validateForm(values: FormState): FormErrors {
   return errors;
 }
 
-// =============================================
-// Contact Section
-// =============================================
-
 const INITIAL_FORM: FormState = { name: '', email: '', subject: '', message: '' };
 
 const SOCIAL_ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -76,9 +60,9 @@ const SOCIAL_ICON_MAP: Record<string, React.ComponentType<{ className?: string }
 /**
  * Contact
  *
- * Full-width contact section with one-click email copy, direct mailto button,
- * social links, and a client-side validated contact message form that composes
- * a mailto: link on submit (no backend required).
+ * Minimalist editorial contact section with one-click email copy,
+ * direct contact cards, profiles, and validated email client composer.
+ * Completely free of availability status badges or radar pings.
  */
 export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...rest }) => {
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
@@ -87,7 +71,6 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
   const [emailCopied, setEmailCopied] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
-  // ---- Copy email to clipboard ----
   const handleCopyEmail = async () => {
     try {
       await navigator.clipboard.writeText(profileData.email);
@@ -99,19 +82,16 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
     }
   };
 
-  // ---- Form field change ----
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-    // Clear error on change
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   };
 
-  // ---- Form submit (mailto: fallback – no server needed) ----
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validateForm(form);
@@ -129,81 +109,70 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
     setSubmitted(true);
     setForm(INITIAL_FORM);
     setErrors({});
-    onToast?.('Message composed! Your mail client is opening.', 'info');
+    onToast?.('Message composed! Your email client is opening.', 'info');
 
     setTimeout(() => setSubmitted(false), 5000);
   };
 
   const inputBase =
-    'w-full px-4 py-3 bg-[#170c08] border rounded-xl text-[#fbf5ee] text-sm placeholder-[#9e8779] focus:outline-none focus:ring-2 focus:ring-[#d4af37]/50 focus:border-[#d4af37]/60 transition-colors';
-  const inputNormal = `${inputBase} border-[rgba(212,175,55,0.2)]`;
-  const inputError = `${inputBase} border-red-500/60`;
+    'w-full px-4 py-3 bg-[#F5EFE1]/50 border rounded-xl text-[#010736] text-sm placeholder-[#6B7280] focus:outline-none focus:ring-2 focus:ring-[#800020]/40 focus:border-[#800020] transition-colors';
+  const inputNormal = `${inputBase} border-[#E5D3AF]`;
+  const inputError = `${inputBase} border-red-500/70`;
 
   return (
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className={`relative py-20 sm:py-28 bg-[#0d0604] overflow-hidden ${className}`.trim()}
+      className={`relative py-24 sm:py-32 bg-[#F5EFE1] overflow-hidden text-[#010736] ${className}`.trim()}
       {...rest}
     >
-      {/* Ambient background glow */}
-      <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none"
-        aria-hidden="true"
-        style={{
-          background:
-            'radial-gradient(ellipse 60% 60% at 50% 100%, rgba(212,175,55,0.07) 0%, transparent 70%)',
-        }}
-      />
-
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.55, ease: 'easeOut' }}
-          className="mb-12 sm:mb-16"
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          className="mb-14 sm:mb-18 text-center max-w-3xl mx-auto"
         >
-          <div className="flex items-center gap-2.5 mb-4">
-            <div className="h-[1px] w-8 bg-[#d4af37]/40" />
-            <span className="text-xs font-mono text-[#d4af37] uppercase tracking-widest">
-              06 / Contact
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <span className="h-px w-6 bg-[#8B9A6E]" />
+            <span className="font-mono text-xs font-bold text-[#8B9A6E] uppercase tracking-widest">
+              07 // Get In Touch
             </span>
+            <span className="h-px w-6 bg-[#8B9A6E]" />
           </div>
+
           <h2
             id="contact-heading"
-            className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-[#fbf5ee] leading-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-[#010736] leading-tight"
           >
             Let's Build{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] to-[#f5cb78]">
-              Something Great
-            </span>
+            <span className="text-[#800020]">Something Great</span>
           </h2>
-          <p className="mt-4 text-[#9e8779] text-base sm:text-lg max-w-2xl leading-relaxed">
-            Available for internships, research collaborations, and full-time roles starting 2027.
-            Open to remote and Chennai-based opportunities.
+          <p className="mt-4 text-[#2C3352]/80 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+            Open to engineering conversations, technical roles, distributed systems discussions,
+            and research collaborations.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14">
-          {/* Left column: contact info + social */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14 items-start">
+          {/* Left column: contact info & social */}
           <motion.div
-            initial={{ opacity: 0, x: -24 }}
+            initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.55, ease: 'easeOut' }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
             className="lg:col-span-2 flex flex-col gap-6"
           >
-            {/* Quick contact cards */}
             <div className="space-y-3">
               {/* Copy email */}
-              <div className="p-4 rounded-2xl bg-[#170c08] border border-[rgba(212,175,55,0.15)] hover:border-[rgba(212,175,55,0.3)] transition-colors">
-                <p className="text-xs font-mono text-[#9e8779] mb-1.5 uppercase tracking-wider">Email</p>
+              <div className="p-5 rounded-2xl bg-white border border-[#E5D3AF] shadow-xs hover:border-[#DB9558] transition-colors">
+                <p className="text-xs font-mono text-[#8B9A6E] mb-1.5 uppercase tracking-wider font-bold">Email</p>
                 <div className="flex items-center justify-between gap-2">
                   <a
                     href={`mailto:${profileData.email}`}
-                    className="text-sm text-[#fbf5ee] hover:text-[#f5cb78] transition-colors truncate focus:outline-none focus-visible:underline"
+                    className="text-sm font-semibold text-[#010736] hover:text-[#800020] transition-colors truncate focus:outline-none focus-visible:underline"
                   >
                     {profileData.email}
                   </a>
@@ -212,10 +181,10 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                     onClick={handleCopyEmail}
                     aria-label="Copy email address"
                     title="Copy email"
-                    className="shrink-0 p-2 rounded-lg bg-[rgba(212,175,55,0.08)] hover:bg-[rgba(212,175,55,0.18)] border border-[rgba(212,175,55,0.2)] hover:border-[#d4af37]/60 text-[#d4af37] transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+                    className="shrink-0 p-2 rounded-lg bg-[#E5D3AF]/40 hover:bg-[#800020] hover:text-white text-[#800020] transition-all cursor-pointer shadow-xs"
                   >
                     {emailCopied ? (
-                      <CheckCircle className="w-4 h-4 text-emerald-400" />
+                      <CheckCircle className="w-4 h-4 text-[#8B9A6E]" />
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}
@@ -224,13 +193,13 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
               </div>
 
               {/* Phone */}
-              <div className="p-4 rounded-2xl bg-[#170c08] border border-[rgba(212,175,55,0.15)]">
-                <p className="text-xs font-mono text-[#9e8779] mb-1.5 uppercase tracking-wider">Phone</p>
+              <div className="p-5 rounded-2xl bg-white border border-[#E5D3AF] shadow-xs">
+                <p className="text-xs font-mono text-[#8B9A6E] mb-1.5 uppercase tracking-wider font-bold">Phone</p>
                 <div className="flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5 text-[#d4af37] shrink-0" />
+                  <Phone className="w-4 h-4 text-[#800020] shrink-0" />
                   <a
                     href={`tel:${profileData.phone}`}
-                    className="text-sm text-[#fbf5ee] hover:text-[#f5cb78] transition-colors focus:outline-none focus-visible:underline"
+                    className="text-sm font-semibold text-[#010736] hover:text-[#800020] transition-colors focus:outline-none focus-visible:underline"
                   >
                     {profileData.phone}
                   </a>
@@ -238,18 +207,18 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
               </div>
 
               {/* Location */}
-              <div className="p-4 rounded-2xl bg-[#170c08] border border-[rgba(212,175,55,0.15)]">
-                <p className="text-xs font-mono text-[#9e8779] mb-1.5 uppercase tracking-wider">Location</p>
+              <div className="p-5 rounded-2xl bg-white border border-[#E5D3AF] shadow-xs">
+                <p className="text-xs font-mono text-[#8B9A6E] mb-1.5 uppercase tracking-wider font-bold">Location</p>
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-3.5 h-3.5 text-[#d4af37] shrink-0" />
-                  <span className="text-sm text-[#fbf5ee]">{profileData.location}</span>
+                  <MapPin className="w-4 h-4 text-[#DB9558] shrink-0" />
+                  <span className="text-sm font-semibold text-[#010736]">{profileData.location}</span>
                 </div>
               </div>
             </div>
 
             {/* Social Links */}
             <div>
-              <p className="text-xs font-mono text-[#9e8779] mb-3 uppercase tracking-wider">Profiles</p>
+              <p className="text-xs font-mono text-[#6B7280] mb-3 uppercase tracking-wider font-semibold">Profiles</p>
               <div className="flex flex-wrap gap-2.5">
                 {profileData.socialLinks
                   .filter((s) => s.platform === 'github' || s.platform === 'linkedin')
@@ -262,67 +231,43 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`Open ${item.label}`}
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-[#170c08] border border-[rgba(212,175,55,0.18)] hover:border-[#d4af37]/60 hover:text-[#f5cb78] text-[#d8c8b8] text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+                        whileHover={{ scale: 1.04, y: -2 }}
+                        whileTap={{ scale: 0.96 }}
+                        className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white border border-[#E5D3AF] hover:border-[#800020] hover:text-[#800020] text-[#010736] text-sm font-medium transition-all shadow-xs"
                       >
-                        <IconComponent className="w-4 h-4" />
+                        <IconComponent className="w-4 h-4 text-[#800020]" />
                         <span>{item.label}</span>
-                        <ExternalLink className="w-3 h-3 text-[#9e8779]" />
+                        <ExternalLink className="w-3 h-3 text-[#6B7280]" />
                       </motion.a>
                     );
                   })}
               </div>
             </div>
-
-            {/* Availability badge */}
-            <div className="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/25">
-              <div className="flex items-center gap-2.5">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping motion-reduce:animate-none absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
-                </span>
-                <p className="text-sm text-emerald-300 font-medium">{profileData.status}</p>
-              </div>
-              <p className="mt-2 text-xs text-emerald-400/70 leading-relaxed">
-                Graduating {profileData.graduationYear} from {profileData.university} · Open to internships now.
-              </p>
-            </div>
           </motion.div>
 
           {/* Right column: contact form */}
           <motion.div
-            initial={{ opacity: 0, x: 24 }}
+            initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.55, ease: 'easeOut', delay: 0.1 }}
+            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
             className="lg:col-span-3"
           >
-            <div className="relative p-6 sm:p-8 rounded-2xl bg-[#140a07] border border-[rgba(212,175,55,0.15)] shadow-[0_24px_64px_rgba(0,0,0,0.5)]">
-              {/* Decorative corner accent */}
-              <div
-                className="absolute top-0 right-0 w-32 h-32 pointer-events-none"
-                aria-hidden="true"
-                style={{
-                  background:
-                    'radial-gradient(ellipse at top right, rgba(212,175,55,0.08) 0%, transparent 70%)',
-                }}
-              />
-
+            <div className="relative p-7 sm:p-9 rounded-3xl bg-white border border-[#E5D3AF] shadow-[0_6px_28px_rgba(1,7,54,0.04)]">
               {submitted ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center justify-center py-16 text-center gap-4"
                 >
-                  <div className="w-16 h-16 rounded-full bg-emerald-950/50 border border-emerald-500/30 flex items-center justify-center">
-                    <CheckCircle className="w-8 h-8 text-emerald-400" />
+                  <div className="w-16 h-16 rounded-full bg-[#8B9A6E]/15 border border-[#8B9A6E]/40 flex items-center justify-center">
+                    <CheckCircle className="w-8 h-8 text-[#8B9A6E]" />
                   </div>
-                  <h3 className="text-xl font-display font-bold text-[#fbf5ee]">
-                    Mail Client Opened!
+                  <h3 className="text-xl font-display font-bold text-[#010736]">
+                    Email Client Opened
                   </h3>
-                  <p className="text-[#9e8779] text-sm max-w-xs">
-                    Your message has been composed. Finish sending it from your mail app.
+                  <p className="text-[#2C3352]/75 text-sm max-w-xs">
+                    Your message has been composed. Complete and send it directly from your email app.
                   </p>
                 </motion.div>
               ) : (
@@ -334,11 +279,11 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                   className="space-y-5"
                 >
                   <div>
-                    <h3 className="text-lg font-display font-bold text-[#fbf5ee] mb-1">
+                    <h3 className="text-xl font-display font-bold text-[#010736] mb-1">
                       Send a Message
                     </h3>
-                    <p className="text-xs text-[#9e8779]">
-                      Composes a message in your default mail client — no data is sent to any server.
+                    <p className="text-xs text-[#2C3352]/70">
+                      Composes directly into your mail client — completely private without third-party tracking.
                     </p>
                   </div>
 
@@ -347,9 +292,9 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                     <div>
                       <label
                         htmlFor="contact-name"
-                        className="block text-xs font-mono text-[#d8c8b8] mb-1.5"
+                        className="block text-xs font-mono text-[#010736] mb-1.5 font-semibold"
                       >
-                        Your Name <span className="text-red-400">*</span>
+                        Your Name <span className="text-[#800020]">*</span>
                       </label>
                       <input
                         id="contact-name"
@@ -364,7 +309,7 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                         className={errors.name ? inputError : inputNormal}
                       />
                       {errors.name && (
-                        <p id="contact-name-error" role="alert" className="mt-1 text-xs text-red-400">
+                        <p id="contact-name-error" role="alert" className="mt-1 text-xs text-red-500 font-medium">
                           {errors.name}
                         </p>
                       )}
@@ -372,9 +317,9 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                     <div>
                       <label
                         htmlFor="contact-email"
-                        className="block text-xs font-mono text-[#d8c8b8] mb-1.5"
+                        className="block text-xs font-mono text-[#010736] mb-1.5 font-semibold"
                       >
-                        Your Email <span className="text-red-400">*</span>
+                        Your Email <span className="text-[#800020]">*</span>
                       </label>
                       <input
                         id="contact-email"
@@ -389,7 +334,7 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                         className={errors.email ? inputError : inputNormal}
                       />
                       {errors.email && (
-                        <p id="contact-email-error" role="alert" className="mt-1 text-xs text-red-400">
+                        <p id="contact-email-error" role="alert" className="mt-1 text-xs text-red-500 font-medium">
                           {errors.email}
                         </p>
                       )}
@@ -400,9 +345,9 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                   <div>
                     <label
                       htmlFor="contact-subject"
-                      className="block text-xs font-mono text-[#d8c8b8] mb-1.5"
+                      className="block text-xs font-mono text-[#010736] mb-1.5 font-semibold"
                     >
-                      Subject <span className="text-red-400">*</span>
+                      Subject <span className="text-[#800020]">*</span>
                     </label>
                     <input
                       id="contact-subject"
@@ -410,13 +355,13 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                       type="text"
                       value={form.subject}
                       onChange={handleChange}
-                      placeholder="Internship Opportunity / Collaboration"
+                      placeholder="Engineering Role / Project Collaboration"
                       aria-invalid={!!errors.subject}
                       aria-describedby={errors.subject ? 'contact-subject-error' : undefined}
                       className={errors.subject ? inputError : inputNormal}
                     />
                     {errors.subject && (
-                      <p id="contact-subject-error" role="alert" className="mt-1 text-xs text-red-400">
+                      <p id="contact-subject-error" role="alert" className="mt-1 text-xs text-red-500 font-medium">
                         {errors.subject}
                       </p>
                     )}
@@ -426,9 +371,9 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                   <div>
                     <label
                       htmlFor="contact-message"
-                      className="block text-xs font-mono text-[#d8c8b8] mb-1.5"
+                      className="block text-xs font-mono text-[#010736] mb-1.5 font-semibold"
                     >
-                      Message <span className="text-red-400">*</span>
+                      Message <span className="text-[#800020]">*</span>
                     </label>
                     <textarea
                       id="contact-message"
@@ -436,13 +381,13 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                       rows={5}
                       value={form.message}
                       onChange={handleChange}
-                      placeholder="Tell me about the opportunity or project..."
+                      placeholder="Tell me about your team or project..."
                       aria-invalid={!!errors.message}
                       aria-describedby={errors.message ? 'contact-message-error' : undefined}
                       className={`${errors.message ? inputError : inputNormal} resize-y min-h-[120px]`}
                     />
                     {errors.message && (
-                      <p id="contact-message-error" role="alert" className="mt-1 text-xs text-red-400">
+                      <p id="contact-message-error" role="alert" className="mt-1 text-xs text-red-500 font-medium">
                         {errors.message}
                       </p>
                     )}
@@ -451,9 +396,9 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                   {/* Submit */}
                   <motion.button
                     type="submit"
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#c0392b] to-[#d4af37] text-white font-semibold text-sm shadow-[0_4px_20px_rgba(192,57,43,0.4)] hover:shadow-[0_6px_28px_rgba(212,175,55,0.35)] transition-shadow cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+                    className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#800020] text-white font-semibold text-sm shadow-[0_4px_16px_rgba(128,0,32,0.25)] hover:bg-[#660019] hover:shadow-[0_6px_22px_rgba(128,0,32,0.35)] transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/50"
                   >
                     <Send className="w-4 h-4" />
                     Send Message

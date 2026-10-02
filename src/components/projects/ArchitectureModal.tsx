@@ -81,7 +81,6 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
 
   const displayProject = project || lastProjectRef.current;
 
-  // Sync active diagram index when project or initial index changes
   useEffect(() => {
     setActiveDiagramIdx(initialDiagramIndex);
   }, [project, initialDiagramIndex, isOpen]);
@@ -101,25 +100,20 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
   const modalTitleNode = (
     <span className="flex flex-wrap items-center gap-2.5">
       <Badge
-        variant="obsidian"
+        variant="navy"
         size="sm"
-        className="font-mono text-[10px] tracking-wider uppercase bg-[#0d0604] border-[rgba(212,175,55,0.3)] text-[#f5cb78]"
+        className="font-mono text-[10px] tracking-wider uppercase bg-[#E5D3AF]/50 border-[#E5D3AF] text-[#010736]"
       >
         SYSTEM {displayProject.number}
       </Badge>
-      <span className="font-display font-bold text-lg md:text-xl text-[#fbf5ee]">
+      <span className="font-display font-bold text-lg md:text-xl text-[#010736]">
         {displayProject.title}
       </span>
-      {displayProject.featured && (
-        <Badge variant="crimson" size="sm" dot pulse className="text-[10px]">
-          FEATURED SYSTEM
-        </Badge>
-      )}
     </span>
   );
 
   const modalDescNode = (
-    <span className="font-mono text-xs text-[#d4af37] tracking-wide uppercase">
+    <span className="font-mono text-xs text-[#800020] font-semibold tracking-wide uppercase">
       {displayProject.label}
     </span>
   );
@@ -131,18 +125,18 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
       title={modalTitleNode}
       description={modalDescNode}
       size="full"
-      className="bg-[#120906] border-[rgba(212,175,55,0.28)]"
+      className="bg-white border-[#E5D3AF]"
     >
-      <div className="space-y-8 pb-4 text-[#d8c8b8]">
-        {/* Top Architecture Overview & Summary */}
-        <section className="bg-[#170c08] p-5 sm:p-6 rounded-2xl border border-[rgba(212,175,55,0.15)] shadow-md">
+      <div className="space-y-8 pb-4 text-[#2C3352]">
+        {/* Top Architecture Overview */}
+        <section className="bg-[#F5EFE1]/70 p-5 sm:p-6 rounded-2xl border border-[#E5D3AF]">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div className="max-w-3xl">
-              <h3 className="font-display font-semibold text-base sm:text-lg text-[#fbf5ee] mb-2 flex items-center gap-2">
-                <Info className="w-4 h-4 text-[#d4af37]" />
+              <h3 className="font-display font-bold text-base sm:text-lg text-[#010736] mb-2 flex items-center gap-2">
+                <Info className="w-4 h-4 text-[#8B9A6E]" />
                 Architectural Overview
               </h3>
-              <p className="text-sm text-[#d8c8b8] leading-relaxed">
+              <p className="text-sm text-[#2C3352]/85 leading-relaxed">
                 {displayProject.overview || displayProject.description}
               </p>
             </div>
@@ -163,7 +157,7 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
               )}
               {displayProject.demoUrl && (
                 <Button
-                  variant="gold"
+                  variant="primary"
                   size="sm"
                   href={displayProject.demoUrl}
                   target="_blank"
@@ -180,10 +174,10 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
 
         {/* Tabbed Interactive Architecture Diagram Section */}
         <section className="space-y-3">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1 border-b border-[rgba(212,175,55,0.12)]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1 border-b border-[#E5D3AF]">
             <div className="flex items-center gap-2">
-              <Workflow className="w-4 h-4 text-[#d4af37]" />
-              <h3 className="font-display font-semibold text-base sm:text-lg text-[#fbf5ee]">
+              <Workflow className="w-4 h-4 text-[#800020]" />
+              <h3 className="font-display font-bold text-base sm:text-lg text-[#010736]">
                 Interactive Architecture Lightbox
               </h3>
             </div>
@@ -193,7 +187,7 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
               <div
                 role="tablist"
                 aria-label="Architecture Diagrams"
-                className="flex items-center gap-1.5 overflow-x-auto p-1 bg-[#0d0604] border border-[rgba(212,175,55,0.18)] rounded-xl"
+                className="flex items-center gap-1.5 overflow-x-auto p-1 bg-[#F5EFE1] border border-[#E5D3AF] rounded-xl"
               >
                 {diagrams.map((diag, dIdx) => {
                   const isActive = dIdx === safeIdx;
@@ -208,8 +202,8 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
                       onClick={() => setActiveDiagramIdx(dIdx)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
                         isActive
-                          ? 'bg-[rgba(212,175,55,0.18)] text-[#f5cb78] font-bold border border-[rgba(212,175,55,0.4)] shadow-[0_0_12px_rgba(212,175,55,0.2)]'
-                          : 'text-[#9e8779] hover:text-[#fbf5ee] hover:bg-white/[0.05]'
+                          ? 'bg-[#800020] text-white font-bold shadow-xs'
+                          : 'text-[#2C3352] hover:text-[#010736] hover:bg-[#E5D3AF]/40'
                       }`}
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-current opacity-80" />
@@ -227,7 +221,7 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
               role="tabpanel"
               id={`diagram-panel-${safeIdx}`}
               aria-labelledby={`diagram-tab-${safeIdx}`}
-              className="rounded-xl overflow-hidden border border-[rgba(212,175,55,0.2)] bg-[#0d0604] shadow-2xl"
+              className="rounded-xl overflow-hidden border border-[#E5D3AF] bg-[#F5EFE1] shadow-md"
             >
               <ZoomPanViewer
                 key={`${displayProject.id}-${safeIdx}-${currentDiagram.src}`}
@@ -239,13 +233,13 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
                 minScale={0.5}
                 maxScale={4}
               />
-              <div className="px-4 py-2.5 bg-[#170c08] border-t border-[rgba(212,175,55,0.12)] flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-[#9e8779]">
+              <div className="px-4 py-2.5 bg-white border-t border-[#E5D3AF] flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-[#6B7280]">
                 <div className="flex items-center gap-2">
-                  <span className="text-[#f5cb78] font-semibold">{currentDiagram.title}:</span>
-                  <span className="text-[#d8c8b8] line-clamp-1">{currentDiagram.caption}</span>
+                  <span className="text-[#010736] font-semibold">{currentDiagram.title}:</span>
+                  <span className="text-[#2C3352] line-clamp-1">{currentDiagram.caption}</span>
                 </div>
-                <div className="hidden sm:flex items-center gap-2 text-[#9e8779]/80 text-[11px]">
-                  <span>Scroll or pinch to zoom</span>
+                <div className="hidden sm:flex items-center gap-2 text-[#6B7280] text-[11px]">
+                  <span>Scroll to zoom</span>
                   <span>•</span>
                   <span>Drag to pan</span>
                   <span>•</span>
@@ -254,7 +248,7 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
               </div>
             </div>
           ) : (
-            <div className="h-64 flex items-center justify-center rounded-xl bg-[#0d0604] border border-dashed border-[rgba(212,175,55,0.2)] text-sm text-[#9e8779]">
+            <div className="h-64 flex items-center justify-center rounded-xl bg-[#F5EFE1] border border-dashed border-[#E5D3AF] text-sm text-[#6B7280]">
               No architecture diagram available for this system.
             </div>
           )}
@@ -264,8 +258,8 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
         {displayProject.pipeline && displayProject.pipeline.length > 0 && (
           <section className="space-y-4">
             <div className="flex items-center gap-2">
-              <GitBranch className="w-4 h-4 text-[#d4af37]" />
-              <h3 className="font-display font-semibold text-base sm:text-lg text-[#fbf5ee]">
+              <GitBranch className="w-4 h-4 text-[#8B9A6E]" />
+              <h3 className="font-display font-bold text-base sm:text-lg text-[#010736]">
                 End-to-End Pipeline Execution Flow
               </h3>
             </div>
@@ -274,44 +268,31 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
               {displayProject.pipeline.map((step: PipelineStep, sIdx: number) => (
                 <div
                   key={sIdx}
-                  className="relative p-4 rounded-xl bg-[#170c08] border border-[rgba(212,175,55,0.15)] shadow-sm hover:border-[rgba(212,175,55,0.35)] transition-all flex flex-col group"
+                  className="relative p-4 rounded-xl bg-[#F5EFE1]/60 border border-[#E5D3AF] shadow-xs hover:border-[#DB9558] transition-all flex flex-col group"
                 >
-                  {/* Step Header */}
                   <div className="flex items-center justify-between mb-3">
-                    <div className="p-2 rounded-lg bg-[rgba(212,175,55,0.08)] border border-[rgba(212,175,55,0.2)] text-[#f5cb78] group-hover:scale-105 group-hover:border-[rgba(212,175,55,0.4)] transition-all">
+                    <div className="p-2 rounded-lg bg-white border border-[#E5D3AF] text-[#800020] group-hover:scale-105 transition-all shadow-xs">
                       {resolveIcon(step.icon, 'w-4 h-4')}
                     </div>
-                    <span className="font-mono text-xs font-bold text-[#d4af37]/60">
+                    <span className="font-mono text-xs font-bold text-[#8B9A6E]">
                       STEP 0{sIdx + 1}
                     </span>
                   </div>
 
-                  {/* Step Title & Details */}
-                  <h4 className="font-display font-semibold text-sm sm:text-base text-[#fbf5ee] mb-1 group-hover:text-[#f5cb78] transition-colors">
+                  <h4 className="font-display font-semibold text-sm sm:text-base text-[#010736] mb-1">
                     {step.title}
                   </h4>
-                  <p className="text-xs text-[#9e8779] leading-relaxed mt-auto">
+                  <p className="text-xs text-[#2C3352]/75 leading-relaxed mt-auto">
                     {step.sub}
                   </p>
 
-                  {/* Visual Directional Flow Connectors between pipeline steps */}
                   {sIdx < displayProject.pipeline.length - 1 && (
-                    <>
-                      {/* Desktop horizontal flow connector */}
-                      <div
-                        className="hidden lg:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-[#120906] border border-[rgba(212,175,55,0.35)] items-center justify-center text-[#d4af37] shadow-md pointer-events-none"
-                        aria-hidden="true"
-                      >
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </div>
-                      {/* Mobile/tablet vertical flow connector */}
-                      <div
-                        className="flex lg:hidden justify-center -mb-2 mt-2 text-[#d4af37]/50"
-                        aria-hidden="true"
-                      >
-                        <ChevronDown className="w-4 h-4" />
-                      </div>
-                    </>
+                    <div
+                      className="hidden lg:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-white border border-[#E5D3AF] items-center justify-center text-[#800020] shadow-sm pointer-events-none"
+                      aria-hidden="true"
+                    >
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </div>
                   )}
                 </div>
               ))}
@@ -323,9 +304,9 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
         {displayProject.metrics && displayProject.metrics.length > 0 && (
           <section className="space-y-4">
             <div className="flex items-center gap-2">
-              <Gauge className="w-4 h-4 text-[#d4af37]" />
-              <h3 className="font-display font-semibold text-base sm:text-lg text-[#fbf5ee]">
-                Engineered Performance &amp; Scalability Benchmarks
+              <Gauge className="w-4 h-4 text-[#800020]" />
+              <h3 className="font-display font-bold text-base sm:text-lg text-[#010736]">
+                Engineered Performance Benchmarks
               </h3>
             </div>
 
@@ -333,21 +314,17 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
               {displayProject.metrics.map((metric: ProjectMetric, mIdx: number) => (
                 <div
                   key={mIdx}
-                  className="p-4 rounded-xl bg-[#170c08] border border-[rgba(212,175,55,0.15)] flex flex-col justify-between"
+                  className="p-4 rounded-xl bg-white border border-[#E5D3AF] flex flex-col justify-between shadow-xs"
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className="p-1.5 rounded-md bg-[rgba(212,175,55,0.06)] text-[#d4af37]">
+                    <span className="p-1.5 rounded-md bg-[#E5D3AF]/40 text-[#800020]">
                       {resolveIcon(metric.icon, 'w-4 h-4')}
                     </span>
-                    <span className="relative flex h-2 w-2" title="Benchmark verified">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-                    </span>
                   </div>
-                  <div className="font-mono font-bold text-xl sm:text-2xl text-[#f5cb78] tracking-tight">
+                  <div className="font-mono font-bold text-xl sm:text-2xl text-[#800020] tracking-tight">
                     {metric.num}
                   </div>
-                  <div className="text-xs text-[#9e8779] mt-1 font-sans">
+                  <div className="text-xs text-[#2C3352]/75 mt-1 font-sans">
                     {metric.label}
                   </div>
                 </div>
@@ -356,12 +333,12 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
           </section>
         )}
 
-        {/* Architectural Challenges & Solutions Deep Dive */}
+        {/* Architectural Challenges & Solutions */}
         {displayProject.challenges && displayProject.challenges.length > 0 && (
           <section className="space-y-4">
             <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-[#d4af37]" />
-              <h3 className="font-display font-semibold text-base sm:text-lg text-[#fbf5ee]">
+              <ShieldCheck className="w-4 h-4 text-[#8B9A6E]" />
+              <h3 className="font-display font-bold text-base sm:text-lg text-[#010736]">
                 Architectural Challenges &amp; Engineering Decisions
               </h3>
             </div>
@@ -370,17 +347,17 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
               {displayProject.challenges.map((challenge: ProjectChallenge, cIdx: number) => (
                 <div
                   key={cIdx}
-                  className="p-5 rounded-xl bg-[#170c08] border-l-2 border-l-[#d4af37] border-y border-r border-[rgba(212,175,55,0.12)] shadow-sm flex flex-col"
+                  className="p-5 rounded-xl bg-white border-l-3 border-l-[#800020] border-y border-r border-[#E5D3AF] shadow-xs flex flex-col"
                 >
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-mono font-bold text-[#f5cb78]">
+                    <span className="text-xs font-mono font-bold text-[#800020]">
                       Decision 0{cIdx + 1}
                     </span>
                   </div>
-                  <h4 className="font-display font-bold text-sm sm:text-base text-[#fbf5ee] mb-2">
+                  <h4 className="font-display font-bold text-sm sm:text-base text-[#010736] mb-2">
                     {challenge.title}
                   </h4>
-                  <p className="text-xs sm:text-sm text-[#9e8779] leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#2C3352]/75 leading-relaxed">
                     {challenge.desc}
                   </p>
                 </div>
@@ -389,14 +366,14 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
           </section>
         )}
 
-        {/* Tech Stack Pills & Modal Footer */}
-        <section className="pt-6 border-t border-[rgba(212,175,55,0.15)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        {/* Tech Stack Chips & Modal Footer */}
+        <section className="pt-6 border-t border-[#E5D3AF] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-1.5 max-w-2xl">
-            <span className="text-xs font-mono text-[#9e8779] mr-2">Technologies:</span>
+            <span className="text-xs font-mono text-[#6B7280] mr-2">Technologies:</span>
             {(displayProject.tags || []).map((tag, tIdx) => (
               <span
                 key={tIdx}
-                className="px-2.5 py-1 text-xs font-mono rounded-lg bg-white/[0.04] text-[#d8c8b8] border border-[rgba(212,175,55,0.12)]"
+                className="px-2.5 py-1 text-xs font-mono rounded-lg bg-[#E5D3AF]/40 text-[#010736] border border-[#E5D3AF]"
               >
                 {tag}
               </span>

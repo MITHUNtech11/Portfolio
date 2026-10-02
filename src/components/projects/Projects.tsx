@@ -1,9 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'motion/react';
-import { Layers, Workflow, Cpu, Sparkles, Filter } from 'lucide-react';
+import { Layers } from 'lucide-react';
 import { ProjectCard } from './ProjectCard';
 import { ArchitectureModal } from './ArchitectureModal';
-import { Badge } from '../ui/Badge';
 import { projectsData as defaultProjects } from '../../data/projects';
 import type { Project } from '../../types';
 
@@ -57,71 +56,33 @@ export const Projects: React.FC<ProjectsProps> = ({
   return (
     <section
       id="projects"
-      className={`relative py-24 md:py-32 bg-[#0d0604] overflow-hidden ${className}`.trim()}
+      className={`relative py-24 md:py-32 bg-[#F5EFE1] overflow-hidden ${className}`.trim()}
       aria-label="Featured Systems Showcase"
     >
-      {/* Background Decorative Mesh & Radial Glows */}
-      <div
-        className="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-br from-[rgba(212,175,55,0.06)] via-[rgba(192,57,43,0.04)] to-transparent blur-[120px] rounded-full"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute bottom-10 right-10 w-[450px] h-[350px] bg-[rgba(212,175,55,0.03)] blur-[100px] rounded-full"
-        aria-hidden="true"
-      />
-
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center mb-14 md:mb-18">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-            className="flex justify-center mb-3"
-          >
-            <Badge
-              variant="gold"
-              size="sm"
-              dot
-              pulse
-              className="px-3.5 py-1 tracking-wider uppercase font-mono shadow-[0_0_16px_rgba(212,175,55,0.15)]"
-            >
-              PRODUCTION SYSTEMS &amp; ARCHITECTURES
-            </Badge>
-          </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#fbf5ee] tracking-tight leading-tight mb-4"
-          >
-            Featured Systems{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] via-[#f5cb78] to-[#d4af37]">
-              Showcase
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <span className="h-px w-6 bg-[#8B9A6E]" />
+            <span className="font-mono text-xs font-bold text-[#8B9A6E] uppercase tracking-widest">
+              04 // Featured Systems
             </span>
-          </motion.h2>
+            <span className="h-px w-6 bg-[#8B9A6E]" />
+          </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-sm sm:text-base md:text-lg text-[#9e8779] leading-relaxed font-sans"
-          >
+          <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#010736] tracking-tight leading-tight mb-4">
+            Production Systems{' '}
+            <span className="text-[#800020]">Showcase</span>
+          </h2>
+
+          <p className="text-sm sm:text-base md:text-lg text-[#2C3352]/80 leading-relaxed font-sans">
             Production-grade backends, high-throughput distributed screening pipelines, and
             graph algorithmic engines engineered with strict MVC separation, normalized relational
             schemas, and measured latency benchmarks.
-          </motion.p>
+          </p>
 
           {/* Category Filter Tabs */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+          <div
             className="flex flex-wrap items-center justify-center gap-2 mt-8"
             role="group"
             aria-label="Filter systems by category"
@@ -140,8 +101,8 @@ export const Projects: React.FC<ProjectsProps> = ({
                   onClick={() => setSelectedCategory(opt.id)}
                   className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-mono transition-all duration-200 cursor-pointer flex items-center gap-2 ${
                     isActive
-                      ? 'bg-gradient-to-r from-[rgba(212,175,55,0.22)] to-[rgba(212,175,55,0.1)] text-[#f5cb78] font-semibold border border-[rgba(212,175,55,0.45)] shadow-[0_0_16px_rgba(212,175,55,0.15)] scale-[1.02]'
-                      : 'bg-[#170c08]/80 text-[#9e8779] border border-[rgba(212,175,55,0.12)] hover:border-[rgba(212,175,55,0.28)] hover:text-[#fbf5ee]'
+                      ? 'bg-[#800020] text-white font-semibold shadow-sm scale-[1.02]'
+                      : 'bg-white text-[#2C3352] border border-[#E5D3AF] hover:border-[#DB9558] hover:text-[#010736]'
                   }`}
                   aria-pressed={isActive}
                 >
@@ -149,8 +110,8 @@ export const Projects: React.FC<ProjectsProps> = ({
                   <span
                     className={`text-[10px] px-1.5 py-0.5 rounded-full ${
                       isActive
-                        ? 'bg-[rgba(212,175,55,0.3)] text-[#f5cb78]'
-                        : 'bg-white/[0.05] text-[#9e8779]'
+                        ? 'bg-white/20 text-white'
+                        : 'bg-[#E5D3AF]/50 text-[#2C3352]'
                     }`}
                   >
                     {count}
@@ -158,7 +119,7 @@ export const Projects: React.FC<ProjectsProps> = ({
                 </button>
               );
             })}
-          </motion.div>
+          </div>
         </div>
 
         {/* Projects Cards Grid */}
@@ -173,14 +134,14 @@ export const Projects: React.FC<ProjectsProps> = ({
           ))}
         </div>
 
-        {/* Empty State Fallback (if any filter has 0 items) */}
+        {/* Empty State Fallback */}
         {filteredProjects.length === 0 && (
-          <div className="py-16 text-center text-[#9e8779] bg-[#170c08] rounded-2xl border border-dashed border-[rgba(212,175,55,0.2)]">
-            <Layers className="w-10 h-10 mx-auto text-[#d4af37]/60 mb-3" />
-            <p className="text-base font-display font-medium text-[#fbf5ee]">
+          <div className="py-16 text-center text-[#2C3352]/70 bg-white rounded-2xl border border-dashed border-[#E5D3AF]">
+            <Layers className="w-10 h-10 mx-auto text-[#8B9A6E] mb-3" />
+            <p className="text-base font-display font-medium text-[#010736]">
               No architecture systems found in this category.
             </p>
-            <p className="text-xs font-mono mt-1 text-[#9e8779]">
+            <p className="text-xs font-mono mt-1 text-[#6B7280]">
               Try selecting "All Architectures" to view full portfolio systems.
             </p>
           </div>

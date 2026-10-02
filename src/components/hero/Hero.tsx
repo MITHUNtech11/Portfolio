@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
+import React, { useState, useEffect, useRef } from 'react';
+import { animate, stagger } from 'animejs';
 import {
   ArrowRight,
   Download,
@@ -10,15 +10,14 @@ import {
   Terminal,
   MapPin,
   Sparkles,
-  Award,
-  GraduationCap,
 } from 'lucide-react';
 import { profileData } from '../../data/profile';
 import { ProfileData } from '../../types';
 import { Button } from '../ui/Button';
-import { Badge } from '../ui/Badge';
 import { PortraitCard } from './PortraitCard';
 import { StatCounter } from './StatCounter';
+import { useParticleField } from '../../lib/three-particles';
+import { smoothScrollTo } from '../../lib/gsap';
 
 export interface HeroProps {
   profile?: ProfileData;
@@ -44,17 +43,36 @@ export const Hero: React.FC<HeroProps> = ({
   profile = profileData,
   className = '',
 }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  useParticleField(canvasRef);
+
   const rawTexts =
     profile.typewriterTexts && profile.typewriterTexts.length > 0
       ? profile.typewriterTexts
       : [profile.tagline || profile.headline || 'Backend & Systems Engineer'];
   const texts = rawTexts.filter(Boolean);
 
-  // Dynamic typewriter state machine
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [displayText, setDisplayText] = useState(() => (texts.length > 0 ? texts[0] : ''));
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // Name letter stagger animation via anime.js v4
+  const nameRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    if (typeof window === 'undefined' || !nameRef.current) return;
+    const letters = nameRef.current.querySelectorAll('.hero-letter');
+    if (letters.length > 0) {
+      animate(letters, {
+        opacity: [0, 1],
+        translateY: [24, 0],
+        ease: 'outExpo',
+        duration: 900,
+        delay: stagger(35, { start: 150 }),
+      });
+    }
+  }, []);
+
+  // Dynamic typewriter state machine
   useEffect(() => {
     if (!texts.length) return;
 
@@ -65,22 +83,22 @@ export const Hero: React.FC<HeroProps> = ({
       if (displayText.length < fullText.length) {
         timer = setTimeout(() => {
           setDisplayText(fullText.slice(0, displayText.length + 1));
-        }, 30);
+        }, 28);
       } else {
         timer = setTimeout(() => {
           setIsDeleting(true);
-        }, 2800);
+        }, 3000);
       }
     } else {
       if (displayText.length > 0) {
         timer = setTimeout(() => {
           setDisplayText(fullText.slice(0, displayText.length - 1));
-        }, 15);
+        }, 14);
       } else {
         timer = setTimeout(() => {
           setIsDeleting(false);
           setCurrentTextIndex((prev) => (prev + 1) % texts.length);
-        }, 400);
+        }, 350);
       }
     }
 
@@ -94,113 +112,93 @@ export const Hero: React.FC<HeroProps> = ({
       : `/${rawResume}`;
   const resumeFileName = rawResume.split('/').pop() || 'Mithun_Senthil_Resume.docx';
 
+  // Split candidate name into individual character spans for anime.js
+  const candidateName = profile.name || 'Mithun Senthil S';
+  const nameLetters = candidateName.split('').map((char, index) => (
+    <span
+      key={index}
+      className="hero-letter inline-block opacity-0"
+      style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
+    >
+      {char}
+    </span>
+  ));
+
   return (
     <section
       id="hero"
-      aria-label="Introduction & Recruiter Fast Scan"
-      className={`relative w-full min-h-screen flex flex-col justify-center overflow-hidden bg-[#0d0604] text-[#fbf5ee] pt-20 pb-16 px-4 sm:px-6 lg:px-8 xl:px-12 ${className}`.trim()}
+      aria-label="Introduction"
+      className={`relative w-full min-h-[92vh] flex flex-col justify-center overflow-hidden bg-[#F5EFE1] text-[#010736] pt-24 pb-16 px-4 sm:px-6 lg:px-8 xl:px-12 ${className}`.trim()}
     >
-      {/* --- Ambient Radial Obsidian Background Mesh --- */}
-      <div
-        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+      {/* --- Three.js WebGL Interactive Particle Background --- */}
+      <canvas
+        ref={canvasRef}
         aria-hidden="true"
-      >
-        {/* Amber/Gold radial highlight (top-left) */}
-        <div className="absolute -top-[15%] -left-[10%] w-[55vw] h-[55vw] max-w-[650px] max-h-[650px] rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.09)_0%,transparent_70%)] blur-2xl" />
-
-        {/* Crimson radial glow (center-right) */}
-        <div className="absolute top-[25%] -right-[15%] w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full bg-[radial-gradient(circle,rgba(192,57,43,0.1)_0%,transparent_70%)] blur-3xl" />
-
-        {/* Deep obsidian ambient floor glow (bottom-center) */}
-        <div className="absolute -bottom-[10%] left-[20%] w-[60vw] h-[30vw] max-w-[800px] rounded-full bg-[radial-gradient(ellipse,rgba(212,175,55,0.05)_0%,transparent_75%)] blur-3xl" />
-
-        {/* Tech Grid Pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.035]"
-          style={{
-            backgroundImage:
-              'radial-gradient(rgba(212, 175, 55, 0.6) 1px, transparent 1px)',
-            backgroundSize: '32px 32px',
-          }}
-        />
-      </div>
+        className="pointer-events-none absolute inset-0 z-0 w-full h-full"
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-col gap-12 lg:gap-16 my-auto">
-        {/* --- Top Row: Fast-Scan Profile Header & Portrait Card --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
-          {/* Left Column: Recruiter Hook & Core Content (Cols 1-7) */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="lg:col-span-7 flex flex-col items-start text-left"
-          >
-            {/* Recruiter Fast-Scan Pill & Live Status */}
-            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 mb-4">
-              <Badge
-                variant="emerald"
-                size="sm"
-                dot
-                pulse
-                className="backdrop-blur-md bg-[#0d0604]/90 border-emerald-500/40"
-              >
-                {profile.status}
-              </Badge>
-
-              <span className="inline-flex items-center gap-1.5 text-xs font-mono text-[#9e8779] bg-[#170c08]/80 border border-white/5 rounded-full px-3 py-1">
-                <MapPin className="w-3.5 h-3.5 text-[#d4af37]" />
+        {/* --- Top Row: Split Editorial Layout --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          {/* Left Column: Typography & CTAs (Cols 1-7) */}
+          <div className="lg:col-span-7 flex flex-col items-start text-left">
+            {/* Editorial Eyebrow Tag in Sage Green */}
+            <div className="flex items-center gap-2 mb-4">
+              <span className="h-px w-6 bg-[#8B9A6E]" />
+              <span className="font-mono text-xs font-bold text-[#8B9A6E] uppercase tracking-widest">
+                01 // Portfolio
+              </span>
+              <span className="text-xs font-mono text-[#6B7280] ml-2 flex items-center gap-1">
+                <MapPin className="w-3 h-3 text-[#DB9558]" />
                 {profile.location}
               </span>
-
-              <span className="text-xs font-mono text-[#d8c8b8] hidden sm:inline-flex items-center px-3 py-1 rounded-full bg-[#170c08]/80 border border-[#d4af37]/20">
-                {profile.university} (CGPA 8.46)
-              </span>
             </div>
 
-            {/* Candidate Name Pre-title */}
-            <div className="inline-flex items-center gap-2 mb-2">
-              <span className="h-px w-6 bg-[#d4af37]/60" />
-              <p className="font-mono text-xs sm:text-sm text-[#f5cb78] font-bold tracking-wider uppercase">
-                {profile.name}
-              </p>
-            </div>
-
-            {/* High-Impact Headline */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[2.75rem] xl:text-[3.25rem] font-extrabold font-display tracking-tight text-[#fbf5ee] leading-[1.12] mb-5">
-              Dual Hybrid:{' '}
-              <span className="bg-gradient-to-r from-[#d4af37] via-[#f5cb78] to-[#d4af37] bg-clip-text text-transparent">
-                Backend &amp; Systems Engineer
-              </span>{' '}
-              with Applied AI
+            {/* Candidate Name Stagger Heading */}
+            <h1
+              ref={nameRef}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-[4rem] font-extrabold font-display tracking-tight text-[#010736] leading-[1.08] mb-4"
+            >
+              {nameLetters}
             </h1>
 
-            {/* Dynamic Typewriter Role Pill */}
+            {/* Headline Subtitle */}
+            <h2 className="text-xl sm:text-2xl font-display font-medium text-[#2C3352] mb-6">
+              Backend &amp; Systems Engineer{' '}
+              <span className="text-[#800020] font-semibold">with Applied AI</span>
+            </h2>
+
+            {/* Typewriter Terminal Bar with Sage Green prompt */}
             <div
-              className="w-full max-w-2xl min-h-[58px] rounded-xl bg-[#170c08]/90 border border-[#d4af37]/30 p-3 sm:px-4 sm:py-3 flex items-start gap-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.5)] mb-6"
+              className="w-full max-w-2xl min-h-[52px] rounded-xl bg-white/80 border border-[#E5D3AF] p-3 sm:px-4 sm:py-3 flex items-start gap-2.5 shadow-[0_4px_16px_rgba(1,7,54,0.03)] mb-6 backdrop-blur-sm"
               aria-live="polite"
             >
-              <Terminal className="w-4 h-4 text-[#d4af37] shrink-0 mt-0.5" />
-              <p className="font-mono text-xs sm:text-sm text-[#d8c8b8] leading-relaxed break-words flex-1">
-                <span className="text-[#f5cb78] font-semibold">sys@mithun:~$ </span>
+              <Terminal className="w-4 h-4 text-[#8B9A6E] shrink-0 mt-0.5" />
+              <p className="font-mono text-xs sm:text-sm text-[#2C3352] leading-relaxed break-words flex-1">
+                <span className="text-[#8B9A6E] font-semibold">sys@mithun:~$ </span>
                 <span>{displayText}</span>
                 <span
-                  className="inline-block w-1.5 h-4 ml-1 bg-[#d4af37] animate-pulse align-middle"
+                  className="inline-block w-1.5 h-4 ml-1 bg-[#800020] animate-pulse align-middle"
                   aria-hidden="true"
                 />
               </p>
             </div>
 
-            {/* Brief Elevator Pitch */}
-            <p className="text-sm sm:text-base text-[#d8c8b8] leading-relaxed font-body max-w-2xl mb-8">
-              Final-year B.Tech (AI &amp; Data Science, CGPA 8.46) at Saveetha University with Oracle certifications in Java SE 11 &amp; SQL. Hands-on track record across healthcare (Kauvery Hospital) and enterprise IT (RedBack IT) engineering automated data ingestion vaults, schema validation microservices, and graph optimization algorithms.
+            {/* Bio summary */}
+            <p className="text-sm sm:text-base text-[#2C3352]/80 leading-relaxed font-body max-w-2xl mb-8">
+              Final-year B.Tech (AI &amp; Data Science, CGPA 8.46) at Saveetha University with Oracle certifications in Java SE 11 &amp; SQL. Hands-on experience developing automated healthcare ingestion vaults, schema validation microservices, and graph optimization algorithms.
             </p>
 
-            {/* Primary CTAs */}
+            {/* Primary Action Buttons */}
             <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-8">
               <Button
                 variant="primary"
                 size="lg"
                 href="#projects"
+                onClick={(e) => {
+                  e.preventDefault();
+                  smoothScrollTo('#projects', 75);
+                }}
                 rightIcon={<ArrowRight className="w-4 h-4" />}
               >
                 Explore Systems
@@ -220,16 +218,20 @@ export const Hero: React.FC<HeroProps> = ({
                 variant="ghost"
                 size="lg"
                 href="#contact"
-                leftIcon={<Mail className="w-4 h-4" />}
+                onClick={(e) => {
+                  e.preventDefault();
+                  smoothScrollTo('#contact', 75);
+                }}
+                leftIcon={<Mail className="w-4 h-4 text-[#800020]" />}
               >
                 Get in Touch
               </Button>
             </div>
 
-            {/* Fast Connect Social Links */}
-            <div className="flex items-center gap-3">
-              <span className="text-xs font-mono text-[#9e8779] uppercase tracking-wider hidden sm:inline-block mr-1">
-                Quick Connect:
+            {/* Quick Connect Social Links */}
+            <div className="flex items-center gap-2.5">
+              <span className="text-xs font-mono text-[#6B7280] uppercase tracking-wider hidden sm:inline-block mr-1">
+                Connect:
               </span>
               {(profile.socialLinks || []).map((link, idx) => {
                 const icon = getSocialIcon(link.platform);
@@ -238,55 +240,35 @@ export const Hero: React.FC<HeroProps> = ({
                     key={`${link.platform}-${idx}`}
                     href={link.url}
                     target={link.url.startsWith('http') ? '_blank' : undefined}
-                    rel={
-                      link.url.startsWith('http')
-                        ? 'noopener noreferrer'
-                        : undefined
-                    }
+                    rel={link.url.startsWith('http') ? 'noopener noreferrer' : undefined}
                     aria-label={link.label}
                     title={link.label}
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-[#170c08] border border-[rgba(212,175,55,0.2)] text-[#d8c8b8] hover:text-[#f5cb78] hover:border-[#d4af37] hover:bg-[#d4af37]/10 transition-all duration-200"
+                    className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-white border border-[#E5D3AF] text-[#010736] hover:text-[#800020] hover:border-[#800020] hover:bg-[#E5D3AF]/30 transition-all duration-200 shadow-sm"
                   >
                     {icon}
                   </a>
                 );
               })}
             </div>
-          </motion.div>
+          </div>
 
-          {/* Right Column: 3D Tilt Portrait Card (Cols 8-12) */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.15, ease: 'easeOut' }}
-            className="lg:col-span-5 flex justify-center lg:justify-end"
-          >
+          {/* Right Column: Clean Editorial Portrait (Cols 8-12) */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end">
             <PortraitCard
               avatarUrl={profile.avatarUrl}
               name={profile.name}
-              topBadge={{
-                text: 'Oracle Java SE 11 Certified',
-                variant: 'gold',
-                icon: <Award className="w-3.5 h-3.5 text-[#f5cb78]" />,
-              }}
-              bottomBadge={{
-                text: 'Saveetha CGPA 8.46',
-                variant: 'crimson',
-                icon: <GraduationCap className="w-3.5 h-3.5 text-[#e74c3c]" />,
-              }}
-              availableBadgeText={profile.status}
             />
-          </motion.div>
+          </div>
         </div>
 
-        {/* --- Bottom Row: Animated Recruiter Impact Counters --- */}
+        {/* --- Bottom Row: Editorial Stat Highlights --- */}
         <div className="w-full pt-4">
           <div className="flex items-center gap-3 mb-4">
-            <span className="h-px w-8 bg-[#d4af37]/40" />
-            <h2 className="text-xs sm:text-sm font-mono uppercase tracking-widest text-[#f5cb78] font-semibold">
-              Recruiter Impact Highlights
+            <span className="h-px w-6 bg-[#8B9A6E]" />
+            <h2 className="text-xs font-mono uppercase tracking-widest text-[#8B9A6E] font-bold">
+              Engineering Impact Metrics
             </h2>
-            <span className="h-px flex-1 bg-gradient-to-r from-[#d4af37]/40 to-transparent" />
+            <span className="h-px flex-1 bg-gradient-to-r from-[#E5D3AF] to-transparent" />
           </div>
 
           <StatCounter stats={profile.recruiterStats} />

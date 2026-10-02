@@ -10,8 +10,7 @@ export interface ReadingProgressProps extends React.HTMLAttributes<HTMLDivElemen
  * ReadingProgress
  *
  * Framer Motion scaleX scroll progress bar anchored to the top of the viewport.
- * Uses a warm gold gradient and spring physics for smooth tracking,
- * respecting user reduced-motion preferences.
+ * Uses a Burgundy to Terracotta gradient for smooth editorial tracking.
  */
 export const ReadingProgress: React.FC<ReadingProgressProps> = ({
   className = '',
@@ -38,7 +37,7 @@ export const ReadingProgress: React.FC<ReadingProgressProps> = ({
     >
       <motion.div
         style={{ scaleX, transformOrigin: '0%' }}
-        className={`h-full w-full bg-gradient-to-r from-[#c0392b] via-[#d4af37] to-[#f5cb78] shadow-[0_0_12px_rgba(212,175,55,0.7),0_0_4px_rgba(245,203,120,0.9)] will-change-transform ${className}`.trim()}
+        className={`h-full w-full bg-gradient-to-r from-[#800020] via-[#DB9558] to-[#8B9A6E] shadow-[0_1px_6px_rgba(128,0,32,0.3)] will-change-transform ${className}`.trim()}
       />
     </div>
   );

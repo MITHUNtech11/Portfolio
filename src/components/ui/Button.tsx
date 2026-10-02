@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, HTMLMotionProps } from 'motion/react';
 
-export type ButtonVariant = 'primary' | 'gold' | 'outline' | 'ghost';
+export type ButtonVariant = 'primary' | 'secondary' | 'gold' | 'outline' | 'ghost';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -20,13 +20,15 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    'bg-gradient-to-r from-[#c0392b] via-[#d63031] to-[#c0392b] text-[#fbf5ee] border border-[#e74c3c]/50 shadow-[0_4px_20px_rgba(231,76,60,0.35)] hover:shadow-[0_4px_28px_rgba(231,76,60,0.6)] hover:border-[#e74c3c]',
+    'bg-[#800020] text-white border border-[#800020] shadow-[0_4px_16px_rgba(128,0,32,0.25)] hover:bg-[#660019] hover:border-[#660019] hover:shadow-[0_6px_22px_rgba(128,0,32,0.35)]',
+  secondary:
+    'bg-[#E5D3AF] text-[#010736] border border-[#d8c397] font-semibold hover:bg-[#d8c397] shadow-sm',
   gold:
-    'bg-gradient-to-r from-[#d4af37] via-[#f5cb78] to-[#d4af37] text-[#0d0604] font-semibold border border-[#f5cb78]/60 shadow-[0_4px_20px_rgba(212,175,55,0.3)] hover:shadow-[0_4px_28px_rgba(245,203,120,0.55)] hover:brightness-105',
+    'bg-[#DB9558] text-white font-semibold border border-[#c98344] shadow-[0_4px_16px_rgba(219,149,88,0.3)] hover:bg-[#c98344]',
   outline:
-    'border border-[#d4af37]/35 text-[#fbf5ee] bg-[#170c08]/70 backdrop-blur-sm hover:border-[#d4af37] hover:bg-[#d4af37]/10 hover:text-[#f5cb78] hover:shadow-[0_0_18px_rgba(212,175,55,0.2)]',
+    'border border-[#010736]/30 text-[#010736] bg-transparent hover:border-[#010736] hover:bg-[#010736]/5',
   ghost:
-    'bg-transparent text-[#d8c8b8] hover:text-[#fbf5ee] hover:bg-white/[0.06] active:bg-white/[0.1] border border-transparent',
+    'bg-transparent text-[#010736] hover:bg-[#E5D3AF]/40 active:bg-[#E5D3AF]/60 border border-transparent',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -55,7 +57,7 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const effectiveLeftIcon = leftIcon || icon;
   const baseClasses =
-    'inline-flex items-center justify-center font-display font-medium select-none cursor-pointer transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/60 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed';
+    'inline-flex items-center justify-center font-display font-medium select-none cursor-pointer transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/50 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed';
 
   const combinedClasses = `${baseClasses} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`.trim();
 

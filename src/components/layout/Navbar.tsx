@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, Download, Terminal, ChevronRight } from 'lucide-react';
 import { profileData } from '../../data/profile';
 import { Button } from '../ui/Button';
+import { smoothScrollTo } from '../../lib/gsap';
 
 export interface NavItem {
   label: string;
@@ -27,8 +28,9 @@ export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
 /**
  * Navbar
  *
- * Sticky frosted-glass header with active section tracking, live radar status beacon,
- * desktop navigation links, resume CTA, and a responsive mobile drawer.
+ * Minimalist editorial sticky header inspired by modern Hostinger templates.
+ * Clean typography in Midnight Navy (#010736), active indicator in Burgundy (#800020),
+ * and quick-action Resume CTA.
  */
 export const Navbar: React.FC<NavbarProps> = ({
   className = '',
@@ -42,14 +44,13 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const currentActiveSection = controlledActiveSection ?? internalActiveSection;
 
-  // Track scroll position for sticky background styling and bottom-of-page contact activation
+  // Track scroll position for sticky background styling
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 16);
 
-      // If user reaches near the bottom of the page, activate the last section (#contact)
       if (!controlledActiveSection && typeof document !== 'undefined') {
         const scrollPosition = window.innerHeight + window.scrollY;
         const pageBottom = document.documentElement.scrollHeight - 60;
@@ -126,7 +127,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   }, [isMobileMenuOpen]);
 
-  // Close mobile drawer on desktop resize to prevent scroll lock leak
+  // Close mobile drawer on desktop resize
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -156,70 +157,48 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, [handleKeyDown]);
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
     setInternalActiveSection(href);
     setIsMobileMenuOpen(false);
-
-    if (typeof document !== 'undefined') {
-      const targetId = href.replace('#', '');
-      const targetEl = document.getElementById(targetId);
-      if (targetEl) {
-        e.preventDefault();
-        const prefersReducedMotion =
-          typeof window !== 'undefined' &&
-          window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        targetEl.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-        if (typeof window !== 'undefined' && window.history?.pushState) {
-          window.history.pushState(null, '', href);
-        }
-      }
+    smoothScrollTo(href, 75);
+    if (typeof window !== 'undefined' && window.history?.pushState) {
+      window.history.pushState(null, '', href);
     }
   };
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full transition-all duration-300 bg-[#0d0604]/80 backdrop-blur-md ${
+      className={`sticky top-0 z-40 w-full transition-all duration-300 ${
         isScrolled
-          ? 'border-b border-[rgba(212,175,55,0.22)] shadow-[0_8px_32px_rgba(0,0,0,0.65)]'
-          : 'border-b border-[rgba(212,175,55,0.12)]'
+          ? 'bg-[#F5EFE1]/90 backdrop-blur-md border-b border-[#E5D3AF] shadow-[0_4px_20px_rgba(1,7,54,0.04)]'
+          : 'bg-transparent border-b border-transparent'
       } ${className}`.trim()}
       {...rest}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-18">
-          {/* Left: Brand Identity & Live Radar Status Beacon */}
-          <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center justify-between h-16 md:h-20">
+          {/* Left: Clean Brand Identity (No status beacon) */}
+          <div className="flex items-center gap-3">
             <a
               href="#about"
               onClick={(e) => handleLinkClick(e, '#about')}
-              className="group flex items-center gap-2.5 font-display text-base sm:text-lg font-bold text-[#fbf5ee] tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/60 rounded-lg p-1"
-              aria-label="Mithun Senthil S - Back to top / About"
+              className="group flex items-center gap-2.5 font-display text-lg font-bold text-[#010736] tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/40 rounded-lg p-1"
+              aria-label="Mithun Senthil S - Home"
             >
-              <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#c0392b] to-[#170c08] border border-[#e74c3c]/40 flex items-center justify-center text-[#fbf5ee] shadow-[0_0_12px_rgba(231,76,60,0.25)] group-hover:border-[#d4af37]/60 transition-colors">
-                <Terminal className="w-4 h-4 text-[#f5cb78]" />
+              <span className="w-8 h-8 rounded-lg bg-[#010736] text-[#F5EFE1] flex items-center justify-center font-display font-extrabold text-sm shadow-sm group-hover:bg-[#800020] transition-colors">
+                M
               </span>
-              <span className="flex items-baseline gap-1">
+              <span className="flex items-baseline gap-1 font-display font-bold">
                 <span>{profileData.preferredName || 'Mithun'}</span>
-                <span className="text-[#d4af37] text-xs font-mono">.dev</span>
+                <span className="text-[#DB9558] text-xs font-mono">.dev</span>
               </span>
             </a>
-
-            {/* Live Radar Status Beacon (Desktop & Tablet) */}
-            <div
-              className="hidden sm:inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 text-xs font-mono shadow-[0_0_12px_rgba(16,185,129,0.12)]"
-              title="Live Availability Status"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping motion-reduce:animate-none absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-              </span>
-              <span className="tracking-tight select-none">Available for Roles</span>
-            </div>
           </div>
 
           {/* Center: Desktop Navigation Links */}
           <nav
             aria-label="Main Navigation"
-            className="hidden md:flex items-center gap-1 lg:gap-2"
+            className="hidden md:flex items-center gap-1 lg:gap-3"
           >
             {NAV_LINKS.map((link) => {
               const isActive = currentActiveSection === link.href;
@@ -229,17 +208,17 @@ export const Navbar: React.FC<NavbarProps> = ({
                   href={link.href}
                   onClick={(e) => handleLinkClick(e, link.href)}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`relative px-3 py-1.5 rounded-lg text-xs lg:text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/60 ${
+                  className={`relative px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/40 ${
                     isActive
-                      ? 'text-[#f5cb78] font-semibold'
-                      : 'text-[#d8c8b8] hover:text-[#fbf5ee] hover:bg-white/[0.04]'
+                      ? 'text-[#800020] font-semibold'
+                      : 'text-[#010736]/75 hover:text-[#010736] hover:bg-[#E5D3AF]/30'
                   }`}
                 >
                   {link.label}
                   {isActive && (
                     <motion.div
                       layoutId="navbar-active-indicator"
-                      className="absolute inset-0 bg-[rgba(212,175,55,0.12)] border border-[rgba(212,175,55,0.3)] rounded-lg -z-10 shadow-[0_0_12px_rgba(212,175,55,0.15)]"
+                      className="absolute bottom-0 left-2 right-2 h-0.5 bg-[#800020] rounded-full"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -248,12 +227,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Right: Resume CTA & Mobile Hamburger Toggle */}
+          {/* Right: Resume CTA & Mobile Hamburger */}
           <div className="flex items-center gap-3">
-            {/* Desktop Resume Download CTA */}
             <div className="hidden sm:block">
               <Button
-                variant="gold"
+                variant="primary"
                 size="sm"
                 href={resumeUrl}
                 download="Mithun_Senthil_Resume.docx"
@@ -265,37 +243,34 @@ export const Navbar: React.FC<NavbarProps> = ({
               </Button>
             </div>
 
-            {/* Mobile Hamburger Toggle Button */}
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-navigation-drawer"
-              className="md:hidden p-2 rounded-xl text-[#d8c8b8] hover:text-[#fbf5ee] hover:bg-white/[0.08] active:bg-white/[0.12] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/60 cursor-pointer"
+              className="md:hidden p-2 rounded-xl text-[#010736] hover:bg-[#E5D3AF]/50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/40 cursor-pointer"
             >
-              {isMobileMenuOpen ? <X className="w-5 h-5 text-[#f5cb78]" /> : <Menu className="w-5 h-5" />}
+              {isMobileMenuOpen ? <X className="w-5 h-5 text-[#800020]" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation Drawer Overlay & Panel */}
+      {/* Mobile Navigation Drawer */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 top-16 bg-[#0d0604]/80 backdrop-blur-sm z-40 md:hidden"
+              className="fixed inset-0 top-16 bg-[#010736]/30 backdrop-blur-sm z-40 md:hidden"
               aria-hidden="true"
             />
 
-            {/* Slide-out Drawer Menu */}
             <motion.div
               id="mobile-navigation-drawer"
               role="dialog"
@@ -305,22 +280,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-              className="absolute top-full left-0 right-0 z-50 md:hidden bg-[#140a07] border-b border-[rgba(212,175,55,0.2)] shadow-[0_20px_50px_rgba(0,0,0,0.85)] px-4 py-5 flex flex-col gap-4 overflow-hidden"
+              className="absolute top-full left-0 right-0 z-50 md:hidden bg-[#F5EFE1] border-b border-[#E5D3AF] shadow-[0_20px_40px_rgba(1,7,54,0.12)] px-4 py-6 flex flex-col gap-4 overflow-hidden"
             >
-              {/* Mobile Live Radar Beacon */}
-              <div className="flex items-center justify-between pb-3 border-b border-[rgba(212,175,55,0.12)]">
-                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping motion-reduce:animate-none absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                  </span>
-                  <span>Available for Roles</span>
-                </div>
-
-                <span className="text-[11px] font-mono text-[#9e8779]">Saveetha '27</span>
-              </div>
-
-              {/* Navigation Links */}
               <nav aria-label="Mobile Navigation" className="flex flex-col gap-1">
                 {NAV_LINKS.map((link) => {
                   const isActive = currentActiveSection === link.href;
@@ -330,16 +291,16 @@ export const Navbar: React.FC<NavbarProps> = ({
                       href={link.href}
                       onClick={(e) => handleLinkClick(e, link.href)}
                       aria-current={isActive ? 'page' : undefined}
-                      className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                      className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                         isActive
-                          ? 'bg-[rgba(212,175,55,0.14)] text-[#f5cb78] border border-[rgba(212,175,55,0.25)] font-semibold'
-                          : 'text-[#d8c8b8] hover:text-[#fbf5ee] hover:bg-white/[0.04]'
+                          ? 'bg-[#E5D3AF] text-[#800020] font-semibold'
+                          : 'text-[#010736] hover:bg-[#E5D3AF]/40'
                       }`}
                     >
                       <span>{link.label}</span>
                       <ChevronRight
                         className={`w-4 h-4 transition-transform ${
-                          isActive ? 'text-[#f5cb78] translate-x-0.5' : 'text-[#9e8779]'
+                          isActive ? 'text-[#800020] translate-x-0.5' : 'text-[#6B7280]'
                         }`}
                       />
                     </a>
@@ -347,10 +308,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                 })}
               </nav>
 
-              {/* Mobile Resume CTA */}
               <div className="pt-2">
                 <Button
-                  variant="gold"
+                  variant="primary"
                   size="md"
                   href={resumeUrl}
                   download="Mithun_Senthil_Resume.docx"

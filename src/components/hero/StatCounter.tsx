@@ -19,13 +19,13 @@ interface AnimatedValueProps {
 const getStatIcon = (label: string): React.ReactNode => {
   const normalized = label.toLowerCase();
   if (normalized.includes('internship') || normalized.includes('experience')) {
-    return <Briefcase className="w-5 h-5" />;
+    return <Briefcase className="w-4 h-4" />;
   }
   if (normalized.includes('production') || normalized.includes('system') || normalized.includes('backend')) {
-    return <Server className="w-5 h-5" />;
+    return <Server className="w-4 h-4" />;
   }
   if (normalized.includes('cert') || normalized.includes('award') || normalized.includes('license')) {
-    return <Award className="w-5 h-5" />;
+    return <Award className="w-4 h-4" />;
   }
   if (
     normalized.includes('cgpa') ||
@@ -33,9 +33,9 @@ const getStatIcon = (label: string): React.ReactNode => {
     normalized.includes('education') ||
     normalized.includes('gpa')
   ) {
-    return <GraduationCap className="w-5 h-5" />;
+    return <GraduationCap className="w-4 h-4" />;
   }
-  return <Award className="w-5 h-5" />;
+  return <Award className="w-4 h-4" />;
 };
 
 const AnimatedValue: React.FC<AnimatedValueProps> = ({
@@ -48,7 +48,6 @@ const AnimatedValue: React.FC<AnimatedValueProps> = ({
   const isInView = useInView(ref, { once: true, margin: '-20px' });
   const isFloat = numericTarget !== undefined && numericTarget % 1 !== 0;
 
-  // Determine decimal precision from fallback string or numeric value
   const decimalPlaces = React.useMemo(() => {
     if (numericTarget === undefined) return 0;
     const fallbackMatch = fallbackValue.match(/\.(\d+)/);
@@ -57,7 +56,6 @@ const AnimatedValue: React.FC<AnimatedValueProps> = ({
     return targetMatch ? targetMatch[1].length : 2;
   }, [numericTarget, fallbackValue]);
 
-  // In SSR / static rendering environments, initialize directly to numericTarget
   const [displayValue, setDisplayValue] = useState<number>(() => {
     if (typeof window === 'undefined' && numericTarget !== undefined) {
       return numericTarget;
@@ -68,7 +66,6 @@ const AnimatedValue: React.FC<AnimatedValueProps> = ({
   useEffect(() => {
     if (numericTarget === undefined) return;
 
-    // Direct update if reduced motion is requested or IntersectionObserver is unsupported
     const prefersReducedMotion =
       typeof window !== 'undefined' &&
       typeof window.matchMedia === 'function' &&
@@ -124,7 +121,7 @@ export const StatCounter: React.FC<StatCounterProps> = ({
 }) => {
   return (
     <div
-      className={`w-full grid grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-6 ${className}`.trim()}
+      className={`w-full grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 ${className}`.trim()}
     >
       {stats.map((stat, idx) => {
         const icon = getStatIcon(stat.label);
@@ -132,33 +129,27 @@ export const StatCounter: React.FC<StatCounterProps> = ({
         return (
           <motion.div
             key={stat.label}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-20px' }}
             transition={{ duration: 0.5, delay: idx * 0.08, ease: 'easeOut' }}
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="group relative overflow-hidden rounded-2xl bg-[#170c08]/85 backdrop-blur-md p-4 sm:p-5 lg:p-6 border border-[#d4af37]/20 hover:border-[#d4af37]/50 shadow-[0_8px_30px_rgba(0,0,0,0.45)] hover:shadow-[0_12px_36px_rgba(212,175,55,0.15)] transition-all duration-300 flex flex-col justify-between"
+            className="group relative rounded-2xl bg-white/70 backdrop-blur-sm p-5 sm:p-6 border border-[#E5D3AF] shadow-[0_4px_16px_rgba(1,7,54,0.03)] hover:border-[#DB9558] hover:shadow-[0_8px_24px_rgba(219,149,88,0.1)] transition-all duration-300 flex flex-col justify-between"
           >
-            {/* Ambient radial highlight on hover */}
-            <div
-              className="pointer-events-none absolute -top-12 -right-12 h-28 w-28 rounded-full bg-[#d4af37]/10 blur-2xl transition-all duration-500 group-hover:bg-[#d4af37]/25 group-hover:scale-125"
-              aria-hidden="true"
-            />
-
             {/* Top row: Icon and decorative dot */}
-            <div className="flex items-center justify-between mb-3">
-              <span className="inline-flex items-center justify-center p-2 rounded-xl bg-[#23120d] text-[#f5cb78] border border-[#d4af37]/25 group-hover:border-[#d4af37]/60 group-hover:text-[#fbf5ee] group-hover:bg-[#d4af37]/20 transition-all duration-300">
+            <div className="flex items-center justify-between mb-4">
+              <span className="inline-flex items-center justify-center p-2 rounded-xl bg-[#E5D3AF]/40 text-[#800020] group-hover:bg-[#800020] group-hover:text-white transition-all duration-300">
                 {icon}
               </span>
               <span
-                className="h-1.5 w-1.5 rounded-full bg-[#d4af37]/40 group-hover:bg-[#f5cb78] group-hover:scale-125 transition-all duration-300"
+                className="h-1.5 w-1.5 rounded-full bg-[#E5D3AF] group-hover:bg-[#DB9558] transition-all duration-300"
                 aria-hidden="true"
               />
             </div>
 
             {/* Bottom row: Counter number & label */}
-            <div className="mt-1">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-display tracking-tight text-[#fbf5ee] group-hover:text-[#f5cb78] transition-colors">
+            <div>
+              <div className="text-3xl sm:text-4xl font-extrabold font-display tracking-tight text-[#800020]">
                 <AnimatedValue
                   numericTarget={stat.numericTarget}
                   fallbackValue={stat.value}
@@ -166,7 +157,7 @@ export const StatCounter: React.FC<StatCounterProps> = ({
                   suffix={stat.suffix}
                 />
               </div>
-              <p className="text-xs sm:text-sm font-mono uppercase tracking-wider text-[#9e8779] group-hover:text-[#d8c8b8] transition-colors mt-1 font-medium">
+              <p className="text-xs font-mono uppercase tracking-wider text-[#2C3352]/75 mt-1 font-semibold">
                 {stat.label}
               </p>
             </div>
