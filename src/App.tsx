@@ -1,24 +1,92 @@
 import React from 'react';
+import { ReadingProgress, Navbar, Footer } from './components/layout';
+import { Hero } from './components/hero';
+import { About } from './components/about';
+import { SkillsMatrix } from './components/skills';
+import { Projects } from './components/projects';
+import { ExperienceTimeline } from './components/experience';
+import { Credentials } from './components/credentials';
+import { Contact } from './components/contact';
+import { Toast, useToast } from './components/ui';
+import { profileData } from './data/profile';
 
+/**
+ * App
+ *
+ * Root portfolio application component. Assembles all sections in order:
+ * ReadingProgress → Navbar → Hero → About → Skills → Projects →
+ * Experience → Credentials → Contact → Footer → Toast
+ *
+ * Features:
+ * - Radial gradient ambient glow background layered below all content
+ * - Smooth scrolling (CSS level) for anchor navigation
+ * - Centralized Toast notification system via useToast hook
+ * - Scroll spy active section tracking is handled inside Navbar
+ */
 export default function App(): React.JSX.Element {
+  const { toasts, show: showToast, dismiss } = useToast();
+
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-[#0d0604] text-[#fbf5ee] p-6">
-      <div className="max-w-md w-full rounded-xl p-8 bg-[#170c08] border border-[rgba(212,175,55,0.15)] shadow-2xl text-center">
-        <div className="inline-block px-3 py-1 mb-4 text-xs font-mono text-[#d4af37] bg-[rgba(212,175,55,0.1)] rounded-full border border-[rgba(212,175,55,0.25)]">
-          PORTFOLIO REVAMP v2.0
-        </div>
-        <h1 className="text-2xl font-bold font-sans tracking-tight mb-2 text-[#fbf5ee]">
-          Mithun Senthil S
-        </h1>
-        <p className="text-sm font-sans text-[#d8c8b8] mb-6">
-          Backend &amp; Systems Engineer with Applied AI
-        </p>
-        <div className="flex justify-center gap-3">
-          <span className="px-3 py-1.5 text-xs font-mono rounded bg-[#c0392b] text-white">
-            React 19 Entry Initialized
-          </span>
-        </div>
-      </div>
-    </main>
+    <div className="relative min-h-screen bg-[#0d0604] text-[#fbf5ee] antialiased overflow-x-hidden">
+      {/* ── Ambient radial glow layers ── */}
+      <div
+        aria-hidden="true"
+        className="fixed inset-0 pointer-events-none z-0"
+        style={{
+          background: [
+            'radial-gradient(ellipse 80% 60% at 15% 10%, rgba(192,57,43,0.07) 0%, transparent 55%)',
+            'radial-gradient(ellipse 70% 50% at 85% 90%, rgba(212,175,55,0.05) 0%, transparent 55%)',
+          ].join(', '),
+        }}
+      />
+
+      {/* ── Reading progress bar ── */}
+      <ReadingProgress />
+
+      {/* ── Sticky Navbar ── */}
+      <Navbar resumeUrl={profileData.resumeUrl} />
+
+      {/* ── Main content ── */}
+      <main>
+        {/* Hero */}
+        <Hero />
+
+        {/* About & Education */}
+        <section id="about" aria-label="About and Education">
+          <About />
+        </section>
+
+        {/* Skills Matrix */}
+        <section id="skills" aria-label="Skills">
+          <SkillsMatrix />
+        </section>
+
+        {/* Projects */}
+        <section id="projects" aria-label="Projects">
+          <Projects />
+        </section>
+
+        {/* Experience Timeline */}
+        <section id="experience" aria-label="Experience">
+          <ExperienceTimeline />
+        </section>
+
+        {/* Credentials & Certificates */}
+        <section id="credentials" aria-label="Credentials and Certificates">
+          <Credentials />
+        </section>
+
+        {/* Contact */}
+        <Contact
+          onToast={(message, variant) => showToast(message, variant)}
+        />
+      </main>
+
+      {/* ── Footer ── */}
+      <Footer />
+
+      {/* ── Toast notifications ── */}
+      <Toast toasts={toasts} onDismiss={dismiss} />
+    </div>
   );
 }
