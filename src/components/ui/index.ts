@@ -4,3 +4,4 @@ export * from './Modal';
 export * from './ZoomPanViewer';
 export * from './TiltCard';
 export * from './Toast';
+export * from './ThemeToggle';
