@@ -20,15 +20,15 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    'bg-[#800020] text-white border border-[#800020] shadow-[0_4px_16px_rgba(128,0,32,0.25)] hover:bg-[#660019] hover:border-[#660019] hover:shadow-[0_6px_22px_rgba(128,0,32,0.35)]',
+    'bg-[#800020] text-white border border-[#800020] shadow-[0_4px_16px_rgba(128,0,32,0.25)] hover:bg-[#660019] hover:border-[#660019] hover:shadow-[0_6px_22px_rgba(128,0,32,0.35)] dark:bg-[#C72C48] dark:border-[#C72C48] dark:text-[#F5EFE1] dark:hover:bg-[#b0223d] dark:shadow-[0_4px_16px_rgba(199,44,72,0.25)]',
   secondary:
-    'bg-[#E5D3AF] text-[#010736] border border-[#d8c397] font-semibold hover:bg-[#d8c397] shadow-sm',
+    'bg-[#E5D3AF] text-[#010736] border border-[#d8c397] font-semibold hover:bg-[#d8c397] shadow-sm dark:bg-[#111C40] dark:border-[#E5D3AF]/20 dark:text-[#F5EFE1] dark:hover:bg-[#182859]',
   gold:
-    'bg-[#DB9558] text-white font-semibold border border-[#c98344] shadow-[0_4px_16px_rgba(219,149,88,0.3)] hover:bg-[#c98344]',
+    'bg-[#DB9558] text-white font-semibold border border-[#c98344] shadow-[0_4px_16px_rgba(219,149,88,0.3)] hover:bg-[#c98344] dark:bg-[#F5A663] dark:text-[#050B20] dark:border-[#F5A663] dark:hover:bg-[#e0924e]',
   outline:
-    'border border-[#010736]/30 text-[#010736] bg-transparent hover:border-[#010736] hover:bg-[#010736]/5',
+    'border border-[#010736]/30 text-[#010736] bg-transparent hover:border-[#010736] hover:bg-[#010736]/5 dark:border-[#E5D3AF]/25 dark:text-[#F5EFE1] dark:hover:border-[#F5A663] dark:hover:bg-[#111C40]/50',
   ghost:
-    'bg-transparent text-[#010736] hover:bg-[#E5D3AF]/40 active:bg-[#E5D3AF]/60 border border-transparent',
+    'bg-transparent text-[#010736] hover:bg-[#E5D3AF]/40 active:bg-[#E5D3AF]/60 border border-transparent dark:text-[#F5EFE1] dark:hover:bg-[#111C40]/60 dark:active:bg-[#111C40]',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -57,7 +57,7 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const effectiveLeftIcon = leftIcon || icon;
   const baseClasses =
-    'inline-flex items-center justify-center font-display font-medium select-none cursor-pointer transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/50 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed';
+    'inline-flex items-center justify-center font-display font-medium select-none cursor-pointer transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/50 dark:focus-visible:ring-[#F5A663]/50 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed';
 
   const combinedClasses = `${baseClasses} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`.trim();
 

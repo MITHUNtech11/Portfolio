@@ -21,19 +21,19 @@ const VARIANT_STYLES: Record<
   { bg: string; border: string; icon: React.ReactNode }
 > = {
   success: {
-    bg: 'bg-[#010736]',
-    border: 'border-[#8B9A6E]/60',
-    icon: <CheckCircle className="w-4 h-4 text-[#8B9A6E] shrink-0" />,
+    bg: 'bg-[#010736] dark:bg-[#0B132B]',
+    border: 'border-[#8B9A6E]/60 dark:border-[#A2B784]/60',
+    icon: <CheckCircle className="w-4 h-4 text-[#8B9A6E] dark:text-[#A2B784] shrink-0" />,
   },
   error: {
-    bg: 'bg-[#010736]',
-    border: 'border-[#800020]/70',
-    icon: <AlertCircle className="w-4 h-4 text-[#DB9558] shrink-0" />,
+    bg: 'bg-[#010736] dark:bg-[#0B132B]',
+    border: 'border-[#800020]/70 dark:border-[#C72C48]/70',
+    icon: <AlertCircle className="w-4 h-4 text-[#DB9558] dark:text-[#F5A663] shrink-0" />,
   },
   info: {
-    bg: 'bg-[#010736]',
-    border: 'border-[#DB9558]/60',
-    icon: <Info className="w-4 h-4 text-[#DB9558] shrink-0" />,
+    bg: 'bg-[#010736] dark:bg-[#0B132B]',
+    border: 'border-[#DB9558]/60 dark:border-[#F5A663]/60',
+    icon: <Info className="w-4 h-4 text-[#DB9558] dark:text-[#F5A663] shrink-0" />,
   },
 };
 
@@ -71,7 +71,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
         type="button"
         onClick={() => onDismiss(toast.id)}
         aria-label="Dismiss notification"
-        className="p-0.5 rounded text-[#E5D3AF] hover:text-[#F5EFE1] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#8B9A6E] cursor-pointer"
+        className="p-0.5 rounded text-[#E5D3AF] hover:text-[#F5EFE1] dark:hover:text-[#F5A663] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#8B9A6E] dark:focus-visible:ring-[#F5A663] cursor-pointer"
       >
         <X className="w-3.5 h-3.5" />
       </button>

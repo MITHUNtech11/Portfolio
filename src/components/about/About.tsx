@@ -89,24 +89,24 @@ export const About: React.FC<AboutProps> = ({
   return (
     <section
       id="about"
-      className={`relative py-24 sm:py-32 bg-[#F5EFE1] overflow-hidden text-[#010736] ${className}`.trim()}
+      className={`relative py-24 sm:py-32 bg-[#F5EFE1] dark:bg-[#050B20] overflow-hidden text-[#010736] dark:text-[#F5EFE1] transition-colors duration-300 ${className}`.trim()}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20">
           <div className="flex items-center gap-2 mb-3">
-            <span className="h-px w-6 bg-[#8B9A6E]" />
-            <span className="font-mono text-xs font-bold text-[#8B9A6E] uppercase tracking-widest">
+            <span className="h-px w-6 bg-[#8B9A6E] dark:bg-[#A2B784]" />
+            <span className="font-mono text-xs font-bold text-[#8B9A6E] dark:text-[#A2B784] uppercase tracking-widest">
               02 // Philosophy &amp; Foundation
             </span>
-            <span className="h-px w-6 bg-[#8B9A6E]" />
+            <span className="h-px w-6 bg-[#8B9A6E] dark:bg-[#A2B784]" />
           </div>
 
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#010736] mb-5">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#010736] dark:text-[#F5EFE1] mb-5">
             Systems Rigor Meets{' '}
-            <span className="text-[#800020]">Applied AI</span>
+            <span className="text-[#800020] dark:text-[#F5A663]">Applied AI</span>
           </h2>
-          <p className="font-body text-base sm:text-lg text-[#2C3352]/80 leading-relaxed">
+          <p className="font-body text-base sm:text-lg text-[#2C3352]/80 dark:text-[#C5CEE0]/80 leading-relaxed">
             Bridging deterministic distributed enterprise backends, graph data structures, and
             machine learning pipelines. Engineering reliable software systems that optimize both
             latency and decision intelligence.
@@ -128,11 +128,11 @@ export const About: React.FC<AboutProps> = ({
               >
                 <TiltCard
                   hoverScale={1.02}
-                  className="h-full rounded-2xl border border-[#E5D3AF] bg-white/80 p-8 shadow-[0_4px_20px_rgba(1,7,54,0.03)] backdrop-blur-sm transition-all duration-300 hover:border-[#DB9558] hover:shadow-[0_8px_30px_rgba(219,149,88,0.12)] flex flex-col justify-between"
+                  className="h-full rounded-2xl border border-[#E5D3AF] dark:border-[#E5D3AF]/15 bg-white/80 dark:bg-[#0B132B]/90 p-8 shadow-[0_4px_20px_rgba(1,7,54,0.03)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-sm transition-all duration-300 hover:border-[#DB9558] dark:hover:border-[#F5A663]/40 hover:shadow-[0_8px_30px_rgba(219,149,88,0.12)] flex flex-col justify-between"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-6">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#E5D3AF] bg-[#E5D3AF]/30 text-[#800020] shadow-sm">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#E5D3AF] dark:border-[#E5D3AF]/15 bg-[#E5D3AF]/30 dark:bg-[#111C40] text-[#800020] dark:text-[#F5A663] shadow-sm">
                         <Icon className="h-6 w-6" />
                       </div>
                       <Badge variant={pillar.badgeVariant} size="sm">
@@ -140,21 +140,21 @@ export const About: React.FC<AboutProps> = ({
                       </Badge>
                     </div>
 
-                    <h3 className="font-display text-xl font-bold text-[#010736] mb-3">
+                    <h3 className="font-display text-xl font-bold text-[#010736] dark:text-[#F5EFE1] mb-3">
                       {pillar.title}
                     </h3>
-                    <p className="font-body text-sm sm:text-base text-[#2C3352]/80 leading-relaxed mb-6">
+                    <p className="font-body text-sm sm:text-base text-[#2C3352]/80 dark:text-[#C5CEE0]/80 leading-relaxed mb-6">
                       {pillar.description}
                     </p>
                   </div>
 
                   <div>
-                    <div className="h-px w-full bg-[#E5D3AF] mb-4" />
+                    <div className="h-px w-full bg-[#E5D3AF] dark:bg-[#E5D3AF]/15 mb-4" />
                     <div className="flex flex-wrap gap-2">
                       {pillar.technologies.map((tech) => (
                         <span
                           key={tech}
-                          className="font-mono text-xs text-[#2C3352] bg-[#E5D3AF]/40 px-2.5 py-1 rounded-md border border-[#E5D3AF]"
+                          className="font-mono text-xs text-[#2C3352] dark:text-[#C5CEE0] bg-[#E5D3AF]/40 dark:bg-[#111C40] px-2.5 py-1 rounded-md border border-[#E5D3AF] dark:border-[#E5D3AF]/15"
                         >
                           {tech}
                         </span>
@@ -168,12 +168,12 @@ export const About: React.FC<AboutProps> = ({
         </div>
 
         {/* Academic Foundation & Saveetha University Spotlight */}
-        <div className="relative mb-20 rounded-3xl border border-[#E5D3AF] bg-white p-8 sm:p-12 shadow-[0_6px_28px_rgba(1,7,54,0.04)] overflow-hidden">
+        <div className="relative mb-20 rounded-3xl border border-[#E5D3AF] dark:border-[#E5D3AF]/15 bg-white dark:bg-[#0B132B] p-8 sm:p-12 shadow-[0_6px_28px_rgba(1,7,54,0.04)] dark:shadow-[0_6px_28px_rgba(0,0,0,0.5)] overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Left Column: Saveetha Highlight & CGPA */}
             <div className="lg:col-span-7 space-y-6">
               <div className="flex flex-wrap items-center gap-3">
-                <Badge variant="navy" size="md" icon={<GraduationCap className="w-4 h-4 text-[#800020]" />}>
+                <Badge variant="navy" size="md" icon={<GraduationCap className="w-4 h-4 text-[#800020] dark:text-[#F5A663]" />}>
                   Saveetha School of Engineering
                 </Badge>
                 <Badge variant="sage" size="sm">
@@ -182,44 +182,44 @@ export const About: React.FC<AboutProps> = ({
               </div>
 
               <div>
-                <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-[#010736] tracking-tight mb-2">
+                <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-[#010736] dark:text-[#F5EFE1] tracking-tight mb-2">
                   B.Tech — Artificial Intelligence &amp; Data Science
                 </h3>
-                <p className="font-mono text-sm text-[#800020] font-semibold">
+                <p className="font-mono text-sm text-[#800020] dark:text-[#F5A663] font-semibold">
                   Saveetha University • Academic Distinction
                 </p>
               </div>
 
-              <p className="font-body text-sm sm:text-base text-[#2C3352]/80 leading-relaxed">
+              <p className="font-body text-sm sm:text-base text-[#2C3352]/80 dark:text-[#C5CEE0]/80 leading-relaxed">
                 Tenure combining theoretical computer science with heavy practical software engineering.
                 Focus areas include distributed backend architecture, relational database design
                 (PostgreSQL/MySQL), graph algorithm optimization, and applied ML pipeline engineering.
               </p>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
-                <div className="rounded-xl border border-[#E5D3AF] bg-[#F5EFE1]/60 p-4 text-center">
-                  <div className="font-mono text-2xl sm:text-3xl font-bold text-[#800020]">
+                <div className="rounded-xl border border-[#E5D3AF] dark:border-[#E5D3AF]/15 bg-[#F5EFE1]/60 dark:bg-[#050B20]/60 p-4 text-center">
+                  <div className="font-mono text-2xl sm:text-3xl font-bold text-[#800020] dark:text-[#F5A663]">
                     8.46
                   </div>
-                  <div className="font-body text-xs text-[#2C3352] mt-1 font-medium">
+                  <div className="font-body text-xs text-[#2C3352] dark:text-[#C5CEE0] mt-1 font-medium">
                     Cumulative CGPA / 10.0
                   </div>
                 </div>
 
-                <div className="rounded-xl border border-[#E5D3AF] bg-[#F5EFE1]/60 p-4 text-center">
-                  <div className="font-mono text-2xl sm:text-3xl font-bold text-[#DB9558]">
+                <div className="rounded-xl border border-[#E5D3AF] dark:border-[#E5D3AF]/15 bg-[#F5EFE1]/60 dark:bg-[#050B20]/60 p-4 text-center">
+                  <div className="font-mono text-2xl sm:text-3xl font-bold text-[#DB9558] dark:text-[#F5A663]">
                     SE 11
                   </div>
-                  <div className="font-body text-xs text-[#2C3352] mt-1 font-medium">
+                  <div className="font-body text-xs text-[#2C3352] dark:text-[#C5CEE0] mt-1 font-medium">
                     Oracle Java Certified
                   </div>
                 </div>
 
-                <div className="rounded-xl border border-[#E5D3AF] bg-[#F5EFE1]/60 p-4 text-center col-span-2 sm:col-span-1">
-                  <div className="font-mono text-2xl sm:text-3xl font-bold text-[#8B9A6E]">
+                <div className="rounded-xl border border-[#E5D3AF] dark:border-[#E5D3AF]/15 bg-[#F5EFE1]/60 dark:bg-[#050B20]/60 p-4 text-center col-span-2 sm:col-span-1">
+                  <div className="font-mono text-2xl sm:text-3xl font-bold text-[#8B9A6E] dark:text-[#A2B784]">
                     2
                   </div>
-                  <div className="font-body text-xs text-[#2C3352] mt-1 font-medium">
+                  <div className="font-body text-xs text-[#2C3352] dark:text-[#C5CEE0] mt-1 font-medium">
                     Enterprise Internships
                   </div>
                 </div>
@@ -227,37 +227,37 @@ export const About: React.FC<AboutProps> = ({
             </div>
 
             {/* Right Column: Specialized Core Modules */}
-            <div className="lg:col-span-5 rounded-2xl border border-[#E5D3AF] bg-[#F5EFE1]/50 p-6 sm:p-8">
-              <h4 className="font-display text-sm font-semibold tracking-wider uppercase text-[#010736] mb-4 flex items-center gap-2">
-                <BookOpen className="w-4 h-4 text-[#8B9A6E]" />
+            <div className="lg:col-span-5 rounded-2xl border border-[#E5D3AF] dark:border-[#E5D3AF]/15 bg-[#F5EFE1]/50 dark:bg-[#050B20]/50 p-6 sm:p-8">
+              <h4 className="font-display text-sm font-semibold tracking-wider uppercase text-[#010736] dark:text-[#F5EFE1] mb-4 flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-[#8B9A6E] dark:text-[#A2B784]" />
                 Specialized Core Modules
               </h4>
-              <ul className="space-y-3 font-body text-sm text-[#2C3352]">
+              <ul className="space-y-3 font-body text-sm text-[#2C3352] dark:text-[#C5CEE0]">
                 <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#8B9A6E] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-[#8B9A6E] dark:text-[#A2B784] shrink-0 mt-0.5" />
                   <span>
-                    <strong className="text-[#010736]">Distributed Backends:</strong> REST APIs,
+                    <strong className="text-[#010736] dark:text-[#F5EFE1]">Distributed Backends:</strong> REST APIs,
                     microservices, and concurrency handling in Spring Boot &amp; FastAPI.
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#8B9A6E] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-[#8B9A6E] dark:text-[#A2B784] shrink-0 mt-0.5" />
                   <span>
-                    <strong className="text-[#010736]">Graph DSA &amp; Optimization:</strong> Priority
+                    <strong className="text-[#010736] dark:text-[#F5EFE1]">Graph DSA &amp; Optimization:</strong> Priority
                     queues, heaps, and shortest-path Dijkstra algorithms.
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#8B9A6E] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-[#8B9A6E] dark:text-[#A2B784] shrink-0 mt-0.5" />
                   <span>
-                    <strong className="text-[#010736]">Database Systems (RDBMS):</strong> 3NF
+                    <strong className="text-[#010736] dark:text-[#F5EFE1]">Database Systems (RDBMS):</strong> 3NF
                     normalization, indexing, and transactional isolation.
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#8B9A6E] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-[#8B9A6E] dark:text-[#A2B784] shrink-0 mt-0.5" />
                   <span>
-                    <strong className="text-[#010736]">Machine Learning &amp; NLP:</strong> Tokenization,
+                    <strong className="text-[#010736] dark:text-[#F5EFE1]">Machine Learning &amp; NLP:</strong> Tokenization,
                     embedding pipelines, and interactive deployment.
                   </span>
                 </li>
@@ -270,14 +270,14 @@ export const About: React.FC<AboutProps> = ({
         <div>
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
             <div>
-              <span className="font-mono text-xs font-bold text-[#8B9A6E] uppercase tracking-widest block mb-1">
+              <span className="font-mono text-xs font-bold text-[#8B9A6E] dark:text-[#A2B784] uppercase tracking-widest block mb-1">
                 Academic Trajectory
               </span>
-              <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-[#010736]">
+              <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-[#010736] dark:text-[#F5EFE1]">
                 Education Timeline
               </h3>
             </div>
-            <p className="font-body text-sm text-[#2C3352]/75 max-w-md">
+            <p className="font-body text-sm text-[#2C3352]/75 dark:text-[#C5CEE0]/75 max-w-md">
               From foundational CBSE sciences to university-level AI &amp; Data Science engineering.
             </p>
           </div>
@@ -286,7 +286,7 @@ export const About: React.FC<AboutProps> = ({
             {/* GSAP animated connecting line */}
             <div
               ref={lineRef}
-              className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-[#E5D3AF] -translate-y-1/2 origin-left z-0"
+              className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-[#E5D3AF] dark:bg-[#E5D3AF]/20 -translate-y-1/2 origin-left z-0"
               aria-hidden="true"
             />
 
@@ -304,14 +304,14 @@ export const About: React.FC<AboutProps> = ({
                     <div
                       className={`h-full rounded-2xl border p-6 flex flex-col justify-between transition-all duration-300 ${
                         isUniversity
-                          ? 'border-[#800020]/30 bg-white shadow-[0_4px_24px_rgba(128,0,32,0.06)]'
-                          : 'border-[#E5D3AF] bg-white/70 hover:border-[#DB9558]'
+                          ? 'border-[#800020]/30 dark:border-[#F5A663]/30 bg-white dark:bg-[#0B132B] shadow-[0_4px_24px_rgba(128,0,32,0.06)] dark:shadow-[0_4px_24px_rgba(0,0,0,0.5)]'
+                          : 'border-[#E5D3AF] dark:border-[#E5D3AF]/15 bg-white/70 dark:bg-[#0B132B]/70 hover:border-[#DB9558] dark:hover:border-[#F5A663]/40'
                       }`}
                     >
                       <div>
                         <div className="flex items-center justify-between mb-4">
-                          <span className="inline-flex items-center gap-1.5 font-mono text-xs text-[#2C3352]/70">
-                            <Calendar className="w-3.5 h-3.5 text-[#8B9A6E]" />
+                          <span className="inline-flex items-center gap-1.5 font-mono text-xs text-[#2C3352]/70 dark:text-[#C5CEE0]/70">
+                            <Calendar className="w-3.5 h-3.5 text-[#8B9A6E] dark:text-[#A2B784]" />
                             {item.period}
                           </span>
                           <Badge
@@ -323,24 +323,24 @@ export const About: React.FC<AboutProps> = ({
                           </Badge>
                         </div>
 
-                        <h4 className="font-display text-base sm:text-lg font-bold text-[#010736] mb-1">
+                        <h4 className="font-display text-base sm:text-lg font-bold text-[#010736] dark:text-[#F5EFE1] mb-1">
                           {item.institution}
                         </h4>
-                        <p className="font-mono text-xs text-[#800020] mb-3 font-semibold">{item.degree}</p>
+                        <p className="font-mono text-xs text-[#800020] dark:text-[#F5A663] mb-3 font-semibold">{item.degree}</p>
 
                         {item.details && (
-                          <p className="font-body text-xs sm:text-sm text-[#2C3352]/80 leading-relaxed">
+                          <p className="font-body text-xs sm:text-sm text-[#2C3352]/80 dark:text-[#C5CEE0]/80 leading-relaxed">
                             {item.details}
                           </p>
                         )}
                       </div>
 
-                      <div className="mt-6 pt-4 border-t border-[#E5D3AF] flex items-center justify-between">
-                        <span className="font-mono text-[11px] text-[#6B7280] uppercase tracking-wider">
+                      <div className="mt-6 pt-4 border-t border-[#E5D3AF] dark:border-[#E5D3AF]/15 flex items-center justify-between">
+                        <span className="font-mono text-[11px] text-[#6B7280] dark:text-[#8C9BB5] uppercase tracking-wider">
                           {isUniversity ? 'Higher Education' : 'Secondary Schooling'}
                         </span>
                         {isUniversity && (
-                          <span className="inline-flex items-center text-xs font-semibold text-[#800020] gap-1">
+                          <span className="inline-flex items-center text-xs font-semibold text-[#800020] dark:text-[#F5A663] gap-1">
                             Current Focus
                             <ArrowRight className="w-3 h-3" />
                           </span>

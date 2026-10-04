@@ -115,15 +115,15 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
   };
 
   const inputBase =
-    'w-full px-4 py-3 bg-[#F5EFE1]/50 border rounded-xl text-[#010736] text-sm placeholder-[#6B7280] focus:outline-none focus:ring-2 focus:ring-[#800020]/40 focus:border-[#800020] transition-colors';
-  const inputNormal = `${inputBase} border-[#E5D3AF]`;
-  const inputError = `${inputBase} border-red-500/70`;
+    'w-full px-4 py-3 bg-[#F5EFE1]/50 dark:bg-[#050B20]/80 border rounded-xl text-[#010736] dark:text-[#F5EFE1] text-sm placeholder-[#6B7280] dark:placeholder-[#8E9AA8] focus:outline-none focus:ring-2 focus:ring-[#800020]/40 dark:focus:ring-[#F5A663]/40 focus:border-[#800020] dark:focus:border-[#F5A663] transition-colors';
+  const inputNormal = `${inputBase} border-[#E5D3AF] dark:border-[#E5D3AF]/20`;
+  const inputError = `${inputBase} border-red-500/70 dark:border-red-400/80`;
 
   return (
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className={`relative py-24 sm:py-32 bg-[#F5EFE1] overflow-hidden text-[#010736] ${className}`.trim()}
+      className={`relative py-24 sm:py-32 bg-[#F5EFE1] dark:bg-[#050B20] overflow-hidden text-[#010736] dark:text-[#F5EFE1] ${className}`.trim()}
       {...rest}
     >
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -136,21 +136,21 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
           className="mb-14 sm:mb-18 text-center max-w-3xl mx-auto"
         >
           <div className="flex items-center justify-center gap-2 mb-3">
-            <span className="h-px w-6 bg-[#8B9A6E]" />
-            <span className="font-mono text-xs font-bold text-[#8B9A6E] uppercase tracking-widest">
+            <span className="h-px w-6 bg-[#8B9A6E] dark:bg-[#A2B784]" />
+            <span className="font-mono text-xs font-bold text-[#8B9A6E] dark:text-[#A2B784] uppercase tracking-widest">
               07 // Get In Touch
             </span>
-            <span className="h-px w-6 bg-[#8B9A6E]" />
+            <span className="h-px w-6 bg-[#8B9A6E] dark:bg-[#A2B784]" />
           </div>
 
           <h2
             id="contact-heading"
-            className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-[#010736] leading-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-[#010736] dark:text-[#F5EFE1] leading-tight"
           >
             Let's Build{' '}
-            <span className="text-[#800020]">Something Great</span>
+            <span className="text-[#800020] dark:text-[#F5A663]">Something Great</span>
           </h2>
-          <p className="mt-4 text-[#2C3352]/80 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-4 text-[#2C3352]/80 dark:text-[#C5CEE0]/80 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Open to engineering conversations, technical roles, distributed systems discussions,
             and research collaborations.
           </p>
@@ -167,12 +167,12 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
           >
             <div className="space-y-3">
               {/* Copy email */}
-              <div className="p-5 rounded-2xl bg-white border border-[#E5D3AF] shadow-xs hover:border-[#DB9558] transition-colors">
-                <p className="text-xs font-mono text-[#8B9A6E] mb-1.5 uppercase tracking-wider font-bold">Email</p>
+              <div className="p-5 rounded-2xl bg-white dark:bg-[#0B132B] border border-[#E5D3AF] dark:border-[#E5D3AF]/15 shadow-xs hover:border-[#DB9558] dark:hover:border-[#F5A663]/40 transition-colors">
+                <p className="text-xs font-mono text-[#8B9A6E] dark:text-[#A2B784] mb-1.5 uppercase tracking-wider font-bold">Email</p>
                 <div className="flex items-center justify-between gap-2">
                   <a
                     href={`mailto:${profileData.email}`}
-                    className="text-sm font-semibold text-[#010736] hover:text-[#800020] transition-colors truncate focus:outline-none focus-visible:underline"
+                    className="text-sm font-semibold text-[#010736] dark:text-[#F5EFE1] hover:text-[#800020] dark:hover:text-[#F5A663] transition-colors truncate focus:outline-none focus-visible:underline"
                   >
                     {profileData.email}
                   </a>
@@ -181,10 +181,10 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                     onClick={handleCopyEmail}
                     aria-label="Copy email address"
                     title="Copy email"
-                    className="shrink-0 p-2 rounded-lg bg-[#E5D3AF]/40 hover:bg-[#800020] hover:text-white text-[#800020] transition-all cursor-pointer shadow-xs"
+                    className="shrink-0 p-2 rounded-lg bg-[#E5D3AF]/40 dark:bg-[#111C40] hover:bg-[#800020] dark:hover:bg-[#F5A663] hover:text-white dark:hover:text-[#050B20] text-[#800020] dark:text-[#F5A663] transition-all cursor-pointer shadow-xs"
                   >
                     {emailCopied ? (
-                      <CheckCircle className="w-4 h-4 text-[#8B9A6E]" />
+                      <CheckCircle className="w-4 h-4 text-[#8B9A6E] dark:text-[#A2B784]" />
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}
@@ -193,13 +193,13 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
               </div>
 
               {/* Phone */}
-              <div className="p-5 rounded-2xl bg-white border border-[#E5D3AF] shadow-xs">
-                <p className="text-xs font-mono text-[#8B9A6E] mb-1.5 uppercase tracking-wider font-bold">Phone</p>
+              <div className="p-5 rounded-2xl bg-white dark:bg-[#0B132B] border border-[#E5D3AF] dark:border-[#E5D3AF]/15 shadow-xs">
+                <p className="text-xs font-mono text-[#8B9A6E] dark:text-[#A2B784] mb-1.5 uppercase tracking-wider font-bold">Phone</p>
                 <div className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-[#800020] shrink-0" />
+                  <Phone className="w-4 h-4 text-[#800020] dark:text-[#F5A663] shrink-0" />
                   <a
                     href={`tel:${profileData.phone}`}
-                    className="text-sm font-semibold text-[#010736] hover:text-[#800020] transition-colors focus:outline-none focus-visible:underline"
+                    className="text-sm font-semibold text-[#010736] dark:text-[#F5EFE1] hover:text-[#800020] dark:hover:text-[#F5A663] transition-colors focus:outline-none focus-visible:underline"
                   >
                     {profileData.phone}
                   </a>
@@ -207,18 +207,18 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
               </div>
 
               {/* Location */}
-              <div className="p-5 rounded-2xl bg-white border border-[#E5D3AF] shadow-xs">
-                <p className="text-xs font-mono text-[#8B9A6E] mb-1.5 uppercase tracking-wider font-bold">Location</p>
+              <div className="p-5 rounded-2xl bg-white dark:bg-[#0B132B] border border-[#E5D3AF] dark:border-[#E5D3AF]/15 shadow-xs">
+                <p className="text-xs font-mono text-[#8B9A6E] dark:text-[#A2B784] mb-1.5 uppercase tracking-wider font-bold">Location</p>
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-[#DB9558] shrink-0" />
-                  <span className="text-sm font-semibold text-[#010736]">{profileData.location}</span>
+                  <MapPin className="w-4 h-4 text-[#DB9558] dark:text-[#F5A663] shrink-0" />
+                  <span className="text-sm font-semibold text-[#010736] dark:text-[#F5EFE1]">{profileData.location}</span>
                 </div>
               </div>
             </div>
 
             {/* Social Links */}
             <div>
-              <p className="text-xs font-mono text-[#6B7280] mb-3 uppercase tracking-wider font-semibold">Profiles</p>
+              <p className="text-xs font-mono text-[#6B7280] dark:text-[#8E9AA8] mb-3 uppercase tracking-wider font-semibold">Profiles</p>
               <div className="flex flex-wrap gap-2.5">
                 {profileData.socialLinks
                   .filter((s) => s.platform === 'github' || s.platform === 'linkedin')
@@ -233,11 +233,11 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                         aria-label={`Open ${item.label}`}
                         whileHover={{ scale: 1.04, y: -2 }}
                         whileTap={{ scale: 0.96 }}
-                        className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white border border-[#E5D3AF] hover:border-[#800020] hover:text-[#800020] text-[#010736] text-sm font-medium transition-all shadow-xs"
+                        className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white dark:bg-[#0B132B] border border-[#E5D3AF] dark:border-[#E5D3AF]/15 hover:border-[#800020] dark:hover:border-[#F5A663] hover:text-[#800020] dark:hover:text-[#F5A663] text-[#010736] dark:text-[#F5EFE1] text-sm font-medium transition-all shadow-xs"
                       >
-                        <IconComponent className="w-4 h-4 text-[#800020]" />
+                        <IconComponent className="w-4 h-4 text-[#800020] dark:text-[#F5A663]" />
                         <span>{item.label}</span>
-                        <ExternalLink className="w-3 h-3 text-[#6B7280]" />
+                        <ExternalLink className="w-3 h-3 text-[#6B7280] dark:text-[#8E9AA8]" />
                       </motion.a>
                     );
                   })}
@@ -253,20 +253,20 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
             transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
             className="lg:col-span-3"
           >
-            <div className="relative p-7 sm:p-9 rounded-3xl bg-white border border-[#E5D3AF] shadow-[0_6px_28px_rgba(1,7,54,0.04)]">
+            <div className="relative p-7 sm:p-9 rounded-3xl bg-white dark:bg-[#0B132B] border border-[#E5D3AF] dark:border-[#E5D3AF]/15 shadow-[0_6px_28px_rgba(1,7,54,0.04)] dark:shadow-[0_6px_28px_rgba(0,0,0,0.3)]">
               {submitted ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center justify-center py-16 text-center gap-4"
                 >
-                  <div className="w-16 h-16 rounded-full bg-[#8B9A6E]/15 border border-[#8B9A6E]/40 flex items-center justify-center">
-                    <CheckCircle className="w-8 h-8 text-[#8B9A6E]" />
+                  <div className="w-16 h-16 rounded-full bg-[#8B9A6E]/15 dark:bg-[#A2B784]/15 border border-[#8B9A6E]/40 dark:border-[#A2B784]/40 flex items-center justify-center">
+                    <CheckCircle className="w-8 h-8 text-[#8B9A6E] dark:text-[#A2B784]" />
                   </div>
-                  <h3 className="text-xl font-display font-bold text-[#010736]">
+                  <h3 className="text-xl font-display font-bold text-[#010736] dark:text-[#F5EFE1]">
                     Email Client Opened
                   </h3>
-                  <p className="text-[#2C3352]/75 text-sm max-w-xs">
+                  <p className="text-[#2C3352]/75 dark:text-[#C5CEE0]/75 text-sm max-w-xs">
                     Your message has been composed. Complete and send it directly from your email app.
                   </p>
                 </motion.div>
@@ -279,10 +279,10 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                   className="space-y-5"
                 >
                   <div>
-                    <h3 className="text-xl font-display font-bold text-[#010736] mb-1">
+                    <h3 className="text-xl font-display font-bold text-[#010736] dark:text-[#F5EFE1] mb-1">
                       Send a Message
                     </h3>
-                    <p className="text-xs text-[#2C3352]/70">
+                    <p className="text-xs text-[#2C3352]/70 dark:text-[#C5CEE0]/70">
                       Composes directly into your mail client — completely private without third-party tracking.
                     </p>
                   </div>
@@ -292,9 +292,9 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                     <div>
                       <label
                         htmlFor="contact-name"
-                        className="block text-xs font-mono text-[#010736] mb-1.5 font-semibold"
+                        className="block text-xs font-mono text-[#010736] dark:text-[#F5EFE1] mb-1.5 font-semibold"
                       >
-                        Your Name <span className="text-[#800020]">*</span>
+                        Your Name <span className="text-[#800020] dark:text-[#F5A663]">*</span>
                       </label>
                       <input
                         id="contact-name"
@@ -317,9 +317,9 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                     <div>
                       <label
                         htmlFor="contact-email"
-                        className="block text-xs font-mono text-[#010736] mb-1.5 font-semibold"
+                        className="block text-xs font-mono text-[#010736] dark:text-[#F5EFE1] mb-1.5 font-semibold"
                       >
-                        Your Email <span className="text-[#800020]">*</span>
+                        Your Email <span className="text-[#800020] dark:text-[#F5A663]">*</span>
                       </label>
                       <input
                         id="contact-email"
@@ -345,9 +345,9 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                   <div>
                     <label
                       htmlFor="contact-subject"
-                      className="block text-xs font-mono text-[#010736] mb-1.5 font-semibold"
+                      className="block text-xs font-mono text-[#010736] dark:text-[#F5EFE1] mb-1.5 font-semibold"
                     >
-                      Subject <span className="text-[#800020]">*</span>
+                      Subject <span className="text-[#800020] dark:text-[#F5A663]">*</span>
                     </label>
                     <input
                       id="contact-subject"
@@ -371,9 +371,9 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                   <div>
                     <label
                       htmlFor="contact-message"
-                      className="block text-xs font-mono text-[#010736] mb-1.5 font-semibold"
+                      className="block text-xs font-mono text-[#010736] dark:text-[#F5EFE1] mb-1.5 font-semibold"
                     >
-                      Message <span className="text-[#800020]">*</span>
+                      Message <span className="text-[#800020] dark:text-[#F5A663]">*</span>
                     </label>
                     <textarea
                       id="contact-message"
@@ -398,7 +398,7 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
                     type="submit"
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#800020] text-white font-semibold text-sm shadow-[0_4px_16px_rgba(128,0,32,0.25)] hover:bg-[#660019] hover:shadow-[0_6px_22px_rgba(128,0,32,0.35)] transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/50"
+                    className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#800020] text-white font-semibold text-sm shadow-[0_4px_16px_rgba(128,0,32,0.25)] hover:bg-[#660019] hover:shadow-[0_6px_22px_rgba(128,0,32,0.35)] dark:bg-[#F5A663] dark:text-[#050B20] dark:hover:bg-[#f6b57d] dark:shadow-[0_4px_16px_rgba(245,166,99,0.25)] transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/50 dark:focus-visible:ring-[#F5A663]/50"
                   >
                     <Send className="w-4 h-4" />
                     Send Message

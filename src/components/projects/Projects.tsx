@@ -56,26 +56,26 @@ export const Projects: React.FC<ProjectsProps> = ({
   return (
     <section
       id="projects"
-      className={`relative py-24 md:py-32 bg-[#F5EFE1] overflow-hidden ${className}`.trim()}
+      className={`relative py-24 md:py-32 bg-[#F5EFE1] dark:bg-[#050B20] text-[#010736] dark:text-[#F5EFE1] overflow-hidden transition-colors duration-300 ${className}`.trim()}
       aria-label="Featured Systems Showcase"
     >
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center mb-14 md:mb-18">
           <div className="flex items-center justify-center gap-2 mb-3">
-            <span className="h-px w-6 bg-[#8B9A6E]" />
-            <span className="font-mono text-xs font-bold text-[#8B9A6E] uppercase tracking-widest">
+            <span className="h-px w-6 bg-[#8B9A6E] dark:bg-[#A2B784]" />
+            <span className="font-mono text-xs font-bold text-[#8B9A6E] dark:text-[#A2B784] uppercase tracking-widest">
               04 // Featured Systems
             </span>
-            <span className="h-px w-6 bg-[#8B9A6E]" />
+            <span className="h-px w-6 bg-[#8B9A6E] dark:bg-[#A2B784]" />
           </div>
 
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#010736] tracking-tight leading-tight mb-4">
+          <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#010736] dark:text-[#F5EFE1] tracking-tight leading-tight mb-4">
             Production Systems{' '}
-            <span className="text-[#800020]">Showcase</span>
+            <span className="text-[#800020] dark:text-[#F5A663]">Showcase</span>
           </h2>
 
-          <p className="text-sm sm:text-base md:text-lg text-[#2C3352]/80 leading-relaxed font-sans">
+          <p className="text-sm sm:text-base md:text-lg text-[#2C3352]/80 dark:text-[#C5CEE0]/80 leading-relaxed font-sans">
             Production-grade backends, high-throughput distributed screening pipelines, and
             graph algorithmic engines engineered with strict MVC separation, normalized relational
             schemas, and measured latency benchmarks.
@@ -101,8 +101,8 @@ export const Projects: React.FC<ProjectsProps> = ({
                   onClick={() => setSelectedCategory(opt.id)}
                   className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-mono transition-all duration-200 cursor-pointer flex items-center gap-2 ${
                     isActive
-                      ? 'bg-[#800020] text-white font-semibold shadow-sm scale-[1.02]'
-                      : 'bg-white text-[#2C3352] border border-[#E5D3AF] hover:border-[#DB9558] hover:text-[#010736]'
+                      ? 'bg-[#800020] dark:bg-[#C72C48] text-white font-semibold shadow-sm scale-[1.02]'
+                      : 'bg-white dark:bg-[#0B132B] text-[#2C3352] dark:text-[#C5CEE0] border border-[#E5D3AF] dark:border-[#E5D3AF]/15 hover:border-[#DB9558] dark:hover:border-[#F5A663]/40 hover:text-[#010736] dark:hover:text-[#F5EFE1]'
                   }`}
                   aria-pressed={isActive}
                 >
@@ -111,7 +111,7 @@ export const Projects: React.FC<ProjectsProps> = ({
                     className={`text-[10px] px-1.5 py-0.5 rounded-full ${
                       isActive
                         ? 'bg-white/20 text-white'
-                        : 'bg-[#E5D3AF]/50 text-[#2C3352]'
+                        : 'bg-[#E5D3AF]/50 dark:bg-[#111C40] text-[#2C3352] dark:text-[#C5CEE0]'
                     }`}
                   >
                     {count}
@@ -136,12 +136,12 @@ export const Projects: React.FC<ProjectsProps> = ({
 
         {/* Empty State Fallback */}
         {filteredProjects.length === 0 && (
-          <div className="py-16 text-center text-[#2C3352]/70 bg-white rounded-2xl border border-dashed border-[#E5D3AF]">
-            <Layers className="w-10 h-10 mx-auto text-[#8B9A6E] mb-3" />
-            <p className="text-base font-display font-medium text-[#010736]">
+          <div className="py-16 text-center text-[#2C3352]/70 dark:text-[#C5CEE0]/70 bg-white dark:bg-[#0B132B] rounded-2xl border border-dashed border-[#E5D3AF] dark:border-[#E5D3AF]/20">
+            <Layers className="w-10 h-10 mx-auto text-[#8B9A6E] dark:text-[#A2B784] mb-3" />
+            <p className="text-base font-display font-medium text-[#010736] dark:text-[#F5EFE1]">
               No architecture systems found in this category.
             </p>
-            <p className="text-xs font-mono mt-1 text-[#6B7280]">
+            <p className="text-xs font-mono mt-1 text-[#6B7280] dark:text-[#8C9BB5]">
               Try selecting "All Architectures" to view full portfolio systems.
             </p>
           </div>

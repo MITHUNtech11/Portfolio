@@ -37,7 +37,7 @@ export const ReadingProgress: React.FC<ReadingProgressProps> = ({
     >
       <motion.div
         style={{ scaleX, transformOrigin: '0%' }}
-        className={`h-full w-full bg-gradient-to-r from-[#800020] via-[#DB9558] to-[#8B9A6E] shadow-[0_1px_6px_rgba(128,0,32,0.3)] will-change-transform ${className}`.trim()}
+        className={`h-full w-full bg-gradient-to-r from-[#800020] via-[#DB9558] to-[#8B9A6E] dark:from-[#C72C48] dark:via-[#F5A663] dark:to-[#A2B784] shadow-[0_1px_6px_rgba(128,0,32,0.3)] dark:shadow-[0_1px_8px_rgba(245,166,99,0.3)] will-change-transform ${className}`.trim()}
       />
     </div>
   );

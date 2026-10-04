@@ -32,7 +32,7 @@ export default function App(): React.JSX.Element {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#F5EFE1] text-[#010736] antialiased overflow-x-hidden font-body selection:bg-[#800020] selection:text-white">
+    <div className="relative min-h-screen bg-[#F5EFE1] dark:bg-[#050B20] text-[#010736] dark:text-[#F5EFE1] transition-colors duration-300 antialiased overflow-x-hidden font-body selection:bg-[#800020] selection:text-white dark:selection:bg-[#C72C48]">
       {/* ── Reading progress bar ── */}
       <ReadingProgress />
 

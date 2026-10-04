@@ -128,7 +128,7 @@ export const Hero: React.FC<HeroProps> = ({
     <section
       id="hero"
       aria-label="Introduction"
-      className={`relative w-full min-h-[92vh] flex flex-col justify-center overflow-hidden bg-[#F5EFE1] text-[#010736] pt-24 pb-16 px-4 sm:px-6 lg:px-8 xl:px-12 ${className}`.trim()}
+      className={`relative w-full min-h-[92vh] flex flex-col justify-center overflow-hidden bg-[#F5EFE1] dark:bg-[#050B20] text-[#010736] dark:text-[#F5EFE1] pt-24 pb-16 px-4 sm:px-6 lg:px-8 xl:px-12 transition-colors duration-300 ${className}`.trim()}
     >
       {/* --- Three.js WebGL Interactive Particle Background --- */}
       <canvas
@@ -144,12 +144,12 @@ export const Hero: React.FC<HeroProps> = ({
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             {/* Editorial Eyebrow Tag in Sage Green */}
             <div className="flex items-center gap-2 mb-4">
-              <span className="h-px w-6 bg-[#8B9A6E]" />
-              <span className="font-mono text-xs font-bold text-[#8B9A6E] uppercase tracking-widest">
+              <span className="h-px w-6 bg-[#8B9A6E] dark:bg-[#A2B784]" />
+              <span className="font-mono text-xs font-bold text-[#8B9A6E] dark:text-[#A2B784] uppercase tracking-widest">
                 01 // Portfolio
               </span>
-              <span className="text-xs font-mono text-[#6B7280] ml-2 flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-[#DB9558]" />
+              <span className="text-xs font-mono text-[#6B7280] dark:text-[#8C9BB5] ml-2 flex items-center gap-1">
+                <MapPin className="w-3 h-3 text-[#DB9558] dark:text-[#F5A663]" />
                 {profile.location}
               </span>
             </div>
@@ -157,35 +157,35 @@ export const Hero: React.FC<HeroProps> = ({
             {/* Candidate Name Stagger Heading */}
             <h1
               ref={nameRef}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-[4rem] font-extrabold font-display tracking-tight text-[#010736] leading-[1.08] mb-4"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-[4rem] font-extrabold font-display tracking-tight text-[#010736] dark:text-[#F5EFE1] leading-[1.08] mb-4"
             >
               {nameLetters}
             </h1>
 
             {/* Headline Subtitle */}
-            <h2 className="text-xl sm:text-2xl font-display font-medium text-[#2C3352] mb-6">
+            <h2 className="text-xl sm:text-2xl font-display font-medium text-[#2C3352] dark:text-[#C5CEE0] mb-6">
               Backend &amp; Systems Engineer{' '}
-              <span className="text-[#800020] font-semibold">with Applied AI</span>
+              <span className="text-[#800020] dark:text-[#F5A663] font-semibold">with Applied AI</span>
             </h2>
 
             {/* Typewriter Terminal Bar with Sage Green prompt */}
             <div
-              className="w-full max-w-2xl min-h-[52px] rounded-xl bg-white/80 border border-[#E5D3AF] p-3 sm:px-4 sm:py-3 flex items-start gap-2.5 shadow-[0_4px_16px_rgba(1,7,54,0.03)] mb-6 backdrop-blur-sm"
+              className="w-full max-w-2xl min-h-[52px] rounded-xl bg-white/80 dark:bg-[#0B132B]/90 border border-[#E5D3AF] dark:border-[#E5D3AF]/15 p-3 sm:px-4 sm:py-3 flex items-start gap-2.5 shadow-[0_4px_16px_rgba(1,7,54,0.03)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.4)] mb-6 backdrop-blur-sm"
               aria-live="polite"
             >
-              <Terminal className="w-4 h-4 text-[#8B9A6E] shrink-0 mt-0.5" />
-              <p className="font-mono text-xs sm:text-sm text-[#2C3352] leading-relaxed break-words flex-1">
-                <span className="text-[#8B9A6E] font-semibold">sys@mithun:~$ </span>
+              <Terminal className="w-4 h-4 text-[#8B9A6E] dark:text-[#A2B784] shrink-0 mt-0.5" />
+              <p className="font-mono text-xs sm:text-sm text-[#2C3352] dark:text-[#C5CEE0] leading-relaxed break-words flex-1">
+                <span className="text-[#8B9A6E] dark:text-[#A2B784] font-semibold">sys@mithun:~$ </span>
                 <span>{displayText}</span>
                 <span
-                  className="inline-block w-1.5 h-4 ml-1 bg-[#800020] animate-pulse align-middle"
+                  className="inline-block w-1.5 h-4 ml-1 bg-[#800020] dark:bg-[#F5A663] animate-pulse align-middle"
                   aria-hidden="true"
                 />
               </p>
             </div>
 
             {/* Bio summary */}
-            <p className="text-sm sm:text-base text-[#2C3352]/80 leading-relaxed font-body max-w-2xl mb-8">
+            <p className="text-sm sm:text-base text-[#2C3352]/80 dark:text-[#C5CEE0]/80 leading-relaxed font-body max-w-2xl mb-8">
               Final-year B.Tech (AI &amp; Data Science, CGPA 8.46) at Saveetha University with Oracle certifications in Java SE 11 &amp; SQL. Hands-on experience developing automated healthcare ingestion vaults, schema validation microservices, and graph optimization algorithms.
             </p>
 
@@ -222,7 +222,7 @@ export const Hero: React.FC<HeroProps> = ({
                   e.preventDefault();
                   smoothScrollTo('#contact', 75);
                 }}
-                leftIcon={<Mail className="w-4 h-4 text-[#800020]" />}
+                leftIcon={<Mail className="w-4 h-4 text-[#800020] dark:text-[#F5A663]" />}
               >
                 Get in Touch
               </Button>
@@ -230,7 +230,7 @@ export const Hero: React.FC<HeroProps> = ({
 
             {/* Quick Connect Social Links */}
             <div className="flex items-center gap-2.5">
-              <span className="text-xs font-mono text-[#6B7280] uppercase tracking-wider hidden sm:inline-block mr-1">
+              <span className="text-xs font-mono text-[#6B7280] dark:text-[#8C9BB5] uppercase tracking-wider hidden sm:inline-block mr-1">
                 Connect:
               </span>
               {(profile.socialLinks || []).map((link, idx) => {
@@ -243,7 +243,7 @@ export const Hero: React.FC<HeroProps> = ({
                     rel={link.url.startsWith('http') ? 'noopener noreferrer' : undefined}
                     aria-label={link.label}
                     title={link.label}
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-white border border-[#E5D3AF] text-[#010736] hover:text-[#800020] hover:border-[#800020] hover:bg-[#E5D3AF]/30 transition-all duration-200 shadow-sm"
+                    className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-white dark:bg-[#0B132B] border border-[#E5D3AF] dark:border-[#E5D3AF]/15 text-[#010736] dark:text-[#F5EFE1] hover:text-[#800020] dark:hover:text-[#F5A663] hover:border-[#800020] dark:hover:border-[#F5A663] hover:bg-[#E5D3AF]/30 dark:hover:bg-[#111C40] transition-all duration-200 shadow-sm"
                   >
                     {icon}
                   </a>
@@ -264,11 +264,11 @@ export const Hero: React.FC<HeroProps> = ({
         {/* --- Bottom Row: Editorial Stat Highlights --- */}
         <div className="w-full pt-4">
           <div className="flex items-center gap-3 mb-4">
-            <span className="h-px w-6 bg-[#8B9A6E]" />
-            <h2 className="text-xs font-mono uppercase tracking-widest text-[#8B9A6E] font-bold">
+            <span className="h-px w-6 bg-[#8B9A6E] dark:bg-[#A2B784]" />
+            <h2 className="text-xs font-mono uppercase tracking-widest text-[#8B9A6E] dark:text-[#A2B784] font-bold">
               Engineering Impact Metrics
             </h2>
-            <span className="h-px flex-1 bg-gradient-to-r from-[#E5D3AF] to-transparent" />
+            <span className="h-px flex-1 bg-gradient-to-r from-[#E5D3AF] dark:from-[#E5D3AF]/20 to-transparent" />
           </div>
 
           <StatCounter stats={profile.recruiterStats} />

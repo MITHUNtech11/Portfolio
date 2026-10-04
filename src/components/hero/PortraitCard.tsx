@@ -43,7 +43,7 @@ export const PortraitCard: React.FC<PortraitCardProps> = ({
     >
       {/* Subtle warm ambient halo */}
       <div
-        className="pointer-events-none absolute -inset-4 sm:-inset-6 rounded-full bg-gradient-to-tr from-[#DB9558]/20 via-[#E5D3AF]/30 to-[#8B9A6E]/15 blur-2xl opacity-60"
+        className="pointer-events-none absolute -inset-4 sm:-inset-6 rounded-full bg-gradient-to-tr from-[#DB9558]/20 via-[#E5D3AF]/30 to-[#8B9A6E]/15 dark:from-[#F5A663]/20 dark:via-[#C72C48]/20 dark:to-[#64B5F6]/15 blur-2xl opacity-60 dark:opacity-50"
         aria-hidden="true"
       />
 
@@ -56,10 +56,10 @@ export const PortraitCard: React.FC<PortraitCardProps> = ({
         hoverScale={1.03}
         className="relative z-10 w-full max-w-[300px] sm:max-w-[340px] lg:max-w-[380px]"
       >
-        <div className="relative p-2.5 rounded-full bg-gradient-to-tr from-[#DB9558] via-[#E5D3AF] to-[#DB9558] shadow-[0_12px_36px_rgba(1,7,54,0.08)]">
+        <div className="relative p-2.5 rounded-full bg-gradient-to-tr from-[#DB9558] via-[#E5D3AF] to-[#DB9558] dark:from-[#F5A663] dark:via-[#111C40] dark:to-[#F5A663] shadow-[0_12px_36px_rgba(1,7,54,0.08)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.6)]">
           {/* Inner Circular Frame */}
-          <div className="relative overflow-hidden rounded-full aspect-square w-full bg-[#E5D3AF]/30 p-1">
-            <div className="relative overflow-hidden rounded-full w-full h-full bg-[#F5EFE1]">
+          <div className="relative overflow-hidden rounded-full aspect-square w-full bg-[#E5D3AF]/30 dark:bg-[#050B20]/60 p-1">
+            <div className="relative overflow-hidden rounded-full w-full h-full bg-[#F5EFE1] dark:bg-[#0B132B]">
               {!imageError ? (
                 <img
                   src={resolvedAvatarUrl}

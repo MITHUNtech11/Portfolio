@@ -96,13 +96,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         className="h-full flex flex-col"
       >
         <article
-          className="relative flex flex-col h-full rounded-2xl bg-white border border-[#E5D3AF] hover:border-[#DB9558] shadow-[0_4px_24px_rgba(1,7,54,0.04)] hover:shadow-[0_12px_36px_rgba(1,7,54,0.08)] transition-all duration-300 overflow-hidden group"
+          className="relative flex flex-col h-full rounded-2xl bg-white dark:bg-[#0B132B] border border-[#E5D3AF] dark:border-[#E5D3AF]/15 hover:border-[#DB9558] dark:hover:border-[#F5A663]/40 shadow-[0_4px_24px_rgba(1,7,54,0.04)] dark:shadow-[0_4px_24px_rgba(0,0,0,0.4)] hover:shadow-[0_12px_36px_rgba(1,7,54,0.08)] dark:hover:shadow-[0_12px_36px_rgba(0,0,0,0.6)] transition-all duration-300 overflow-hidden group"
           aria-labelledby={`project-title-${project.id}`}
         >
           {/* Workflow Thumbnail Preview Container */}
           <div
             onClick={handleOpenArchitecture}
-            className="relative w-full aspect-[16/10] bg-[#F5EFE1] border-b border-[#E5D3AF] overflow-hidden cursor-pointer select-none"
+            className="relative w-full aspect-[16/10] bg-[#F5EFE1] dark:bg-[#050B20] border-b border-[#E5D3AF] dark:border-[#E5D3AF]/15 overflow-hidden cursor-pointer select-none"
             role="button"
             tabIndex={0}
             onKeyDown={(e) => {
@@ -122,12 +122,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 onError={() => setImageError(true)}
               />
             ) : (
-              <div className="w-full h-full flex flex-col items-center justify-center bg-[#E5D3AF]/20 p-4 text-center">
-                <div className="p-2.5 rounded-xl bg-white border border-[#E5D3AF] mb-2 text-[#800020] shadow-xs">
+              <div className="w-full h-full flex flex-col items-center justify-center bg-[#E5D3AF]/20 dark:bg-[#111C40]/50 p-4 text-center">
+                <div className="p-2.5 rounded-xl bg-white dark:bg-[#0B132B] border border-[#E5D3AF] dark:border-[#E5D3AF]/15 mb-2 text-[#800020] dark:text-[#F5A663] shadow-xs">
                   <Workflow className="w-6 h-6" />
                 </div>
-                <span className="font-mono text-xs text-[#010736] font-semibold">{project.title}</span>
-                <span className="font-sans text-[11px] text-[#6B7280] mt-0.5">Interactive Architecture</span>
+                <span className="font-mono text-xs text-[#010736] dark:text-[#F5EFE1] font-semibold">{project.title}</span>
+                <span className="font-sans text-[11px] text-[#6B7280] dark:text-[#8C9BB5] mt-0.5">Interactive Architecture</span>
               </div>
             )}
 
@@ -136,23 +136,23 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               <Badge
                 variant="navy"
                 size="sm"
-                className="font-mono text-[10px] tracking-wider uppercase bg-white/95 border-[#E5D3AF] text-[#010736] shadow-sm backdrop-blur-sm"
+                className="font-mono text-[10px] tracking-wider uppercase bg-white/95 dark:bg-[#0B132B]/95 border-[#E5D3AF] dark:border-[#E5D3AF]/15 text-[#010736] dark:text-[#F5EFE1] shadow-sm backdrop-blur-sm"
               >
                 SYSTEM {project.number}
               </Badge>
 
               {project.diagrams && project.diagrams.length > 0 && (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono bg-white/95 text-[#2C3352] border border-[#E5D3AF] shadow-sm backdrop-blur-sm">
-                  <Workflow className="w-3 h-3 text-[#DB9558]" />
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono bg-white/95 dark:bg-[#0B132B]/95 text-[#2C3352] dark:text-[#C5CEE0] border border-[#E5D3AF] dark:border-[#E5D3AF]/15 shadow-sm backdrop-blur-sm">
+                  <Workflow className="w-3 h-3 text-[#DB9558] dark:text-[#F5A663]" />
                   <span>{project.diagrams.length} {project.diagrams.length === 1 ? 'Flow' : 'Flows'}</span>
                 </span>
               )}
             </div>
 
             {/* Hover Floating Action Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-[#010736]/40 backdrop-blur-[2px]">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-[#E5D3AF] text-xs font-mono font-semibold text-[#800020] shadow-md transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                <Eye className="w-3.5 h-3.5 text-[#800020]" />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-[#010736]/40 dark:bg-black/60 backdrop-blur-[2px]">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white dark:bg-[#0B132B] border border-[#E5D3AF] dark:border-[#E5D3AF]/15 text-xs font-mono font-semibold text-[#800020] dark:text-[#F5A663] shadow-md transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                <Eye className="w-3.5 h-3.5 text-[#800020] dark:text-[#F5A663]" />
                 <span>Inspect Architecture</span>
               </span>
             </div>
@@ -162,7 +162,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           <div className="p-6 flex-1 flex flex-col">
             {/* Category / Label */}
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-[11px] font-mono font-bold text-[#8B9A6E] tracking-wider uppercase">
+              <span className="text-[11px] font-mono font-bold text-[#8B9A6E] dark:text-[#A2B784] tracking-wider uppercase">
                 {project.label}
               </span>
             </div>
@@ -170,28 +170,28 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             {/* Title */}
             <h3
               id={`project-title-${project.id}`}
-              className="font-display font-bold text-lg sm:text-xl text-[#010736] group-hover:text-[#800020] transition-colors leading-snug mb-2.5 line-clamp-1"
+              className="font-display font-bold text-lg sm:text-xl text-[#010736] dark:text-[#F5EFE1] group-hover:text-[#800020] dark:group-hover:text-[#F5A663] transition-colors leading-snug mb-2.5 line-clamp-1"
             >
               {project.title}
             </h3>
 
             {/* Overview */}
-            <p className="text-xs sm:text-sm text-[#2C3352]/75 leading-relaxed line-clamp-3 mb-5 font-sans">
+            <p className="text-xs sm:text-sm text-[#2C3352]/75 dark:text-[#C5CEE0]/80 leading-relaxed line-clamp-3 mb-5 font-sans">
               {project.overview || project.description}
             </p>
 
             {/* Metrics */}
             {project.metrics && project.metrics.length > 0 && (
-              <div className="grid grid-cols-2 gap-2.5 mb-5 p-3 rounded-xl bg-[#F5EFE1]/60 border border-[#E5D3AF]">
+              <div className="grid grid-cols-2 gap-2.5 mb-5 p-3 rounded-xl bg-[#F5EFE1]/60 dark:bg-[#050B20]/60 border border-[#E5D3AF] dark:border-[#E5D3AF]/15">
                 {project.metrics.slice(0, 4).map((metric: ProjectMetric, mIdx: number) => (
                   <div key={mIdx} className="flex flex-col min-w-0">
-                    <div className="flex items-center gap-1.5 text-xs sm:text-sm font-mono font-bold text-[#800020] truncate">
-                      <span className="text-[#DB9558] shrink-0">
+                    <div className="flex items-center gap-1.5 text-xs sm:text-sm font-mono font-bold text-[#800020] dark:text-[#F5A663] truncate">
+                      <span className="text-[#DB9558] dark:text-[#F5A663] shrink-0">
                         {renderMetricIcon(metric.icon, 'w-3.5 h-3.5')}
                       </span>
                       <span className="truncate">{metric.num}</span>
                     </div>
-                    <span className="text-[10px] sm:text-[11px] font-sans text-[#6B7280] truncate mt-0.5" title={metric.label}>
+                    <span className="text-[10px] sm:text-[11px] font-sans text-[#6B7280] dark:text-[#8C9BB5] truncate mt-0.5" title={metric.label}>
                       {metric.label}
                     </span>
                   </div>
@@ -204,20 +204,20 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               {(project.tags || []).slice(0, 5).map((tag, tIdx) => (
                 <span
                   key={tIdx}
-                  className="px-2 py-0.5 text-[11px] font-mono rounded-md bg-[#E5D3AF]/40 text-[#010736] border border-[#E5D3AF]"
+                  className="px-2 py-0.5 text-[11px] font-mono rounded-md bg-[#E5D3AF]/40 dark:bg-[#111C40] text-[#010736] dark:text-[#F5EFE1] border border-[#E5D3AF] dark:border-[#E5D3AF]/15"
                 >
                   {tag}
                 </span>
               ))}
               {(project.tags || []).length > 5 && (
-                <span className="px-2 py-0.5 text-[11px] font-mono rounded-md bg-[#F5EFE1] text-[#6B7280] border border-[#E5D3AF]">
+                <span className="px-2 py-0.5 text-[11px] font-mono rounded-md bg-[#F5EFE1] dark:bg-[#050B20] text-[#6B7280] dark:text-[#8C9BB5] border border-[#E5D3AF] dark:border-[#E5D3AF]/15">
                   +{(project.tags || []).length - 5}
                 </span>
               )}
             </div>
 
             {/* Card Footer Actions */}
-            <div className="pt-4 border-t border-[#E5D3AF] flex items-center justify-between gap-2.5">
+            <div className="pt-4 border-t border-[#E5D3AF] dark:border-[#E5D3AF]/15 flex items-center justify-between gap-2.5">
               <Button
                 variant="primary"
                 size="sm"

@@ -65,14 +65,14 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
       size="xl"
       title={
         <div className="flex items-center gap-2.5">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#E5D3AF]/40 text-[#800020] shrink-0">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#E5D3AF]/40 dark:bg-[#111C40] text-[#800020] dark:text-[#F5A663] shrink-0">
             <Award className="w-4 h-4" />
           </div>
-          <span className="truncate text-[#010736]">{certificate.title}</span>
+          <span className="truncate text-[#010736] dark:text-[#F5EFE1]">{certificate.title}</span>
         </div>
       }
       description={
-        <span className="flex items-center gap-2 text-[#2C3352]/75">
+        <span className="flex items-center gap-2 text-[#2C3352]/75 dark:text-[#C5CEE0]/75">
           <span>{certificate.issuer}</span>
           <span>•</span>
           <span>Issued {certificate.date}</span>
@@ -82,7 +82,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
     >
       <div className="space-y-5">
         {/* Meta & Toolbar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl bg-[#F5EFE1]/70 border border-[#E5D3AF]">
+        <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl bg-[#F5EFE1]/70 dark:bg-[#050B20]/70 border border-[#E5D3AF] dark:border-[#E5D3AF]/20">
           <div className="flex flex-wrap items-center gap-2.5">
             {certificate.credentialId && (
               <button
@@ -90,14 +90,14 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
                 onClick={handleCopyId}
                 title="Click to copy credential ID"
                 aria-label={`Copy Credential ID ${certificate.credentialId}`}
-                className="inline-flex items-center gap-1.5 font-mono text-xs px-2.5 py-1 rounded-md bg-white border border-[#E5D3AF] text-[#010736] transition-colors cursor-pointer shadow-xs hover:border-[#DB9558]"
+                className="inline-flex items-center gap-1.5 font-mono text-xs px-2.5 py-1 rounded-md bg-white dark:bg-[#0B132B] border border-[#E5D3AF] dark:border-[#E5D3AF]/20 text-[#010736] dark:text-[#F5EFE1] transition-colors cursor-pointer shadow-xs hover:border-[#DB9558] dark:hover:border-[#F5A663]"
               >
-                <Hash className="w-3 h-3 text-[#DB9558]" />
+                <Hash className="w-3 h-3 text-[#DB9558] dark:text-[#F5A663]" />
                 <span>ID: {certificate.credentialId}</span>
                 {copied ? (
-                  <Check className="w-3 h-3 text-[#8B9A6E] ml-1" />
+                  <Check className="w-3 h-3 text-[#8B9A6E] dark:text-[#A2B784] ml-1" />
                 ) : (
-                  <Copy className="w-3 h-3 text-[#6B7280] ml-1" />
+                  <Copy className="w-3 h-3 text-[#6B7280] dark:text-[#8E9AA8] ml-1" />
                 )}
               </button>
             )}
@@ -145,7 +145,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
         </div>
 
         {/* Certificate Zoom/Pan Viewer */}
-        <div className="rounded-xl overflow-hidden border border-[#E5D3AF] shadow-md bg-[#F5EFE1]">
+        <div className="rounded-xl overflow-hidden border border-[#E5D3AF] dark:border-[#E5D3AF]/20 shadow-md bg-[#F5EFE1] dark:bg-[#050B20]">
           <ZoomPanViewer
             src={imageSrc}
             alt={certificate.title}
@@ -156,15 +156,15 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
 
         {/* Competencies Footer */}
         {certificate.skills && certificate.skills.length > 0 && (
-          <div className="p-3.5 rounded-xl bg-[#F5EFE1]/50 border border-[#E5D3AF]">
-            <span className="block font-mono text-xs font-semibold text-[#8B9A6E] uppercase tracking-wider mb-2">
+          <div className="p-3.5 rounded-xl bg-[#F5EFE1]/50 dark:bg-[#050B20]/50 border border-[#E5D3AF] dark:border-[#E5D3AF]/20">
+            <span className="block font-mono text-xs font-semibold text-[#8B9A6E] dark:text-[#A2B784] uppercase tracking-wider mb-2">
               Syllabus &amp; Focus Areas
             </span>
             <div className="flex flex-wrap gap-1.5">
               {certificate.skills.map((skill, idx) => (
                 <span
                   key={`${skill}-${idx}`}
-                  className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-white border border-[#E5D3AF] text-[#010736]"
+                  className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-white dark:bg-[#0B132B] border border-[#E5D3AF] dark:border-[#E5D3AF]/20 text-[#010736] dark:text-[#F5EFE1]"
                 >
                   {skill}
                 </span>
