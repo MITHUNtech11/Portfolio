@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, Download, Terminal, ChevronRight } from 'lucide-react';
 import { profileData } from '../../data/profile';
 import { Button } from '../ui/Button';
+import { ThemeToggle } from '../ui/ThemeToggle';
 import { smoothScrollTo } from '../../lib/gsap';
 
 export interface NavItem {
@@ -170,7 +171,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header
       className={`sticky top-0 z-40 w-full transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#F5EFE1]/90 backdrop-blur-md border-b border-[#E5D3AF] shadow-[0_4px_20px_rgba(1,7,54,0.04)]'
+          ? 'bg-[#F5EFE1]/90 dark:bg-[#050B20]/90 backdrop-blur-md border-b border-[#E5D3AF] dark:border-[#E5D3AF]/15 shadow-[0_4px_20px_rgba(1,7,54,0.04)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)]'
           : 'bg-transparent border-b border-transparent'
       } ${className}`.trim()}
       {...rest}
@@ -182,15 +183,15 @@ export const Navbar: React.FC<NavbarProps> = ({
             <a
               href="#about"
               onClick={(e) => handleLinkClick(e, '#about')}
-              className="group flex items-center gap-2.5 font-display text-lg font-bold text-[#010736] tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/40 rounded-lg p-1"
+              className="group flex items-center gap-2.5 font-display text-lg font-bold text-[#010736] dark:text-[#F5EFE1] tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/40 dark:focus-visible:ring-[#F5A663]/40 rounded-lg p-1"
               aria-label="Mithun Senthil S - Home"
             >
-              <span className="w-8 h-8 rounded-lg bg-[#010736] text-[#F5EFE1] flex items-center justify-center font-display font-extrabold text-sm shadow-sm group-hover:bg-[#800020] transition-colors">
+              <span className="w-8 h-8 rounded-lg bg-[#010736] dark:bg-[#111C40] dark:border dark:border-[#E5D3AF]/20 text-[#F5EFE1] flex items-center justify-center font-display font-extrabold text-sm shadow-sm group-hover:bg-[#800020] dark:group-hover:bg-[#C72C48] transition-colors">
                 M
               </span>
               <span className="flex items-baseline gap-1 font-display font-bold">
                 <span>{profileData.preferredName || 'Mithun'}</span>
-                <span className="text-[#DB9558] text-xs font-mono">.dev</span>
+                <span className="text-[#DB9558] dark:text-[#F5A663] text-xs font-mono">.dev</span>
               </span>
             </a>
           </div>
@@ -208,17 +209,17 @@ export const Navbar: React.FC<NavbarProps> = ({
                   href={link.href}
                   onClick={(e) => handleLinkClick(e, link.href)}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`relative px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/40 ${
+                  className={`relative px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/40 dark:focus-visible:ring-[#F5A663]/40 ${
                     isActive
-                      ? 'text-[#800020] font-semibold'
-                      : 'text-[#010736]/75 hover:text-[#010736] hover:bg-[#E5D3AF]/30'
+                      ? 'text-[#800020] dark:text-[#F5A663] font-semibold'
+                      : 'text-[#010736]/75 dark:text-[#F5EFE1]/75 hover:text-[#010736] dark:hover:text-[#F5EFE1] hover:bg-[#E5D3AF]/30 dark:hover:bg-[#111C40]/60'
                   }`}
                 >
                   {link.label}
                   {isActive && (
                     <motion.div
                       layoutId="navbar-active-indicator"
-                      className="absolute bottom-0 left-2 right-2 h-0.5 bg-[#800020] rounded-full"
+                      className="absolute bottom-0 left-2 right-2 h-0.5 bg-[#800020] dark:bg-[#F5A663] rounded-full"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -227,8 +228,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Right: Resume CTA & Mobile Hamburger */}
-          <div className="flex items-center gap-3">
+          {/* Right: Theme Toggle, Resume CTA & Mobile Hamburger */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <ThemeToggle variant="icon" />
+
             <div className="hidden sm:block">
               <Button
                 variant="primary"
@@ -249,9 +252,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-navigation-drawer"
-              className="md:hidden p-2 rounded-xl text-[#010736] hover:bg-[#E5D3AF]/50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/40 cursor-pointer"
+              className="md:hidden p-2 rounded-xl text-[#010736] dark:text-[#F5EFE1] hover:bg-[#E5D3AF]/50 dark:hover:bg-[#111C40] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#800020]/40 dark:focus-visible:ring-[#F5A663]/40 cursor-pointer"
             >
-              {isMobileMenuOpen ? <X className="w-5 h-5 text-[#800020]" /> : <Menu className="w-5 h-5" />}
+              {isMobileMenuOpen ? <X className="w-5 h-5 text-[#800020] dark:text-[#F5A663]" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -267,7 +270,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 top-16 bg-[#010736]/30 backdrop-blur-sm z-40 md:hidden"
+              className="fixed inset-0 top-16 bg-[#010736]/30 dark:bg-black/60 backdrop-blur-sm z-40 md:hidden"
               aria-hidden="true"
             />
 
@@ -280,7 +283,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-              className="absolute top-full left-0 right-0 z-50 md:hidden bg-[#F5EFE1] border-b border-[#E5D3AF] shadow-[0_20px_40px_rgba(1,7,54,0.12)] px-4 py-6 flex flex-col gap-4 overflow-hidden"
+              className="absolute top-full left-0 right-0 z-50 md:hidden bg-[#F5EFE1] dark:bg-[#050B20] border-b border-[#E5D3AF] dark:border-[#E5D3AF]/15 shadow-[0_20px_40px_rgba(1,7,54,0.12)] dark:shadow-[0_20px_40px_rgba(0,0,0,0.7)] px-4 py-6 flex flex-col gap-4 overflow-hidden"
             >
               <nav aria-label="Mobile Navigation" className="flex flex-col gap-1">
                 {NAV_LINKS.map((link) => {
@@ -293,14 +296,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                       aria-current={isActive ? 'page' : undefined}
                       className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                         isActive
-                          ? 'bg-[#E5D3AF] text-[#800020] font-semibold'
-                          : 'text-[#010736] hover:bg-[#E5D3AF]/40'
+                          ? 'bg-[#E5D3AF] dark:bg-[#111C40] text-[#800020] dark:text-[#F5A663] font-semibold'
+                          : 'text-[#010736] dark:text-[#F5EFE1] hover:bg-[#E5D3AF]/40 dark:hover:bg-[#111C40]/40'
                       }`}
                     >
                       <span>{link.label}</span>
                       <ChevronRight
                         className={`w-4 h-4 transition-transform ${
-                          isActive ? 'text-[#800020] translate-x-0.5' : 'text-[#6B7280]'
+                          isActive ? 'text-[#800020] dark:text-[#F5A663] translate-x-0.5' : 'text-[#6B7280] dark:text-[#8C9BB5]'
                         }`}
                       />
                     </a>
@@ -308,7 +311,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                 })}
               </nav>
 
-              <div className="pt-2">
+              <div className="pt-2 flex flex-col gap-2.5">
+                <ThemeToggle variant="labeled" />
+
                 <Button
                   variant="primary"
                   size="md"
