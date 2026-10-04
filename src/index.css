@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-bg-base: #F5EFE1;
   --color-surface-sand: #E5D3AF;
@@ -38,6 +40,22 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
+.dark {
+  --bg-base: #050B20;
+  --surface-sand: #0B132B;
+  --surface-white: #0E1738;
+  --navy-midnight: #F5EFE1;
+  --burgundy: #C72C48;
+  --terracotta: #F5A663;
+  --sage: #A2B784;
+
+  --text-primary: #F5EFE1;
+  --text-secondary: #C5CEE0;
+  --text-muted: #8C9BB5;
+  --border-sand: rgba(229, 211, 175, 0.16);
+  --border-subtle: rgba(229, 211, 175, 0.1);
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -45,6 +63,10 @@
 html {
   scroll-behavior: smooth;
   color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 body {
@@ -56,9 +78,10 @@ body {
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Custom Scrollbar in Warm Editorial Palette */
+/* Custom Scrollbar in Warm Editorial & Deep Midnight Palette */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -75,4 +98,17 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #DB9558;
+}
+
+html.dark ::-webkit-scrollbar-track {
+  background: #050B20;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: #111C40;
+  border: 1px solid rgba(229, 211, 175, 0.16);
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #F5A663;
 }

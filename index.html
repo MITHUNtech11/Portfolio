@@ -101,9 +101,25 @@
     <!-- Google Fonts: Bricolage Grotesque, DM Sans, JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Anti-FOUC Theme Initialization Script -->
+    <script>
+      (function() {
+        try {
+          const stored = localStorage.getItem('theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const isDark = stored ? stored === 'dark' : prefersDark;
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.style.colorScheme = 'dark';
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.style.colorScheme = 'light';
+          }
+        } catch (e) {}
+      })();
+    </script>
 </head>
-<body class="bg-[#F5EFE1] text-[#010736] antialiased selection:bg-[#800020] selection:text-white">
+<body class="bg-[#F5EFE1] text-[#010736] dark:bg-[#050B20] dark:text-[#F5EFE1] transition-colors duration-300 antialiased selection:bg-[#800020] selection:text-white dark:selection:bg-[#C72C48]">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 </body>
