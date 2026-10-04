@@ -1,5 +1,6 @@
 import { useEffect, RefObject } from 'react';
 import * as THREE from 'three';
+import { THEME_CHANGE_EVENT } from './theme';
 
 export function useParticleField(canvasRef: RefObject<HTMLCanvasElement | null>) {
   useEffect(() => {
@@ -40,21 +41,10 @@ export function useParticleField(canvasRef: RefObject<HTMLCanvasElement | null>)
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
 
-    // Warm terracotta (#DB9558) and Navy (#010736) particle colors
-    const colorA = new THREE.Color(0xdb9558);
-    const colorB = new THREE.Color(0x8b9a6e);
-    const colorC = new THREE.Color(0x010736);
-
     for (let i = 0; i < particleCount; i++) {
       positions[i * 3] = (Math.random() - 0.5) * 800;
       positions[i * 3 + 1] = (Math.random() - 0.5) * 500;
       positions[i * 3 + 2] = (Math.random() - 0.5) * 300;
-
-      const rand = Math.random();
-      const chosenColor = rand < 0.5 ? colorA : rand < 0.8 ? colorB : colorC;
-      colors[i * 3] = chosenColor.r;
-      colors[i * 3 + 1] = chosenColor.g;
-      colors[i * 3 + 2] = chosenColor.b;
     }
 
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -85,8 +75,54 @@ export function useParticleField(canvasRef: RefObject<HTMLCanvasElement | null>)
       depthWrite: false,
     });
 
+    // Dynamic theme colors helper
+    const lightPalette = [
+      new THREE.Color(0xdb9558), // Terracotta
+      new THREE.Color(0x8b9a6e), // Sage
+      new THREE.Color(0x010736), // Midnight Navy
+    ];
+
+    const darkPalette = [
+      new THREE.Color(0xf5a663), // Glowing Amber
+      new THREE.Color(0xf5efe1), // Warm Cream Starlight
+      new THREE.Color(0x64b5f6), // Starlight Cyan/Blue
+    ];
+
+    const applyColorsForTheme = (isDark: boolean) => {
+      const palette = isDark ? darkPalette : lightPalette;
+      const colorsAttr = geometry.getAttribute('color') as THREE.BufferAttribute;
+      if (!colorsAttr) return;
+
+      const colorArray = colorsAttr.array as Float32Array;
+      for (let i = 0; i < particleCount; i++) {
+        const rand = Math.random();
+        const chosenColor = rand < 0.5 ? palette[0] : rand < 0.8 ? palette[1] : palette[2];
+        colorArray[i * 3] = chosenColor.r;
+        colorArray[i * 3 + 1] = chosenColor.g;
+        colorArray[i * 3 + 2] = chosenColor.b;
+      }
+      colorsAttr.needsUpdate = true;
+      material.opacity = isDark ? 0.55 : 0.35;
+      material.needsUpdate = true;
+    };
+
+    // Initialize with current theme
+    const initialIsDark = document.documentElement.classList.contains('dark');
+    applyColorsForTheme(initialIsDark);
+
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
+
+    // Listen to theme switch events
+    const handleThemeChange = (e: Event) => {
+      const customEvent = e as CustomEvent<{ isDark?: boolean; theme?: string }>;
+      const isDark =
+        customEvent.detail?.isDark ??
+        (customEvent.detail?.theme === 'dark') ??
+        document.documentElement.classList.contains('dark');
+      applyColorsForTheme(isDark);
+    };
+    window.addEventListener(THEME_CHANGE_EVENT, handleThemeChange);
 
     // Mouse Interaction
     let mouseX = 0;
@@ -146,6 +182,7 @@ export function useParticleField(canvasRef: RefObject<HTMLCanvasElement | null>)
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      window.removeEventListener(THEME_CHANGE_EVENT, handleThemeChange);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', handleResize);
       document.removeEventListener('visibilitychange', handleVisibility);
