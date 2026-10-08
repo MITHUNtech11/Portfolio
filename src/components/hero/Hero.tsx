@@ -22,6 +22,7 @@ import { smoothScrollTo } from '../../lib/gsap';
 export interface HeroProps {
   profile?: ProfileData;
   className?: string;
+  isReady?: boolean;
 }
 
 const getSocialIcon = (platform: string): React.ReactNode => {
@@ -42,6 +43,7 @@ const getSocialIcon = (platform: string): React.ReactNode => {
 export const Hero: React.FC<HeroProps> = ({
   profile = profileData,
   className = '',
+  isReady = true,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useParticleField(canvasRef);
@@ -59,7 +61,7 @@ export const Hero: React.FC<HeroProps> = ({
   // Name letter stagger animation via anime.js v4
   const nameRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
-    if (typeof window === 'undefined' || !nameRef.current) return;
+    if (!isReady || typeof window === 'undefined' || !nameRef.current) return;
     const letters = nameRef.current.querySelectorAll('.hero-letter');
     if (letters.length > 0) {
       animate(letters, {
@@ -67,10 +69,10 @@ export const Hero: React.FC<HeroProps> = ({
         translateY: [24, 0],
         ease: 'outExpo',
         duration: 900,
-        delay: stagger(35, { start: 150 }),
+        delay: stagger(35, { start: 100 }),
       });
     }
-  }, []);
+  }, [isReady]);
 
   // Dynamic typewriter state machine
   useEffect(() => {
@@ -143,7 +145,11 @@ export const Hero: React.FC<HeroProps> = ({
           {/* Left Column: Typography & CTAs (Cols 1-7) */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             {/* Editorial Eyebrow Tag in Sage Green */}
-            <div className="flex items-center gap-2 mb-4">
+            <div
+              className={`flex items-center gap-2 mb-4 transition-all duration-700 ease-out delay-75 ${
+                isReady ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-3'
+              }`}
+            >
               <span className="h-px w-6 bg-[#8B9A6E] dark:bg-[#A2B784]" />
               <span className="font-mono text-xs font-bold text-[#8B9A6E] dark:text-[#A2B784] uppercase tracking-widest">
                 01 // Portfolio
@@ -163,14 +169,20 @@ export const Hero: React.FC<HeroProps> = ({
             </h1>
 
             {/* Headline Subtitle */}
-            <h2 className="text-xl sm:text-2xl font-display font-medium text-[#2C3352] dark:text-[#C5CEE0] mb-6">
+            <h2
+              className={`text-xl sm:text-2xl font-display font-medium text-[#2C3352] dark:text-[#C5CEE0] mb-6 transition-all duration-700 ease-out delay-150 ${
+                isReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
               Backend &amp; Systems Engineer{' '}
               <span className="text-[#800020] dark:text-[#F5A663] font-semibold">with Applied AI</span>
             </h2>
 
             {/* Typewriter Terminal Bar with Sage Green prompt */}
             <div
-              className="w-full max-w-2xl min-h-[52px] rounded-xl bg-white/80 dark:bg-[#0B132B]/90 border border-[#E5D3AF] dark:border-[#E5D3AF]/15 p-3 sm:px-4 sm:py-3 flex items-start gap-2.5 shadow-[0_4px_16px_rgba(1,7,54,0.03)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.4)] mb-6 backdrop-blur-sm"
+              className={`w-full max-w-2xl min-h-[52px] rounded-xl bg-white/80 dark:bg-[#0B132B]/90 border border-[#E5D3AF] dark:border-[#E5D3AF]/15 p-3 sm:px-4 sm:py-3 flex items-start gap-2.5 shadow-[0_4px_16px_rgba(1,7,54,0.03)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.4)] mb-6 backdrop-blur-sm transition-all duration-700 ease-out delay-200 ${
+                isReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
               aria-live="polite"
             >
               <Terminal className="w-4 h-4 text-[#8B9A6E] dark:text-[#A2B784] shrink-0 mt-0.5" />
@@ -185,12 +197,20 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
 
             {/* Bio summary */}
-            <p className="text-sm sm:text-base text-[#2C3352]/80 dark:text-[#C5CEE0]/80 leading-relaxed font-body max-w-2xl mb-8">
+            <p
+              className={`text-sm sm:text-base text-[#2C3352]/80 dark:text-[#C5CEE0]/80 leading-relaxed font-body max-w-2xl mb-8 transition-all duration-700 ease-out delay-300 ${
+                isReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
               Final-year B.Tech (AI &amp; Data Science, CGPA 8.46) at Saveetha University with Oracle certifications in Java SE 11 &amp; SQL. Hands-on experience developing automated healthcare ingestion vaults, schema validation microservices, and graph optimization algorithms.
             </p>
 
             {/* Primary Action Buttons */}
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-8">
+            <div
+              className={`flex flex-wrap items-center gap-3 sm:gap-4 mb-8 transition-all duration-700 ease-out delay-350 ${
+                isReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
               <Button
                 variant="primary"
                 size="lg"
@@ -229,7 +249,11 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
 
             {/* Quick Connect Social Links */}
-            <div className="flex items-center gap-2.5">
+            <div
+              className={`flex items-center gap-2.5 transition-all duration-700 ease-out delay-400 ${
+                isReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
               <span className="text-xs font-mono text-[#6B7280] dark:text-[#8C9BB5] uppercase tracking-wider hidden sm:inline-block mr-1">
                 Connect:
               </span>
@@ -253,7 +277,11 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
 
           {/* Right Column: Clean Editorial Portrait (Cols 8-12) */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end">
+          <div
+            className={`lg:col-span-5 flex justify-center lg:justify-end transition-all duration-1000 ease-out delay-200 ${
+              isReady ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4'
+            }`}
+          >
             <PortraitCard
               avatarUrl={profile.avatarUrl}
               name={profile.name}
@@ -262,7 +290,11 @@ export const Hero: React.FC<HeroProps> = ({
         </div>
 
         {/* --- Bottom Row: Editorial Stat Highlights --- */}
-        <div className="w-full pt-4">
+        <div
+          className={`w-full pt-4 transition-all duration-700 ease-out delay-500 ${
+            isReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+          }`}
+        >
           <div className="flex items-center gap-3 mb-4">
             <span className="h-px w-6 bg-[#8B9A6E] dark:bg-[#A2B784]" />
             <h2 className="text-xs font-mono uppercase tracking-widest text-[#8B9A6E] dark:text-[#A2B784] font-bold">

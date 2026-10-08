@@ -24,6 +24,7 @@ export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
   activeSection?: string;
   resumeUrl?: string;
+  isReady?: boolean;
 }
 
 /**
@@ -37,6 +38,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   className = '',
   activeSection: controlledActiveSection,
   resumeUrl = '/Mithun_Senthil_Resume.docx',
+  isReady = true,
   ...rest
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -169,7 +171,9 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full transition-all duration-300 ${
+      className={`sticky top-0 z-40 w-full transition-all duration-700 ease-out ${
+        isReady ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+      } ${
         isScrolled
           ? 'bg-[#F5EFE1]/90 dark:bg-[#050B20]/90 backdrop-blur-md border-b border-[#E5D3AF] dark:border-[#E5D3AF]/15 shadow-[0_4px_20px_rgba(1,7,54,0.04)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)]'
           : 'bg-transparent border-b border-transparent'
