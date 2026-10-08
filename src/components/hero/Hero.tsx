@@ -67,6 +67,7 @@ export const Hero: React.FC<HeroProps> = ({
       animate(letters, {
         opacity: [0, 1],
         translateY: [24, 0],
+        filter: ['blur(100px)', 'blur(0px)'],
         ease: 'outExpo',
         duration: 900,
         delay: stagger(35, { start: 100 }),
@@ -120,7 +121,11 @@ export const Hero: React.FC<HeroProps> = ({
     <span
       key={index}
       className="hero-letter inline-block opacity-0"
-      style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
+      style={{
+        whiteSpace: char === ' ' ? 'pre' : 'normal',
+        filter: 'blur(100px)',
+        willChange: 'transform, opacity, filter',
+      }}
     >
       {char}
     </span>

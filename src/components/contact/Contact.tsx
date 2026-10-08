@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { profileData } from '../../data/profile';
 import type { ToastVariant } from '../ui/Toast';
+import { BlurHeading } from '../ui';
 
 export interface ContactProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
@@ -143,13 +144,13 @@ export const Contact: React.FC<ContactProps> = ({ className = '', onToast, ...re
             <span className="h-px w-6 bg-[#8B9A6E] dark:bg-[#A2B784]" />
           </div>
 
-          <h2
+          <BlurHeading
             id="contact-heading"
             className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-[#010736] dark:text-[#F5EFE1] leading-tight"
           >
             Let's Build{' '}
             <span className="text-[#800020] dark:text-[#F5A663]">Something Great</span>
-          </h2>
+          </BlurHeading>
           <p className="mt-4 text-[#2C3352]/80 dark:text-[#C5CEE0]/80 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Open to engineering conversations, technical roles, distributed systems discussions,
             and research collaborations.

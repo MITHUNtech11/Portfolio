@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { Badge } from '../ui/Badge';
 import { TiltCard } from '../ui/TiltCard';
+import { BlurHeading } from '../ui';
 import { educationData } from '../../data/education';
 import { profileData } from '../../data/profile';
 import { EducationItem, ProfileData } from '../../types';
@@ -102,10 +103,10 @@ export const About: React.FC<AboutProps> = ({
             <span className="h-px w-6 bg-[#8B9A6E] dark:bg-[#A2B784]" />
           </div>
 
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#010736] dark:text-[#F5EFE1] mb-5">
+          <BlurHeading className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#010736] dark:text-[#F5EFE1] mb-5">
             Systems Rigor Meets{' '}
             <span className="text-[#800020] dark:text-[#F5A663]">Applied AI</span>
-          </h2>
+          </BlurHeading>
           <p className="font-body text-base sm:text-lg text-[#2C3352]/80 dark:text-[#C5CEE0]/80 leading-relaxed">
             Bridging deterministic distributed enterprise backends, graph data structures, and
             machine learning pipelines. Engineering reliable software systems that optimize both

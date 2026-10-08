@@ -5,6 +5,7 @@ import { ProjectCard } from './ProjectCard';
 import { ArchitectureModal } from './ArchitectureModal';
 import { projectsData as defaultProjects } from '../../data/projects';
 import type { Project } from '../../types';
+import { BlurHeading } from '../ui';
 
 export interface ProjectsProps {
   projects?: Project[];
@@ -70,10 +71,10 @@ export const Projects: React.FC<ProjectsProps> = ({
             <span className="h-px w-6 bg-[#8B9A6E] dark:bg-[#A2B784]" />
           </div>
 
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#010736] dark:text-[#F5EFE1] tracking-tight leading-tight mb-4">
+          <BlurHeading className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#010736] dark:text-[#F5EFE1] tracking-tight leading-tight mb-4">
             Production Systems{' '}
             <span className="text-[#800020] dark:text-[#F5A663]">Showcase</span>
-          </h2>
+          </BlurHeading>
 
           <p className="text-sm sm:text-base md:text-lg text-[#2C3352]/80 dark:text-[#C5CEE0]/80 leading-relaxed font-sans">
             Production-grade backends, high-throughput distributed screening pipelines, and

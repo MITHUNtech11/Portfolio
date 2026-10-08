@@ -11,6 +11,7 @@ import { CertificateItem } from '../../types';
 import { certificatesData } from '../../data/certificates';
 import { TiltCard } from '../ui/TiltCard';
 import { Button } from '../ui/Button';
+import { BlurHeading } from '../ui';
 import { CertificateModal } from './CertificateModal';
 
 export interface CredentialsProps {
@@ -104,9 +105,9 @@ export const Credentials: React.FC<CredentialsProps> = ({
           <span className="h-px w-6 bg-[#8B9A6E] dark:bg-[#A2B784]" />
         </div>
 
-        <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#010736] dark:text-[#F5EFE1]">
+        <BlurHeading className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#010736] dark:text-[#F5EFE1]">
           Professional <span className="text-[#800020] dark:text-[#F5A663]">Certifications</span>
-        </h2>
+        </BlurHeading>
 
         <p className="mt-4 text-base sm:text-lg text-[#2C3352]/80 dark:text-[#C5CEE0]/80 max-w-2xl mx-auto leading-relaxed">
           Official credentials in enterprise Java SE 11, SQL relational systems,

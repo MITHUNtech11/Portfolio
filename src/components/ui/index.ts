@@ -6,3 +6,4 @@ export * from './TiltCard';
 export * from './Toast';
 export * from './ThemeToggle';
 export * from './PageLoader';
+export * from './BlurHeading';

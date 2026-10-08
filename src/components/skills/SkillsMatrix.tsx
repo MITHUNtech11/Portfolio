@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { skillsData } from '../../data/skills';
 import { SkillCategory } from '../../types';
+import { BlurHeading } from '../ui';
 
 export const SKILL_FILTER_TABS = [
   'All',
@@ -168,10 +169,10 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({
             <span className="h-px w-6 bg-[#8B9A6E] dark:bg-[#A2B784]" />
           </div>
 
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#010736] dark:text-[#F5EFE1] mb-5">
+          <BlurHeading className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#010736] dark:text-[#F5EFE1] mb-5">
             Technical Stack &amp;{' '}
             <span className="text-[#800020] dark:text-[#F5A663]">Systems Matrix</span>
-          </h2>
+          </BlurHeading>
           <p className="font-body text-base sm:text-lg text-[#2C3352]/80 dark:text-[#C5CEE0]/80 leading-relaxed">
             Multi-domain competency breakdown spanning high-throughput backend services, applied AI
             and graph algorithms, normalized relational architectures, and core software engineering
