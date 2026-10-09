@@ -1,18 +1,8 @@
-import React, { useState } from 'react';
-import {
-  Calendar,
-  Building2,
-  Hash,
-  ExternalLink,
-  FileDown,
-  Copy,
-  Check,
-  Award,
-} from 'lucide-react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { motion, AnimatePresence } from 'motion/react';
+import { X } from 'lucide-react';
 import { CertificateItem } from '../../types';
-import { Modal } from '../ui/Modal';
-import { ZoomPanViewer } from '../ui/ZoomPanViewer';
-import { Button } from '../ui/Button';
 
 export interface CertificateModalProps {
   isOpen: boolean;
@@ -20,7 +10,7 @@ export interface CertificateModalProps {
   certificate: CertificateItem | null;
 }
 
-const resolveAssetUrl = (url?: string): string | undefined => {
+export const resolveAssetUrl = (url?: string): string | undefined => {
   if (!url) return undefined;
   if (
     url.startsWith('http://') ||
@@ -38,143 +28,117 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
   onClose,
   certificate,
 }) => {
-  const [copied, setCopied] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const lastCertRef = useRef<CertificateItem | null>(certificate);
 
-  if (!certificate) return null;
+  if (certificate) {
+    lastCertRef.current = certificate;
+  }
 
-  const imageSrc = resolveAssetUrl(certificate.image) || '';
-  const pdfHref = resolveAssetUrl(certificate.pdfUrl);
+  const displayCert = certificate || lastCertRef.current;
 
-  const handleCopyId = async () => {
-    if (!certificate.credentialId) return;
-    try {
-      if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(certificate.credentialId);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Capture ESC key to close modal
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
       }
-    } catch {
-      // In non-secure contexts or permission denied, handle gracefully
-    }
-  };
-
-  return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      size="xl"
-      title={
-        <div className="flex items-center gap-2.5">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#E5D3AF]/40 dark:bg-[#111C40] text-[#800020] dark:text-[#F5A663] shrink-0">
-            <Award className="w-4 h-4" />
-          </div>
-          <span className="truncate text-[#010736] dark:text-[#F5EFE1]">{certificate.title}</span>
-        </div>
-      }
-      description={
-        <span className="flex items-center gap-2 text-[#2C3352]/75 dark:text-[#C5CEE0]/75">
-          <span>{certificate.issuer}</span>
-          <span>•</span>
-          <span>Issued {certificate.date}</span>
-        </span>
-      }
-      className="max-h-[92vh]"
-    >
-      <div className="space-y-5">
-        {/* Meta & Toolbar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl bg-[#F5EFE1]/70 dark:bg-[#050B20]/70 border border-[#E5D3AF] dark:border-[#E5D3AF]/20">
-          <div className="flex flex-wrap items-center gap-2.5">
-            {certificate.credentialId && (
-              <button
-                type="button"
-                onClick={handleCopyId}
-                title="Click to copy credential ID"
-                aria-label={`Copy Credential ID ${certificate.credentialId}`}
-                className="inline-flex items-center gap-1.5 font-mono text-xs px-2.5 py-1 rounded-md bg-white dark:bg-[#0B132B] border border-[#E5D3AF] dark:border-[#E5D3AF]/20 text-[#010736] dark:text-[#F5EFE1] transition-colors cursor-pointer shadow-xs hover:border-[#DB9558] dark:hover:border-[#F5A663]"
-              >
-                <Hash className="w-3 h-3 text-[#DB9558] dark:text-[#F5A663]" />
-                <span>ID: {certificate.credentialId}</span>
-                {copied ? (
-                  <Check className="w-3 h-3 text-[#8B9A6E] dark:text-[#A2B784] ml-1" />
-                ) : (
-                  <Copy className="w-3 h-3 text-[#6B7280] dark:text-[#8E9AA8] ml-1" />
-                )}
-              </button>
-            )}
-          </div>
-
-          {/* Action Links */}
-          <div className="flex flex-wrap items-center gap-2">
-            {pdfHref ? (
-              <Button
-                variant="outline"
-                size="sm"
-                href={pdfHref}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
-                leftIcon={<FileDown className="w-3.5 h-3.5" />}
-              >
-                Download PDF
-              </Button>
-            ) : (
-              <Button
-                variant="outline"
-                size="sm"
-                href={imageSrc}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
-                leftIcon={<FileDown className="w-3.5 h-3.5" />}
-              >
-                Download Asset
-              </Button>
-            )}
-
-            <Button
-              variant="primary"
-              size="sm"
-              href={imageSrc}
-              target="_blank"
-              rel="noopener noreferrer"
-              leftIcon={<ExternalLink className="w-3.5 h-3.5" />}
-            >
-              Direct Link
-            </Button>
-          </div>
-        </div>
-
-        {/* Certificate Zoom/Pan Viewer */}
-        <div className="rounded-xl overflow-hidden border border-[#E5D3AF] dark:border-[#E5D3AF]/20 shadow-md bg-[#F5EFE1] dark:bg-[#050B20]">
-          <ZoomPanViewer
-            src={imageSrc}
-            alt={certificate.title}
-            caption={`${certificate.issuer} — ${certificate.title}`}
-            className="h-[360px] sm:h-[460px] md:h-[520px]"
-          />
-        </div>
-
-        {/* Competencies Footer */}
-        {certificate.skills && certificate.skills.length > 0 && (
-          <div className="p-3.5 rounded-xl bg-[#F5EFE1]/50 dark:bg-[#050B20]/50 border border-[#E5D3AF] dark:border-[#E5D3AF]/20">
-            <span className="block font-mono text-xs font-semibold text-[#8B9A6E] dark:text-[#A2B784] uppercase tracking-wider mb-2">
-              Syllabus &amp; Focus Areas
-            </span>
-            <div className="flex flex-wrap gap-1.5">
-              {certificate.skills.map((skill, idx) => (
-                <span
-                  key={`${skill}-${idx}`}
-                  className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-white dark:bg-[#0B132B] border border-[#E5D3AF] dark:border-[#E5D3AF]/20 text-[#010736] dark:text-[#F5EFE1]"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </Modal>
+    },
+    [onClose]
   );
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    const originalOverflow = document.body.style.overflow;
+    const originalPaddingRight = document.body.style.paddingRight;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+    document.body.style.overflow = 'hidden';
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+      document.body.style.paddingRight = originalPaddingRight;
+    };
+  }, [isOpen, handleKeyDown]);
+
+  if (!displayCert) return null;
+
+  const imageSrc = resolveAssetUrl(displayCert.image) || '';
+
+  const modalContent = (
+    <AnimatePresence>
+      {isOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={displayCert.title || 'Certificate View'}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-hidden select-none"
+        >
+          {/* Backdrop with Fade In and Fade Out */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/85 backdrop-blur-md cursor-pointer"
+            aria-hidden="true"
+          />
+
+          {/* Minimal Floating Close Button */}
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.2 }}
+            type="button"
+            onClick={onClose}
+            aria-label="Close certificate"
+            className="fixed top-4 right-4 sm:top-6 sm:right-6 z-20 p-2.5 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white border border-white/20 backdrop-blur-md transition-all duration-200 cursor-pointer shadow-lg hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+          >
+            <X className="w-5 h-5 sm:w-6 sm:h-6" />
+          </motion.button>
+
+          {/* Certificate Container with Slide In + Fade In, and Slide Out + Fade Out */}
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 40, scale: 0.96 }}
+            transition={{
+              duration: 0.35,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative z-10 max-w-[95vw] max-h-[92vh] flex items-center justify-center p-2 sm:p-4 pointer-events-auto"
+          >
+            <img
+              src={imageSrc}
+              alt={displayCert.title}
+              className="max-h-[88vh] max-w-[94vw] sm:max-w-[88vw] md:max-w-[84vw] object-contain rounded-xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] border border-white/10 select-none"
+              loading="eager"
+            />
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+
+  if (mounted && typeof document !== 'undefined') {
+    return createPortal(modalContent, document.body);
+  }
+
+  return modalContent;
 };
 
 CertificateModal.displayName = 'CertificateModal';

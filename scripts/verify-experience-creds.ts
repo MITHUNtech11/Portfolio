@@ -175,7 +175,7 @@ const closedModalHtml = renderToStaticMarkup(
 // Modal renders nothing or closed portal
 console.log('✅ CertificateModal closed state verified');
 
-// 4.3 Modal Open with Oracle Java Certificate
+// 4.3 Modal Open with Oracle Java Certificate (Distraction-free pure certificate view)
 const openModalHtml = renderToStaticMarkup(
   React.createElement(CertificateModal, {
     isOpen: true,
@@ -183,16 +183,22 @@ const openModalHtml = renderToStaticMarkup(
     onClose: () => {},
   })
 );
-if (!openModalHtml.includes('Java SE 11') || !openModalHtml.includes('100878330OCPJSE11')) {
-  throw new Error('CertificateModal HTML missing certificate title or credential ID');
+if (!openModalHtml.includes('JAVA_ORACLE_CERTIFICATE.png') || !openModalHtml.includes('Java SE 11')) {
+  throw new Error('CertificateModal HTML missing certificate image source or title alt text');
 }
-if (!openModalHtml.includes('Direct Asset Link')) {
-  throw new Error('CertificateModal HTML missing Direct Asset Link button');
+if (!openModalHtml.includes('Close certificate')) {
+  throw new Error('CertificateModal HTML missing close certificate button');
 }
-if (!openModalHtml.includes('Download PDF') && !openModalHtml.includes('download')) {
-  throw new Error('CertificateModal HTML missing download action or attribute');
+// Verify distracting chrome is removed
+if (
+  openModalHtml.includes('100878330OCPJSE11') ||
+  openModalHtml.includes('Download PDF') ||
+  openModalHtml.includes('Direct Link') ||
+  openModalHtml.includes('Syllabus')
+) {
+  throw new Error('CertificateModal should not contain distracting toolbars, IDs, or syllabus');
 }
-console.log('✅ CertificateModal open SSR render verified');
+console.log('✅ CertificateModal open SSR render & distraction-free view verified');
 
 // 4.4 Edge Case: Sparse certificate (no credentialId, no pdfUrl, no skills)
 const sparseCert: CertificateItem = {
@@ -209,11 +215,8 @@ const sparseCertHtml = renderToStaticMarkup(
     onClose: () => {},
   })
 );
-if (!sparseCertHtml.includes('Basic Course') || !sparseCertHtml.includes('Generic Academy')) {
-  throw new Error('CertificateModal failed to render sparse certificate');
-}
-if (!sparseCertHtml.includes('Download Asset')) {
-  throw new Error('CertificateModal must provide download button when no PDF is attached');
+if (!sparseCertHtml.includes('Basic Course') || !sparseCertHtml.includes('certificate/test.png')) {
+  throw new Error('CertificateModal failed to render sparse certificate image');
 }
 
 // 4.5 External URLs preservation check
