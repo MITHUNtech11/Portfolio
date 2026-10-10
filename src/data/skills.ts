@@ -9,7 +9,7 @@ export const skillsData: SkillCategory[] = [
       {
         name: 'Python 3.x',
         sub: 'FastAPI • Async IO • Scripting',
-        icon: 'Terminal',
+        icon: 'Code',
         level: 95,
         highlight: true,
       },

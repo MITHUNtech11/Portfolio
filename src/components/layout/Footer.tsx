@@ -6,7 +6,6 @@ import {
   Mail,
   Phone,
   ArrowUp,
-  Terminal,
   ExternalLink,
 } from 'lucide-react';
 import { profileData } from '../../data/profile';

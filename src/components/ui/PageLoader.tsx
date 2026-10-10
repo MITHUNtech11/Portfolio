@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Terminal, Sparkles, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { Sparkles, ChevronRight, CheckCircle2 } from 'lucide-react';
 
 export interface PageLoaderProps {
   /**
@@ -22,7 +22,7 @@ const PHASES = [
   { threshold: 0, text: 'Initializing runtime environments...' },
   { threshold: 25, text: 'Loading distributed systems & graph engines...' },
   { threshold: 55, text: 'Compiling AI pipelines & microservices...' },
-  { threshold: 85, text: 'Calibrating Three.js particle dynamics...' },
+  { threshold: 85, text: 'Calibrating interactive dot field dynamics...' },
   { threshold: 100, text: 'System operational. Welcome to portfolio.' },
 ];
 
@@ -30,7 +30,7 @@ const PHASES = [
  * PageLoader
  *
  * Cinematic high-tech editorial preloader with curtain reveal.
- * Displays real-time 0-100% counter, terminal status checks, monogram emblem,
+ * Displays real-time 0-100% counter, status checks, monogram emblem,
  * and slides open with a smooth cubic-bezier curtain wipe upon completion.
  */
 export const PageLoader: React.FC<PageLoaderProps> = ({
@@ -227,18 +227,13 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
             </div>
           </div>
 
-          {/* ── Bottom Command Line & Skip Prompt ── */}
+          {/* ── Bottom Skip Prompt ── */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="relative z-10 w-full max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-[#8C9BB5]"
+            className="relative z-10 w-full max-w-5xl flex items-center justify-end text-xs font-mono text-[#8C9BB5]"
           >
-            <div className="flex items-center gap-2">
-              <Terminal className="w-3.5 h-3.5 text-[#8B9A6E]" />
-              <span className="text-[#8B9A6E]">sys@mithun:~$</span>
-              <span className="text-[#C5CEE0]">launch --mode=production</span>
-            </div>
 
             <button
               type="button"

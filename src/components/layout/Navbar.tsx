@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, Download, Terminal, ChevronRight } from 'lucide-react';
+import { Menu, X, ExternalLink, ChevronRight } from 'lucide-react';
 import { profileData } from '../../data/profile';
 import { Button } from '../ui/Button';
 import { ThemeToggle } from '../ui/ThemeToggle';
@@ -37,7 +37,7 @@ export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
 export const Navbar: React.FC<NavbarProps> = ({
   className = '',
   activeSection: controlledActiveSection,
-  resumeUrl = '/Mithun_Senthil_Resume.docx',
+  resumeUrl = '/Mithun_Senthil_Resume.pdf',
   isReady = true,
   ...rest
 }) => {
@@ -241,9 +241,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                 variant="primary"
                 size="sm"
                 href={resumeUrl}
-                download="Mithun_Senthil_Resume.docx"
                 target="_blank"
-                leftIcon={<Download className="w-3.5 h-3.5" />}
+                rel="noopener noreferrer"
+                rightIcon={<ExternalLink className="w-3.5 h-3.5" />}
                 className="font-mono text-xs uppercase tracking-wider"
               >
                 Resume
@@ -322,12 +322,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                   variant="primary"
                   size="md"
                   href={resumeUrl}
-                  download="Mithun_Senthil_Resume.docx"
                   target="_blank"
-                  leftIcon={<Download className="w-4 h-4" />}
+                  rel="noopener noreferrer"
+                  rightIcon={<ExternalLink className="w-4 h-4" />}
                   className="w-full font-mono text-xs uppercase tracking-wider justify-center"
                 >
-                  Download Resume
+                  View Resume
                 </Button>
               </div>
             </motion.div>

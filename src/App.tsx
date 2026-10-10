@@ -62,7 +62,7 @@ export default function App(): React.JSX.Element {
 
       {/* ── Main content ── */}
       <main>
-        {/* Hero with Three.js particle canvas & anime.js letter stagger */}
+        {/* Hero with React Bits Dot Field & anime.js letter stagger */}
         <Hero isReady={isRevealed} />
 
         {/* About & Education */}

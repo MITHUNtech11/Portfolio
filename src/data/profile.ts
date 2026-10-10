@@ -72,6 +72,6 @@ export const profileData: ProfileData = {
       label: 'CGPA (Saveetha)',
     },
   ],
-  resumeUrl: 'Mithun_Senthil_Resume.docx',
+  resumeUrl: 'Mithun_Senthil_Resume.pdf',
   avatarUrl: 'Mithun.jpeg',
 };

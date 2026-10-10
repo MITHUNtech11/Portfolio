@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import * as LucideIcons from 'lucide-react';
 import {
-  Terminal,
+  Code,
   Cpu,
   Layers,
   Database,
@@ -47,7 +47,7 @@ function renderSkillIcon(iconName?: string) {
 function getCategoryIcon(id: string) {
   switch (id) {
     case 'python':
-      return <Terminal className="w-5 h-5 text-[#800020] dark:text-[#F5A663]" />;
+      return <Code className="w-5 h-5 text-[#800020] dark:text-[#F5A663]" />;
     case 'java':
       return <Cpu className="w-5 h-5 text-[#800020] dark:text-[#F5A663]" />;
     case 'database':

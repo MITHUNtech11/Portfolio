@@ -7,3 +7,4 @@ export * from './Toast';
 export * from './ThemeToggle';
 export * from './PageLoader';
 export * from './BlurHeading';
+export * from './DotField';
