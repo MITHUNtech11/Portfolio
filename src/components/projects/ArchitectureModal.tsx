@@ -24,6 +24,10 @@ import {
   Sparkles,
   ArrowRight,
   ChevronDown,
+  Users,
+  CreditCard,
+  ShoppingBag,
+  Smartphone,
 } from 'lucide-react';
 import { Modal } from '../ui/Modal';
 import { ZoomPanViewer } from '../ui/ZoomPanViewer';
@@ -58,6 +62,10 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Building,
   Workflow,
   Sparkles,
+  Users,
+  CreditCard,
+  ShoppingBag,
+  Smartphone,
 };
 
 function resolveIcon(name?: string, className = 'w-4 h-4') {
@@ -381,9 +389,22 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({
           </div>
 
           <div className="flex items-center gap-3 self-end sm:self-center">
-            {displayProject.github && (
+            {displayProject.demoUrl && (
               <Button
                 variant="primary"
+                size="sm"
+                href={displayProject.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                leftIcon={<ExternalLink className="w-4 h-4" />}
+                className="font-mono text-xs"
+              >
+                Live Demo
+              </Button>
+            )}
+            {displayProject.github && (
+              <Button
+                variant={displayProject.demoUrl ? "outline" : "primary"}
                 size="sm"
                 href={displayProject.github}
                 target="_blank"

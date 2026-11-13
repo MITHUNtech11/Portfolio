@@ -289,4 +289,184 @@ export const projectsData: Project[] = [
     ],
     github: 'https://github.com/mithuntech11',
   },
+  {
+    id: 'colive',
+    number: '04',
+    title: 'Co-Live — Shared Living & Expense Management Platform',
+    label: 'REACT & FIREBASE • REAL-TIME CLOUD ECOSYSTEM',
+    category: 'cloud',
+    featured: true,
+    description:
+      'Real-time multi-tenant shared living management web platform built on React 18 and Firebase Cloud Firestore. Streamlines roommate finances through peer-to-peer expense splitting, instant UPI payment deep-linking, automated chore rotation schedules, shared grocery lists, and downloadable PDF monthly balance reports with dual tenant/landlord dashboard views.',
+    overview:
+      'Co-Live decouples real-time roommate financial coordination from landlord property management into a unified responsive cloud platform. Engineered with Google Firebase (Auth, Firestore, Storage) and React, it features reactive ledger synchronization, instant UPI deep-linking across Indian payment apps (GPay, PhonePe, Paytm), and automated financial statement generation.',
+    diagrams: [
+      {
+        title: 'Platform Architecture & Workflow',
+        src: 'workflows/colive-workflow.svg',
+        caption:
+          'End-to-end cloud architecture: Firebase Auth, reactive Cloud Firestore expense streams, UPI settlement intents, & PDF audit exports',
+      },
+    ],
+    pipeline: [
+      {
+        icon: 'Users',
+        title: '1. Multi-Role Auth',
+        sub: 'Firebase Auth & house onboarding',
+      },
+      {
+        icon: 'CloudUpload',
+        title: '2. Cloud Firestore',
+        sub: 'Reactive expense & chore sync',
+      },
+      {
+        icon: 'CreditCard',
+        title: '3. UPI Settlement',
+        sub: '1-click deep-linked app payments',
+      },
+      {
+        icon: 'FileText',
+        title: '4. PDF Statement',
+        sub: 'Client-side financial audit export',
+      },
+    ],
+    metrics: [
+      {
+        num: 'Real-Time',
+        label: 'Reactive Firestore Sync',
+        icon: 'Zap',
+      },
+      {
+        num: 'Dual-Role',
+        label: 'Tenant & Landlord Portals',
+        icon: 'Users',
+      },
+      {
+        num: '1-Click',
+        label: 'Instant UPI Deep Linking',
+        icon: 'CreditCard',
+      },
+      {
+        num: 'PDF Export',
+        label: 'Client-Side Financial Auditing',
+        icon: 'FileText',
+      },
+    ],
+    challenges: [
+      {
+        title: 'Reactive Concurrent State Sync',
+        desc: 'Implemented real-time snapshot listeners with Firestore optimistic UI updates to prevent split-expense desynchronization among concurrent roommates.',
+      },
+      {
+        title: 'UPI Deep Linking Architecture',
+        desc: 'Constructed custom URI payment intent schemes compatible with NPCI UPI standards, allowing roommates to settle debts in 1 click across GPay, PhonePe, and Paytm.',
+      },
+      {
+        title: 'Role-Based Access Partitioning',
+        desc: 'Enforced security rules partitioning tenant views (chores, groceries, personal debts) from landlord administrative views (house notices, lease status, property rent).',
+      },
+    ],
+    tags: [
+      'React 18',
+      'TypeScript',
+      'Firebase Auth',
+      'Cloud Firestore',
+      'UPI Integration',
+      'Tailwind CSS',
+      'Framer Motion',
+      'Client PDF Engine',
+    ],
+    github: 'https://github.com/mithuntech11',
+    demoUrl: 'https://co-living-expense-tracker.web.app',
+  },
+  {
+    id: 'jewel-of-nallu',
+    number: '05',
+    title: 'Jewel of Nallu — E-Commerce & WhatsApp Store',
+    label: 'REACT & SUPABASE • DIRECT WHATSAPP COMMERCE',
+    category: 'cloud',
+    featured: true,
+    description:
+      'High-conversion direct-to-consumer sterling silver jewellery commerce web application and Progressive Web App (PWA). Features live daily market silver rate calculations for transparent weight-based pricing, Instagram reels product showcase, mobile-first responsive catalog, and automated 1-click WhatsApp checkout pre-filling order specs and pricing.',
+    overview:
+      'Jewel of Nallu bridges traditional handcrafted silver jewellery retail with modern headless e-commerce. Built with React and Supabase (PostgreSQL), the storefront features real-time dynamic market rate weight pricing, video-first Instagram reel shopping, and direct WhatsApp Business API ordering without cart friction.',
+    diagrams: [
+      {
+        title: 'Storefront & WhatsApp Order Pipeline',
+        src: 'workflows/jewelofnallu.jpg',
+        caption:
+          'Jewel of Nallu live storefront: Handcrafted sterling silver showcase with dynamic market pricing and WhatsApp checkout',
+      },
+    ],
+    pipeline: [
+      {
+        icon: 'Gauge',
+        title: '1. Live Rate Engine',
+        sub: 'Dynamic silver weight calculations',
+      },
+      {
+        icon: 'ShoppingBag',
+        title: '2. Product Showcase',
+        sub: 'Reels video & high-res catalog',
+      },
+      {
+        icon: 'Database',
+        title: '3. Supabase Cloud',
+        sub: 'PostgreSQL inventory & order storage',
+      },
+      {
+        icon: 'Smartphone',
+        title: '4. WhatsApp API',
+        sub: '1-click checkout with pre-filled specs',
+      },
+    ],
+    metrics: [
+      {
+        num: 'Live Rate',
+        label: 'Dynamic Silver Weight Pricing',
+        icon: 'Gauge',
+      },
+      {
+        num: '100% PWA',
+        label: 'Offline-Ready Mobile Experience',
+        icon: 'Smartphone',
+      },
+      {
+        num: '1-Click',
+        label: 'WhatsApp Checkout Automation',
+        icon: 'ShoppingBag',
+      },
+      {
+        num: '< 1.2s',
+        label: 'Core Web Vitals LCP',
+        icon: 'Zap',
+      },
+    ],
+    challenges: [
+      {
+        title: 'Dynamic Weight-Based Price Computation',
+        desc: 'Engineered dynamic pricing algorithms computing live handcrafted piece rates based on daily certified per-gram silver spot rates + making charges.',
+      },
+      {
+        title: 'Zero-Friction WhatsApp Checkout',
+        desc: 'Architected automated URL encoding pipelines generating rich WhatsApp pre-filled order payloads including SKU, custom ring sizing, current silver rate, and final price.',
+      },
+      {
+        title: 'Mobile-First PWA Architecture',
+        desc: 'Configured progressive web app service workers, web manifests, and edge image optimization delivering sub-1.2s LCP on mobile networks.',
+      },
+    ],
+    tags: [
+      'React 18',
+      'Supabase',
+      'PostgreSQL',
+      'TypeScript',
+      'PWA',
+      'Tailwind CSS',
+      'WhatsApp API',
+      'Vite',
+    ],
+    github: 'https://github.com/mithuntech11',
+    demoUrl: 'https://www.jewelofnallu.app/',
+  },
 ];

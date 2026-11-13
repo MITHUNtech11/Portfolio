@@ -35,7 +35,7 @@ export const Projects: React.FC<ProjectsProps> = ({
       { id: 'dsa', label: 'DSA & Graph Engine' },
     ];
     if (projects.some((p) => p.category === 'cloud')) {
-      base.push({ id: 'cloud', label: 'Cloud Architecture' });
+      base.push({ id: 'cloud', label: 'Cloud & Live Platforms' });
     }
     return base;
   }, [projects]);

@@ -22,6 +22,10 @@ import {
   GitBranch,
   MapPin,
   Network,
+  Users,
+  CreditCard,
+  ShoppingBag,
+  Smartphone,
 } from 'lucide-react';
 import { TiltCard } from '../ui/TiltCard';
 import { Badge } from '../ui/Badge';
@@ -54,6 +58,10 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Cloud,
   Building,
   Workflow,
+  Users,
+  CreditCard,
+  ShoppingBag,
+  Smartphone,
 };
 
 function renderMetricIcon(iconName?: string, className = 'w-3.5 h-3.5') {

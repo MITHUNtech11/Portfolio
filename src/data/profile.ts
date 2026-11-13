@@ -55,8 +55,8 @@ export const profileData: ProfileData = {
       label: 'Internships',
     },
     {
-      value: '3+',
-      numericTarget: 3,
+      value: '5',
+      numericTarget: 5,
       suffix: '+',
       label: 'Production Systems',
     },
